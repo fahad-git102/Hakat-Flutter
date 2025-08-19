@@ -1,0 +1,312 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hakat/constants/icons.dart';
+import 'package:hakat/view/global/custom_appbar.dart';
+import 'package:hakat/view/pages/journals/whisper_back.dart';
+import 'package:hakat/view/pages/profile/profile_page.dart';
+import 'package:hakat/view/pages/spread/widgets/reveal_icon.dart';
+import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
+import '../../global/spacing.dart';
+import 'package:flutter_svg/svg.dart';
+
+class ShowWhisperPage extends StatefulWidget {
+  const ShowWhisperPage({super.key});
+
+  @override
+  State<ShowWhisperPage> createState() => _ShowWhisperPageState();
+}
+
+class _ShowWhisperPageState extends State<ShowWhisperPage>
+    with TickerProviderStateMixin {
+  double imageWidth = 120;
+  double imageHeight = 180;
+  double overlapPercentage = 0.65;
+
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late ScrollController _horizontalScrollController;
+
+  bool showDetails = false; // New state to toggle scrollable content
+
+  int selectedIndex = 10;
+  final int itemCount = 20;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+
+    _horizontalScrollController = ScrollController();
+
+    _animationController.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double centerIndex = (itemCount - 1) / 2;
+    double curveStrength = 20;
+    double totalWidth =
+        imageWidth * (1 + (itemCount - 1) * (1 - overlapPercentage));
+
+    return Scaffold(
+      body: GestureDetector(
+        onVerticalDragUpdate: (details) {
+          if (details.delta.dy < -10) {
+            setState(() {
+              showDetails = true;
+            });
+          }
+        },
+        child: Stack(
+          children: [
+            // Background
+            Positioned.fill(
+              child: Image.asset(AppIcon.swirl_bg, fit: BoxFit.fill),
+            ),
+
+            // Main Content
+            Positioned.fill(
+              child: SafeArea(
+                child: AnimatedBuilder(
+                  animation: _fadeAnimation,
+                  builder: (context, child) {
+                    return Opacity(
+                      opacity: _fadeAnimation.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AddHeight(8),
+                          CustomAppBar(text: "The\nWhisper"),
+                          AddHeight(40),
+                          Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFD6C9E9D4),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 0),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                "assets/images/shadow.png",
+                                width: 160,
+                                height: 270,
+                              ),
+                            ),
+                          ),
+                          AddHeight(25),
+                          ShaderMask(
+                            shaderCallback: (bounds) =>
+                                const LinearGradient(
+                                  colors: [
+                                    Color(0xFFEBCD8C),
+                                    Color(0xFFA47E4D),
+                                  ],
+                                ).createShader(
+                                  Rect.fromLTWH(
+                                    0,
+                                    0,
+                                    bounds.width,
+                                    bounds.height,
+                                  ),
+                                ),
+                            child: const Text(
+                              "Flash, the Shadow",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontFamily: "Garamond",
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1,
+                                height: 1,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          AddHeight(20),
+
+                          // Show scrollable content after swipe up
+                          if (showDetails) ...[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF6F738E33).withOpacity(0.5),
+                                        Color(0xFF7E8B97).withOpacity(0.5),
+                                        Color(0xFF7E8B97).withOpacity(0.5),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '''I am Flash.
+I do not come when called. I come when you’re ready. You don’t find me—I find you.
+In the quiet hour, when the world is asleep and your guard is down, I emerge.
+
+To sit beside you. To purr truths you’ve long avoided. I know the places you won’t go during the day. I live there. I am not darkness—I am the guide through it.
+
+Where others turn away, I stay. Where others fear, I listen. I remind you that not everything needs to be fixed. Some things just need to be felt. I vanish in daylight not to hide, but to let you feel your own light.
+
+The Shadow archetype isn’t your enemy—it’s your most loyal mirror. Are you brave enough to meet it?''',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              height: 1.5,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 50),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              GestureDetector(
+                                                onTap:(){
+                                                  Get.to(()=>WhisperBackPage());
+                                                },
+                                                child: Column(
+                                                  crossAxisAlignment:CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset('assets/icons/whisper_back.svg',width: 44,height: 44,),
+                                                    AddHeight(8),
+                                                    Text("Whisper Back",style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: "Literata",
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.white
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:CrossAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset('assets/icons/speel.svg',width: 44,height: 44,),
+                                                  AddHeight(8),
+                                                  Text("Share The Spell",style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: "Literata",
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.white
+                                                  ),),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          AddHeight(30),
+                                          // Simulate long content
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: (){
+                                                },
+                                                child: Container(
+                                                  width: 280,
+                                                  height: 38,
+                                                  decoration:  BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                  ),
+                                                  child: Center(
+                                                    child: Container(
+                                                      width: 300,
+                                                      height: 42,
+                                                      decoration: BoxDecoration(
+                                                        border: BoxBorder.all(color: Color(0xFFC2BAD5)),
+                                                        borderRadius: BorderRadius.circular(5),
+                                                        color: Colors.white,
+                                                        gradient: LinearGradient(colors: [
+                                                          Color(0xFF49415D),
+                                                          Color(0xFF786F8E),
+                                                        ],).withOpacity(0.1),
+
+                                                      ),
+                                                      child:   Center(
+                                                        child: ShaderMask(
+                                                          shaderCallback: (bounds) =>
+                                                              LinearGradient(
+                                                                colors: [Color(0xFFC2BAD5), Color(0xFF786F8E)],
+                                                              ).createShader(
+                                                                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                                                              ),
+                                                          child: Text(
+                                                            "END THE RITUAL",
+                                                            style:
+                                                            TextStyle(
+                                                              fontSize: 12,
+                                                              fontFamily: "Literata",
+                                                              fontWeight: FontWeight.w400,
+                                                              letterSpacing: 1,
+                                                            ).copyWith(
+                                                              color: Colors.white,
+                                                            ), // Color must be set, but it will be masked
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 100.0),
+                              child: const SwipeUpAnimation(),
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _horizontalScrollController.dispose();
+    super.dispose();
+  }
+}
