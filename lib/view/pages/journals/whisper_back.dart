@@ -277,7 +277,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
       child: TextField(
         controller: controller,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 16,
         ),
         decoration: InputDecoration(
@@ -346,7 +346,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
         expands: true,
         textAlignVertical: TextAlignVertical.top,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 16,
         ),
         decoration: InputDecoration(

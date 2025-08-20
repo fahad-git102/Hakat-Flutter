@@ -29,6 +29,9 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
   int selectedIndex = 10;
   final int itemCount = 20;
 
+  List<int>? selectedCardsIndexes;
+  final labels = ["PAST\nNARRATIVE", "PRESENT\nENERGY", "PORTAL OF\nRECLAMATION"];
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +48,7 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
     _horizontalScrollController = ScrollController();
 
     _animationController.forward();
+    selectedCardsIndexes = [];
   }
 
   @override
@@ -76,24 +80,26 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                         AddHeight(8),
                         CustomAppBar(text: "THE\nPORTAL PATH"),
                         AddHeight(40),
-                       Container(
-                         height: 250,
-                         child: Row(
-                           crossAxisAlignment: CrossAxisAlignment.end,
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: [
-                             Padding(padding: EdgeInsets.only(top: 30),
-
-                             child: _buildBlankRow("PAST\nNARRATIVE"),
-                             ),
-                             _buildBlankRow("PRESENT\nNERGY"),
-                             Padding(padding: EdgeInsets.only(top: 30),
-
-                             child:_buildBlankRow("PORTAL OF\nRECLAMATION"),
-                  ),
-                           ],
-                         ),
-                       ),
+                       SizedBox(height: 300,
+                       child: _threeCardsWidget(),),
+                  //      SizedBox(
+                  //        height: 250,
+                  //        child: Row(
+                  //          crossAxisAlignment: CrossAxisAlignment.end,
+                  //          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //          children: [
+                  //            Padding(padding: EdgeInsets.only(top: 30),
+                  //
+                  //            child: _buildBlankRow("PAST\nNARRATIVE"),
+                  //            ),
+                  //            _buildBlankRow("PRESENT\nNERGY"),
+                  //            Padding(padding: EdgeInsets.only(top: 30),
+                  //
+                  //            child:_buildBlankRow("PORTAL OF\nRECLAMATION"),
+                  // ),
+                  //          ],
+                  //        ),
+                  //      ),
                         Spacer(),
                         Center(
                           child: SizedBox(
@@ -171,10 +177,16 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                                                 .then((_) {
                                                   setState(() {
                                                     selectedIndex = index;
-                                                    print("working");
-                                                    Future.delayed(Duration(seconds: 1), () {
-                                                      Get.to(()=>ShowWhisperPage());
-                                                    });
+                                                    // print("working");
+                                                    // Future.delayed(Duration(seconds: 1), () {
+                                                    //   Get.to(()=>ShowWhisperPage());
+                                                    // });
+                                                    selectedCardsIndexes?.add(index);
+                                                    if(selectedCardsIndexes?.length == 3){
+                                                      Future.delayed(Duration(seconds: 1), () {
+                                                        Get.to(()=>ShowWhisperPage(cardsCount: 3,));
+                                                      });
+                                                    }
                                                   });
                                                 });
                                           },
@@ -296,6 +308,37 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
           height: 170,
         ),
       ],
+    );
+  }
+
+  _threeCardsWidget(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(3, (index) {
+        return Column(
+          children: [
+            index != 1 ? SizedBox(height: 70,):Container(),
+            Text(
+              labels[index],
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Literata",
+
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 2,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            AddHeight(10),
+            Image.asset(
+              selectedCardsIndexes!.length>index?"assets/images/card.png":"assets/images/spread_blank_card.png",
+              width: 90,
+              height: 170,
+            ),
+          ],
+        );
+      }),
     );
   }
 

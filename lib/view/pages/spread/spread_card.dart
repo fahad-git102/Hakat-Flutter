@@ -160,7 +160,7 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                                     selectedIndex = index;
                                                     print("working");
                                                     Future.delayed(Duration(seconds: 1), () {
-                                                      Get.to(()=>ShowWhisperPage());
+                                                      Get.to(()=>ShowWhisperPage(cardsCount: 1,));
                                                     });
                                                   });
                                                 });

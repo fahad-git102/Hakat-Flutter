@@ -28,6 +28,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
 
   int selectedIndex = 10;
   final int itemCount = 20;
+  List<int>? selectedCardsIndexes;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
     );
 
     _horizontalScrollController = ScrollController();
-
+    selectedCardsIndexes = [];
     _animationController.forward();
   }
 
@@ -87,13 +88,13 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                  children: [
                                    Padding(padding: EdgeInsets.only(top: 30),
 
-                                   child: _buildBlankRow("THE INNER\nPULSE"),
+                                   child: _buildBlankRow("THE INNER\nPULSE", 0),
                                    ),
-                                   _buildBlankRow("THE GATE\nKEEPER"),
-                                   _buildBlankRow("THE\nCOMPANION"),
+                                   _buildBlankRow("THE GATE\nKEEPER", 1),
+                                   _buildBlankRow("THE\nCOMPANION", 2),
                                    Padding(padding: EdgeInsets.only(top: 30),
 
-                                   child:_buildBlankRow("THE\nHORIZON"),
+                                   child:_buildBlankRow("THE\nHORIZON", 3),
                                                ),
                                  ],
                                ),
@@ -103,12 +104,12 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                  children: [
                                    Padding(padding: EdgeInsets.only(top: 30),
 
-                                     child: _buildBlankRow("THE OUTER\nSELF"),
+                                     child: _buildBlankRow("THE OUTER\nSELF", 4),
                                    ),
-                                   _buildBlankRow("THE \nCALLER"),
+                                   _buildBlankRow("THE \nCALLER", 5),
                                    Padding(padding: EdgeInsets.only(top: 30),
 
-                                     child:_buildBlankRow("THE CORE\nTHREAD"),
+                                     child:_buildBlankRow("THE CORE\nTHREAD", 6),
                                    ),
                                  ],
                                ),
@@ -193,10 +194,16 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                   .then((_) {
                                                     setState(() {
                                                       selectedIndex = index;
-                                                      print("working");
-                                                      Future.delayed(Duration(seconds: 1), () {
-                                                        Get.to(()=>ShowWhisperPage());
-                                                      });
+                                                      // print("working");
+                                                      // Future.delayed(Duration(seconds: 1), () {
+                                                      //   Get.to(()=>ShowWhisperPage());
+                                                      // });
+                                                      selectedCardsIndexes?.add(index);
+                                                      if(selectedCardsIndexes?.length == 7){
+                                                        Future.delayed(Duration(seconds: 1), () {
+                                                          Get.to(()=>ShowWhisperPage(cardsCount: 7,));
+                                                        });
+                                                      }
                                                     });
                                                   });
                                             },
@@ -297,7 +304,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
     );
   }
 
-  _buildBlankRow(String title){
+  _buildBlankRow(String title, int index){
     return  Column(
       children: [
         Text(
@@ -314,7 +321,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
         ),
         AddHeight(6),
         Image.asset(
-          "assets/images/spread_blank_card.png",
+          selectedCardsIndexes!.length>index?"assets/images/card.png":"assets/images/spread_blank_card.png",
           width: 60,
           height: 120,
         ),

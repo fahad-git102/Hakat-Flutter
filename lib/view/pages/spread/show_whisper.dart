@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/view/global/carousel_slider.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/whisper_back.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
@@ -11,7 +12,9 @@ import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowWhisperPage extends StatefulWidget {
-  const ShowWhisperPage({super.key});
+  const ShowWhisperPage({super.key, required this.cardsCount});
+
+  final int cardsCount;
 
   @override
   State<ShowWhisperPage> createState() => _ShowWhisperPageState();
@@ -27,14 +30,19 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
   late Animation<double> _fadeAnimation;
   late ScrollController _horizontalScrollController;
 
-  bool showDetails = false; // New state to toggle scrollable content
+  bool showDetails = false;
 
   int selectedIndex = 10;
   final int itemCount = 20;
+  final List<String> cards = [];
 
   @override
   void initState() {
     super.initState();
+
+    for (int i = 0; i < widget.cardsCount; i++) {
+      cards.add("assets/images/shadow.png");
+    }
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
@@ -87,27 +95,29 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                           AddHeight(8),
                           CustomAppBar(text: "The\nWhisper"),
                           AddHeight(40),
-                          Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFFD6C9E9D4),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                  offset: Offset(0, 0),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                "assets/images/shadow.png",
-                                width: 160,
-                                height: 270,
-                              ),
-                            ),
-                          ),
-                          AddHeight(25),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //         color: const Color(0xFFD6C9E9D4),
+                          //         blurRadius: 10,
+                          //         spreadRadius: 2,
+                          //         offset: Offset(0, 0),
+                          //       ),
+                          //     ],
+                          //   ),
+                          //   child: ClipRRect(
+                          //     borderRadius: BorderRadius.circular(12),
+                          //     child: Image.asset(
+                          //       "assets/images/shadow.png",
+                          //       width: 160,
+                          //       height: 270,
+                          //     ),
+                          //   ),
+                          // ),
+                          SliderWidget(height: 290, images: cards,),
+
+                          AddHeight(20),
                           ShaderMask(
                             shaderCallback: (bounds) =>
                                 const LinearGradient(

@@ -28,6 +28,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
 
   int selectedIndex = 10;
   final int itemCount = 20;
+  List<int>? selectedCardsIndexes;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
     );
 
     _horizontalScrollController = ScrollController();
-
+    selectedCardsIndexes = [];
     _animationController.forward();
   }
 
@@ -88,8 +89,8 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                  crossAxisAlignment: CrossAxisAlignment.center,
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: [
-                                   _buildBlankRow("THE\nMASK"),
-                                   _buildBlankRow("THE\nMEMORY\nREWRITTEN"),
+                                   _buildBlankRow("THE\nMASK", 0),
+                                   _buildBlankRow("THE\nMEMORY\nREWRITTEN", 4),
                                  ],
                                ),
                              ),
@@ -99,9 +100,9 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                  crossAxisAlignment: CrossAxisAlignment.center,
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: [
-                                   _buildBlankRow("THE\nMIRROR"),
+                                   _buildBlankRow("THE\nMIRROR", 1),
                                    AddHeight(30),
-                                   _buildBlankRow("THE\nWOUND"),
+                                   _buildBlankRow("THE\nWOUND", 2),
                                  ],
                                ),
                              ),
@@ -112,7 +113,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                  crossAxisAlignment: CrossAxisAlignment.center,
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: [
-                                   _buildBlankRow("THE\nMAGIC"),
+                                   _buildBlankRow("THE\nMAGIC", 3),
                                  ],
                                ),
                              ),
@@ -195,11 +196,18 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                                 )
                                                 .then((_) {
                                                   setState(() {
+                                                    // selectedIndex = index;
+                                                    // print("working");
+                                                    // Future.delayed(Duration(seconds: 1), () {
+                                                    //   Get.to(()=>ShowWhisperPage());
+                                                    // });
                                                     selectedIndex = index;
-                                                    print("working");
-                                                    Future.delayed(Duration(seconds: 1), () {
-                                                      Get.to(()=>ShowWhisperPage());
-                                                    });
+                                                    selectedCardsIndexes?.add(index);
+                                                    if(selectedCardsIndexes?.length == 5){
+                                                      Future.delayed(Duration(seconds: 1), () {
+                                                        Get.to(()=>ShowWhisperPage(cardsCount: 5,));
+                                                      });
+                                                    }
                                                   });
                                                 });
                                           },
@@ -299,7 +307,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
     );
   }
 
-  _buildBlankRow(String title){
+  _buildBlankRow(String title, int index){
     return  Column(
       children: [
         Text(
@@ -316,7 +324,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
         ),
         AddHeight(10),
         Image.asset(
-          "assets/images/spread_blank_card.png",
+          selectedCardsIndexes!.length>index?"assets/images/card.png":"assets/images/spread_blank_card.png",
           width: 70,
           height: 120,
         ),
