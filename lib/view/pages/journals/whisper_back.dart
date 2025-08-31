@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/services/firestore_db.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/journal_list.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../global/subscribe_dialogue.dart';
@@ -26,6 +29,8 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
+
+  final String today = DateFormat('d/MM/yyyy').format(DateTime.now());
 
   @override
   void initState() {
@@ -187,7 +192,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
 
                             // Name field
                             _buildLabel(
-                                '10/4/2025',''),
+                                today,''),
                             SizedBox(height: 8),
                             _buildTextField(_nameController, 'Name your whisper'),
                             // Message field
@@ -204,11 +209,22 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  _buildSubmitButton('SAVE WHISPER',(){
-                                    Get.to(()=>JournalListPage());
+                                  _buildSubmitButton('SAVE WHISPER',() async {
+                                    // Get.to(()=>JournalListPage());
+                                    EasyLoading.show();
+                                    bool success = await FirestoreFunctions().uploadWhisper(
+                                      _nameController.text, _messageController.text, today
+                                    );
+                                    EasyLoading.dismiss();
+                                    if(success){
+                                      Get.to(()=>JournalListPage());
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text("Failed to upload whisper ❌")),
+                                      );
+                                    }
                                   }),
                                   _buildSubmitButton('SAVE READING',(){
-
                                     showDialog(
                                       context: context,
                                       barrierDismissible: true,

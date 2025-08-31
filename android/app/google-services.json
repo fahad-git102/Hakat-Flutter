@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700242705441",
+    "project_id": "hakat-app",
+    "storage_bucket": "hakat-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700242705441:android:e8a904d44d76554219b760",
+        "android_client_info": {
+          "package_name": "com.zedlogs.hakat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4xBbcxNyoxTjSyjvKTRa2pfoB17Oxs1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

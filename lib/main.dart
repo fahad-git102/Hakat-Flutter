@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hakat/view/pages/auth/login_page.dart';
 import 'package:hakat/view/pages/deck/deck_info.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
 import 'package:hakat/view/pages/deck/join_deck.dart';
@@ -21,11 +22,15 @@ import 'package:hakat/view/pages/spread/circle_of_self.dart';
 import 'package:hakat/view/pages/spread/portal_path_page.dart';
 import 'package:hakat/view/pages/spread/show_whisper.dart';
 import 'package:hakat/view/pages/spread/spiral_of_becoming.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print("✅ Firebase connected: ${Firebase.apps.first.name}");
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
   //
@@ -63,7 +68,7 @@ class MyApp extends StatelessWidget {
           child: child ?? Container(),
         );
       }),
-      home:WelcomPage(),
+      home:LoginPage(),
       // getPages: AppRoutes.routes,
       // locale: LocalizationService.locale,
       // fallbackLocale: LocalizationService.fallbackLocale,

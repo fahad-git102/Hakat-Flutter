@@ -148,7 +148,7 @@ class _WelcomPageState extends State<WelcomPage> {
                 SizedBox(height: 30,),
                 GestureDetector(
                   onTap: (){
-                   Get.to(()=>FadeInScreen(child: FirstStepPage()));
+                   Get.to(()=>FirstStepPage());
                   },
                   child: Container(
                     width: 242,
