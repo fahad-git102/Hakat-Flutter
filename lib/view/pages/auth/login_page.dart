@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hakat/view/pages/onboarding/welcom_page.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../services/auth.dart';
+import '../../../services/revenue_cat_service.dart';
 import '../root_page.dart';
 
 class LoginPage extends StatefulWidget{
@@ -21,14 +23,16 @@ class _LoginPageState extends State<LoginPage>{
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    _checkLogin();
   }
 
-  Future<void> _checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-    if (isLoggedIn) {
+  Future<void> _checkLogin() async {
+    await Future.delayed(Duration(seconds: 2));
+    User? user = FirebaseAuth.instance.currentUser;
+    print(user?.email);
+    print(user?.uid);
+    if (user != null) {
+      await RevenueCatService.logIn(user.uid);
       Get.offAll(() => FadeInScreen(child: WelcomPage()));
     }
   }

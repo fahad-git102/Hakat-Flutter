@@ -5,6 +5,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -59,6 +60,24 @@ class Auth{
       try{
         user =
             (await FirebaseAuth.instance.signInWithCredential(oauthCredential)).user;
+        if (user != null) {
+          final userDoc =
+          FirebaseFirestore.instance.collection("users").doc(user.uid);
+
+          final docSnapshot = await userDoc.get();
+          if (!docSnapshot.exists) {
+            await userDoc.set({
+              "uid": user.uid,
+              "email": user.email ?? appleCredential.email ?? "",
+              "name": user.displayName ??
+                  '${appleCredential.givenName ?? ''} ${appleCredential.familyName ?? ''}'.trim(),
+              "createdAt": FieldValue.serverTimestamp(),
+              "signInMethod": "apple",
+            });
+          }
+        }
+
+        print("Signed in as: ${user?.email}");
         print(user?.email);
       }catch(exception){
         print('error found : ${exception.toString()}');

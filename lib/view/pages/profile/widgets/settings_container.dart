@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hakat/view/global/spacing.dart';
 import 'package:hakat/view/pages/profile/widgets/Chaos_toggle.dart';
 import 'package:get/get.dart';
+import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/subscription/annual_subscriber.dart';
 import '../../../../constants/theme/colors.dart';
 
 class SettingsContainer extends StatefulWidget {
@@ -423,7 +425,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                 letterSpacing: 1,
               ).copyWith(
                 color: Colors.white,
-              ), // Color must be set, but it will be masked
+              ),
             ),
           ),
           SizedBox(height: 6),
@@ -505,41 +507,46 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
             ],
           ),
           AddHeight(30),
-          Container(
-            width: 187,
-            height: 52,
-            decoration:  BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage('assets/images/gold_effect.jpg'),
-              ),
-            ),
-            child: Center(
-              child: Container(
-                width: 185,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                  gradient: LinearGradient(colors: [
-                    Color(0xFF49415D),
-                    Color(0xFF786F8E),
-                  ],),
-
+          InkWell(
+            onTap: (){
+              Get.to(()=> FadeInScreen(child: AnnualSubscriberScreen()));
+            },
+            child: Container(
+              width: 187,
+              height: 52,
+              decoration:  BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage('assets/images/gold_effect.jpg'),
                 ),
-                child:   Center(
-                  child: Text(
-                    "SUBSCRIBE",
-                    style:
-                    TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Sanford",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
+              ),
+              child: Center(
+                child: Container(
+                  width: 185,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                    gradient: LinearGradient(colors: [
+                      Color(0xFF49415D),
+                      Color(0xFF786F8E),
+                    ],),
+
+                  ),
+                  child:   Center(
+                    child: Text(
+                      "SUBSCRIBE",
+                      style:
+                      TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Sanford",
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w400,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
+                    ),
                   ),
                 ),
               ),

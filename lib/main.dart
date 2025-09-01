@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hakat/services/revenue_cat_service.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:hakat/view/pages/auth/login_page.dart';
 import 'package:hakat/view/pages/deck/deck_info.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
@@ -24,28 +26,18 @@ import 'package:hakat/view/pages/spread/show_whisper.dart';
 import 'package:hakat/view/pages/spread/spiral_of_becoming.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print("✅ Firebase connected: ${Firebase.apps.first.name}");
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
-  //
-
+  await RevenueCatService.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
   });
-
-  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  // FlutterError.onError = (errorDetails) {
-  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  // };
-
-
 }
 
 class MyApp extends StatelessWidget {

@@ -4,6 +4,8 @@ import 'package:hakat/controllers/root_controller.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 
+import '../../../services/revenue_cat_service.dart';
+
 class WelcomPage extends StatefulWidget {
   const WelcomPage({super.key});
 
@@ -147,8 +149,8 @@ class _WelcomPageState extends State<WelcomPage> {
                 ),
                 SizedBox(height: 30,),
                 GestureDetector(
-                  onTap: (){
-                   Get.to(()=>FirstStepPage());
+                  onTap: () async {
+                    Get.to(()=>FirstStepPage());
                   },
                   child: Container(
                     width: 242,
@@ -190,7 +192,16 @@ class _WelcomPageState extends State<WelcomPage> {
                       ),
                     ),
                   ),
-                )
+                ),
+                ElevatedButton(onPressed: () async {
+                  final offerings = await RevenueCatService.getOfferings();
+                  if (offerings == null || offerings.current == null) {
+                    debugPrint("❌ Offerings are null – check if you set products correctly in RevenueCat dashboard.");
+                  } else {
+                    debugPrint("✅ Offerings loaded: ${offerings.current!.identifier}");
+                  }
+
+                }, child: Text('Text Subscription'))
               ],
             ),
           ),
