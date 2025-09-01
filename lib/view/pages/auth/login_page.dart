@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/view/pages/onboarding/welcom_page.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../services/auth.dart';
 import '../root_page.dart';
@@ -16,6 +17,22 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      Get.offAll(() => FadeInScreen(child: WelcomPage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,6 +141,8 @@ class _LoginPageState extends State<LoginPage>{
                           onPressed: () async {
                             bool status = await Auth.signInWithApple(context);
                             if(status == true){
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.setBool('isLoggedIn', true);
                               Get.to(()=>FadeInScreen(child: WelcomPage()));
                             }else{
                               print('login failed');

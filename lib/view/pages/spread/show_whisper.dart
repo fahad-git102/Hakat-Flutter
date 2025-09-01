@@ -24,6 +24,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
     with TickerProviderStateMixin {
   double imageWidth = 120;
   double imageHeight = 180;
+  bool flipAll = false;
   double overlapPercentage = 0.65;
 
   late AnimationController _animationController;
@@ -71,6 +72,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
           if (details.delta.dy < -10) {
             setState(() {
               showDetails = true;
+              flipAll = true;
             });
           }
         },
@@ -115,7 +117,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                           //     ),
                           //   ),
                           // ),
-                          SliderWidget(height: 290, images: cards,),
+                          SliderWidget(height: 290, images: cards,  isFlipped: flipAll,),
 
                           AddHeight(20),
                           ShaderMask(
