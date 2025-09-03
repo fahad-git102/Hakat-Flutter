@@ -5,6 +5,7 @@ import 'package:hakat/view/pages/profile/widgets/Chaos_toggle.dart';
 import 'package:get/get.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/subscription/annual_subscriber.dart';
+import 'package:hakat/view/pages/subscription/subscription_page.dart';
 import '../../../../constants/theme/colors.dart';
 
 class SettingsContainer extends StatefulWidget {
@@ -509,7 +510,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
           AddHeight(30),
           InkWell(
             onTap: (){
-              Get.to(()=> FadeInScreen(child: AnnualSubscriberScreen()));
+              Get.to(()=> FadeInScreen(child: SubscriptionsPage()));
             },
             child: Container(
               width: 187,

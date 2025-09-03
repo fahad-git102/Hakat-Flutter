@@ -97,26 +97,6 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                           AddHeight(8),
                           CustomAppBar(text: "The\nWhisper"),
                           AddHeight(40),
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: const Color(0xFFD6C9E9D4),
-                          //         blurRadius: 10,
-                          //         spreadRadius: 2,
-                          //         offset: Offset(0, 0),
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: ClipRRect(
-                          //     borderRadius: BorderRadius.circular(12),
-                          //     child: Image.asset(
-                          //       "assets/images/shadow.png",
-                          //       width: 160,
-                          //       height: 270,
-                          //     ),
-                          //   ),
-                          // ),
                           SliderWidget(height: 290, images: cards,  isFlipped: flipAll,),
 
                           AddHeight(20),

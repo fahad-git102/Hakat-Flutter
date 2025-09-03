@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/subscription/journey_awaits_page.dart';
 
 import '../../../services/revenue_cat_service.dart';
 
@@ -150,7 +151,8 @@ class _WelcomPageState extends State<WelcomPage> {
                 SizedBox(height: 30,),
                 GestureDetector(
                   onTap: () async {
-                    Get.to(()=>FirstStepPage());
+                    Get.to(()=>JourneyAwaitspage());
+                    // Get.to(()=>FirstStepPage());
                   },
                   child: Container(
                     width: 242,

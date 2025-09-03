@@ -21,6 +21,7 @@ class _TheWhisperPageState extends State<TheWhisperPage>
   double imageWidth = 120;
   double imageHeight = 180;
   double overlapPercentage = 0.65;
+  bool showText = true;
 
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -45,6 +46,13 @@ class _TheWhisperPageState extends State<TheWhisperPage>
     _horizontalScrollController = ScrollController();
 
     _animationController.forward();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          showText = false;
+        });
+      }
+    });
   }
 
   @override
@@ -76,179 +84,215 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                         AddHeight(8),
                         CustomAppBar(text: "THE\nWHISPER"),
                         AddHeight(40),
-                        Image.asset(
-                          "assets/images/spread_blank_card.png",
-                          width: 160,
-                          height: 270,
-                        ),
-                        Spacer(),
-                        Center(
-                          child: SizedBox(
-                            height: imageHeight + curveStrength + 60,
-                            child: NotificationListener<ScrollNotification>(
-                              onNotification: (notification) {
-                                if (notification is ScrollUpdateNotification) {
-                                  double offset =
-                                      _horizontalScrollController.offset;
-                                  double cardSpacing =
-                                      imageWidth * (1 - overlapPercentage);
-                                  int newIndex = (offset / cardSpacing).round();
-                                  if (newIndex != selectedIndex &&
-                                      newIndex >= 0 &&
-                                      newIndex < itemCount) {
-                                    setState(() => selectedIndex = newIndex);
-                                  }
-                                }
-                                return false;
-                              },
-                              child: SingleChildScrollView(
-                                controller: _horizontalScrollController,
-                                scrollDirection: Axis.horizontal,
-                                physics: const BouncingScrollPhysics(),
-                                child: SizedBox(
-                                  width: totalWidth + 100,
-                                  child: Stack(
-                                    children: List.generate(itemCount, (index) {
-                                      final double xOffset =
-                                          50 +
-                                          index *
-                                              imageWidth *
-                                              (1 - overlapPercentage);
-
-                                      final double normalizedDistance =
-                                          (index - centerIndex) / centerIndex;
-                                      final double yOffset =
-                                          curveStrength *
-                                          pow(
-                                            normalizedDistance,
-                                            2,
-                                          ).toDouble() *
-                                          (1 -
-                                              0.3 *
-                                                  cos(normalizedDistance * pi));
-
-                                      final bool isSelected =
-                                          index == selectedIndex;
-                                      final bool isNearSelected =
-                                          (index - selectedIndex).abs() <= 1;
-
-                                      return Positioned(
-                                        left: xOffset,
-                                        top: yOffset,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            double targetOffset =
-                                                (index *
-                                                    imageWidth *
-                                                    (1 - overlapPercentage)) -
-                                                (Get.width / 2) +
-                                                (imageWidth / 2);
-
-                                            _horizontalScrollController
-                                                .animateTo(
-                                                  targetOffset.clamp(
-                                                    0.0,
-                                                    totalWidth - Get.width,
-                                                  ),
-                                                  duration: const Duration(
-                                                    milliseconds: 500,
-                                                  ),
-                                                  curve: Curves.easeInOut,
-                                                )
-                                                .then((_) {
-                                                  setState(() {
-                                                    selectedIndex = index;
-                                                    print("working");
-                                                    Future.delayed(Duration(seconds: 1), () {
-                                                      Get.to(()=>ShowWhisperPage(cardsCount: 1,));
-                                                    });
-                                                  });
-                                                });
-                                          },
-                                          child: AnimatedContainer(
-                                            duration: const Duration(
-                                              milliseconds: 300,
-                                            ),
-                                            width: imageWidth,
-                                            height: imageHeight,
-                                            transform: Matrix4.identity()
-                                              ..rotateY(
-                                                normalizedDistance * 0.15,
-                                              ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              image: const DecorationImage(
-                                                image: AssetImage(
-                                                  "assets/images/card.png",
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: isSelected
-                                                      ? Colors.white
-                                                            .withOpacity(0.3)
-                                                      : Colors.black54,
-                                                  blurRadius: isSelected
-                                                      ? 20
-                                                      : 12,
-                                                  offset: Offset(
-                                                    0,
-                                                    isSelected ? 8 : 6,
-                                                  ),
-                                                  spreadRadius: isSelected
-                                                      ? 2
-                                                      : 0,
-                                                ),
-                                              ],
-                                              border: isSelected
-                                                  ? Border.all(
-                                                      color: Colors.white
-                                                          .withOpacity(0.5),
-                                                      width: 2,
-                                                    )
-                                                  : null,
-                                            ),
-                                            child: Stack(
-                                              children: [
-                                                if (isSelected)
-                                                  Positioned.fill(
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              16,
-                                                            ),
-                                                        gradient: LinearGradient(
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                          colors: [
-                                                            Colors.transparent,
-                                                            Colors.black
-                                                                .withOpacity(
-                                                                  0.6,
-                                                                ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
+                        Expanded(
+                          child:
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            child: showText
+                                ? Container(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              key: const ValueKey("text"),
+                              child: Center(
+                                child: Text(
+                                  "“One whisper is enough. A truth from the unseen awaits. Close your eyes. Ask nothing. Let the card find you.”",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontFamily: "Sanford",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                            )
+                                : Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/spread_blank_card.png",
+                                  key: const ValueKey("image"),
+                                  width: 160,
+                                  height: 270,
+                                ),
+                                Spacer(),
+                                Center(
+                                  child: SizedBox(
+                                    height: imageHeight + curveStrength + 60,
+                                    child: NotificationListener<ScrollNotification>(
+                                      onNotification: (notification) {
+                                        if (notification is ScrollUpdateNotification) {
+                                          double offset =
+                                              _horizontalScrollController.offset;
+                                          double cardSpacing =
+                                              imageWidth * (1 - overlapPercentage);
+                                          int newIndex = (offset / cardSpacing).round();
+                                          if (newIndex != selectedIndex &&
+                                              newIndex >= 0 &&
+                                              newIndex < itemCount) {
+                                            setState(() => selectedIndex = newIndex);
+                                          }
+                                        }
+                                        return false;
+                                      },
+                                      child: SingleChildScrollView(
+                                        controller: _horizontalScrollController,
+                                        scrollDirection: Axis.horizontal,
+                                        physics: const BouncingScrollPhysics(),
+                                        child: SizedBox(
+                                          width: totalWidth + 100,
+                                          child: Stack(
+                                            children: List.generate(itemCount, (index) {
+                                              final double xOffset =
+                                                  50 +
+                                                      index *
+                                                          imageWidth *
+                                                          (1 - overlapPercentage);
+
+                                              final double normalizedDistance =
+                                                  (index - centerIndex) / centerIndex;
+                                              final double yOffset =
+                                                  curveStrength *
+                                                      pow(
+                                                        normalizedDistance,
+                                                        2,
+                                                      ).toDouble() *
+                                                      (1 -
+                                                          0.3 *
+                                                              cos(normalizedDistance * pi));
+
+                                              final bool isSelected =
+                                                  index == selectedIndex;
+                                              final bool isNearSelected =
+                                                  (index - selectedIndex).abs() <= 1;
+
+                                              return Positioned(
+                                                left: xOffset,
+                                                top: yOffset,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    double targetOffset =
+                                                        (index *
+                                                            imageWidth *
+                                                            (1 - overlapPercentage)) -
+                                                            (Get.width / 2) +
+                                                            (imageWidth / 2);
+
+                                                    _horizontalScrollController
+                                                        .animateTo(
+                                                      targetOffset.clamp(
+                                                        0.0,
+                                                        totalWidth - Get.width,
+                                                      ),
+                                                      duration: const Duration(
+                                                        milliseconds: 500,
+                                                      ),
+                                                      curve: Curves.easeInOut,
+                                                    )
+                                                        .then((_) {
+                                                      setState(() {
+                                                        selectedIndex = index;
+                                                        print("working");
+                                                        Future.delayed(
+                                                          Duration(seconds: 1),
+                                                              () {
+                                                            Get.to(
+                                                                  () => ShowWhisperPage(
+                                                                cardsCount: 1,
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      });
+                                                    });
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    duration: const Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                    width: imageWidth,
+                                                    height: imageHeight,
+                                                    transform: Matrix4.identity()
+                                                      ..rotateY(
+                                                        normalizedDistance * 0.15,
+                                                      ),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(16),
+                                                      image: const DecorationImage(
+                                                        image: AssetImage(
+                                                          "assets/images/card.png",
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: isSelected
+                                                              ? Colors.white
+                                                              .withOpacity(0.3)
+                                                              : Colors.black54,
+                                                          blurRadius: isSelected
+                                                              ? 20
+                                                              : 12,
+                                                          offset: Offset(
+                                                            0,
+                                                            isSelected ? 8 : 6,
+                                                          ),
+                                                          spreadRadius: isSelected
+                                                              ? 2
+                                                              : 0,
+                                                        ),
+                                                      ],
+                                                      border: isSelected
+                                                          ? Border.all(
+                                                        color: Colors.white
+                                                            .withOpacity(0.5),
+                                                        width: 2,
+                                                      )
+                                                          : null,
+                                                    ),
+                                                    child: Stack(
+                                                      children: [
+                                                        if (isSelected)
+                                                          Positioned.fill(
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                  16,
+                                                                ),
+                                                                gradient: LinearGradient(
+                                                                  begin: Alignment
+                                                                      .topCenter,
+                                                                  end: Alignment
+                                                                      .bottomCenter,
+                                                                  colors: [
+                                                                    Colors.transparent,
+                                                                    Colors.black
+                                                                        .withOpacity(
+                                                                      0.6,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                ScrollIcon(),
+                              ],
                             ),
                           ),
-                        ),
-                        ScrollIcon(),
+                        )
                       ],
                     ),
                   );

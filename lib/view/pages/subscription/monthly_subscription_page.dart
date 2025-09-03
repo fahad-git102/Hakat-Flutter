@@ -5,14 +5,14 @@ import '../../../constants/icons.dart';
 import '../../global/custom_appbar.dart';
 import '../../global/spacing.dart';
 
-class AnnualSubscriberScreen extends StatefulWidget {
-  const AnnualSubscriberScreen({super.key});
+class MonthlySubscriberScreen extends StatefulWidget {
+  const MonthlySubscriberScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AnnualSubscriberState();
+  State<StatefulWidget> createState() => _MonthlySubscriberState();
 }
 
-class _AnnualSubscriberState extends State<AnnualSubscriberScreen> {
+class _MonthlySubscriberState extends State<MonthlySubscriberScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class _AnnualSubscriberState extends State<AnnualSubscriberScreen> {
                   AddHeight(4),
                   CustomAppBar(text: "MY ACCOUNT"),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     height: Get.height / 1.3,
                     child: Stack(
                       alignment: Alignment.center,
@@ -98,7 +98,7 @@ class _AnnualSubscriberState extends State<AnnualSubscriberScreen> {
                 colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
               ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
               child: Text(
-                "You're an annual subscriber!",
+                "You're an monthly subscriber!",
                 style: TextStyle(
                   fontSize: 26,
                   fontFamily: "Garamond_Italic",
@@ -112,17 +112,60 @@ class _AnnualSubscriberState extends State<AnnualSubscriberScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              "Enjoying the app?\nSpread the gift of intuition.",
-              style:
-                  TextStyle(
-                    fontSize: 21,
-                    fontFamily: "Garamond",
-                    letterSpacing: 1.2,
-                    fontWeight: FontWeight.w400,
-                  ).copyWith(
+                "Enjoying the app? Upgrade to the Annual Plan and save 30%",
+                style:
+                TextStyle(
+                  fontSize: 20,
+                  fontFamily: "Garamond",
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w400,
+                ).copyWith(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center
+            ),
+          ),
+          AddHeight(15),
+          InkWell(
+            onTap: (){},
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+              height: 60,
+              width: 160,
+              decoration:  BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage('assets/images/gold_effect.jpg'),
+                ),
+              ),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
                     color: Colors.white,
+                    gradient: LinearGradient(colors: [
+                      Color(0xFF49415D),
+                      Color(0xFF786F8E),
+                    ],),
+
                   ),
-              textAlign: TextAlign.center
+                  child:   Center(
+                    child: Text(
+                      "UPGRADE",
+                      style:
+                      TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Sanford",
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w500,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           AddHeight(20),
@@ -210,30 +253,6 @@ class _AnnualSubscriberState extends State<AnnualSubscriberScreen> {
                 color: Colors.white,
               ), // Color must be set, but it will be masked
             ),
-          ),
-          AddHeight(18),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 6.0),
-                child: Image.asset('assets/single_star.png',width: 30,height: 30,),
-              ),
-              AddWidth(10),
-              Text(
-                "Write us a review!",
-                style:
-                TextStyle(
-                  fontSize: 19,
-                  fontFamily: "Garamond",
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w400,
-                ).copyWith(
-                  color: Colors.white,
-                ), // Color must be set, but it will be masked
-              ),
-            ],
           ),
           AddHeight(30),
         ],
