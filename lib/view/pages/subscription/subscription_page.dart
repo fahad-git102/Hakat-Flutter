@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hakat/view/pages/subscription/monthly_subscription_page.dart';
 import '../../../constants/icons.dart';
+import '../../../controllers/subscriptions_controller.dart';
 import '../../global/custom_appbar.dart';
 import '../../global/spacing.dart';
 import '../root_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'annual_subscriber.dart';
 
 class SubscriptionsPage extends StatefulWidget{
@@ -13,6 +17,9 @@ class SubscriptionsPage extends StatefulWidget{
 }
 
 class _SubscriptioPageState extends State<SubscriptionsPage>{
+
+  final SubscriptionsController controller = Get.find<SubscriptionsController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,137 +211,235 @@ class _SubscriptioPageState extends State<SubscriptionsPage>{
               ), // Color must be set, but it will be masked
             ),
             AddHeight(30),
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      Get.to(()=> MonthlySubscriberScreen());
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-                      height: 65,
-                      decoration:  BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/images/gold_effect.jpg'),
-                        ),
-                      ),
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            gradient: LinearGradient(colors: [
-                              Color(0xFF49415D),
-                              Color(0xFF786F8E),
-                            ],),
-        
-                          ),
-                          child:   Center(
-                            child: Text(
-                              "SUBSCRIBE\nMONTHLY",
-                              style:
-                              TextStyle(
-                                fontSize: 17,
-                                fontFamily: "Sanford",
-                                letterSpacing: 1.2,
-                                fontWeight: FontWeight.w400,
-                              ).copyWith(
-                                color: Colors.white,
-                              ), // Color must be set, but it will be masked
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: InkWell(
+            //         onTap: (){
+            //           Get.to(()=> MonthlySubscriberScreen());
+            //         },
+            //         child: Container(
+            //           padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+            //           height: 65,
+            //           decoration:  BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             image: DecorationImage(
+            //               fit: BoxFit.fill,
+            //               image: AssetImage('assets/images/gold_effect.jpg'),
+            //             ),
+            //           ),
+            //           child: Center(
+            //             child: Container(
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(5),
+            //                 color: Colors.white,
+            //                 gradient: LinearGradient(colors: [
+            //                   Color(0xFF49415D),
+            //                   Color(0xFF786F8E),
+            //                 ],),
+            //
+            //               ),
+            //               child:   Center(
+            //                 child: Text(
+            //                   "SUBSCRIBE\nMONTHLY",
+            //                   style:
+            //                   TextStyle(
+            //                     fontSize: 17,
+            //                     fontFamily: "Sanford",
+            //                     letterSpacing: 1.2,
+            //                     fontWeight: FontWeight.w400,
+            //                   ).copyWith(
+            //                     color: Colors.white,
+            //                   ), // Color must be set, but it will be masked
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     AddWidth(10),
+            //     Expanded(
+            //       child: InkWell(
+            //         onTap: (){
+            //           Get.to(()=> AnnualSubscriberScreen());
+            //         },
+            //         child: Container(
+            //           padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+            //           height: 65,
+            //           decoration:  BoxDecoration(
+            //             borderRadius: BorderRadius.circular(5),
+            //             image: DecorationImage(
+            //               fit: BoxFit.fill,
+            //               image: AssetImage('assets/images/gold_effect.jpg'),
+            //             ),
+            //           ),
+            //           child: Center(
+            //             child: Container(
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(5),
+            //                 color: Colors.white,
+            //                 gradient: LinearGradient(colors: [
+            //                   Color(0xFF49415D),
+            //                   Color(0xFF786F8E),
+            //                 ],),
+            //
+            //               ),
+            //               child:   Center(
+            //                 child: Text(
+            //                   "SUBSCRIBE\nANNUALLY",
+            //                   style:
+            //                   TextStyle(
+            //                     fontSize: 17,
+            //                     fontFamily: "Sanford",
+            //                     letterSpacing: 1.2,
+            //                     fontWeight: FontWeight.w400,
+            //                   ).copyWith(
+            //                     color: Colors.white,
+            //                   ), // Color must be set, but it will be masked
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            Obx(() {
+              final packages = controller.availablePackages;
+
+              if (packages.isEmpty) {
+                return Center(child: Text("No subscriptions available"));
+              }
+
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(packages.length, (index) {
+                  final package = packages[index];
+                  final product = package.storeProduct;
+
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            try {
+                              EasyLoading.show();
+                              PurchaseResult purchaserInfo = await Purchases.purchasePackage(package);
+                              bool isPro = purchaserInfo.customerInfo.entitlements.all["pro"]?.isActive ?? false;
+                              EasyLoading.dismiss();
+                              if (isPro) {
+                                Get.snackbar("Success", product.title.toLowerCase().contains('monthly')?'You are a monthly subscriber now.':'You are an annual subscriber now.');
+                              } else {
+                                print("❌ Not subscribed");
+                              }
+                            } on PlatformException catch (e) {
+                              EasyLoading.dismiss();
+                              if (e.code == PurchasesErrorCode.purchaseCancelledError.name) {
+                                // User cancelled → just ignore or show friendly message
+                                print("User cancelled the purchase");
+                              } else {
+                                // Other real errors
+                                Get.snackbar("Error", e.message ?? "Something went wrong");
+                              }
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5),
+                            padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+                            height: 65,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/images/gold_effect.jpg'),
+                              ),
+                            ),
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  gradient: LinearGradient(
+                                    colors: [Color(0xFF49415D), Color(0xFF786F8E)],
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    // dynamic label
+                                    product.title.toLowerCase().contains('monthly')?'SUBSCRIBE\nMONTHLY':'SUBSCRIBE\nANNUALLY',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Sanford",
+                                      letterSpacing: 1.2,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                AddWidth(10),
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      Get.to(()=> AnnualSubscriberScreen());
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-                      height: 65,
-                      decoration:  BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/images/gold_effect.jpg'),
-                        ),
-                      ),
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
+                        AddHeight(10),
+                        Text(
+                          product.title.contains('Annual')?"\$${product.priceString}/year\n(Save 30%)":"\$${product.priceString}/month",
+                          textAlign: TextAlign.center,
+                          style:
+                          TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Garamond",
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.w400,
+                          ).copyWith(
                             color: Colors.white,
-                            gradient: LinearGradient(colors: [
-                              Color(0xFF49415D),
-                              Color(0xFF786F8E),
-                            ],),
-        
-                          ),
-                          child:   Center(
-                            child: Text(
-                              "SUBSCRIBE\nANNUALLY",
-                              style:
-                              TextStyle(
-                                fontSize: 17,
-                                fontFamily: "Sanford",
-                                letterSpacing: 1.2,
-                                fontWeight: FontWeight.w400,
-                              ).copyWith(
-                                color: Colors.white,
-                              ), // Color must be set, but it will be masked
-                            ),
-                          ),
+                          ), // Color must be set, but it will be masked
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-            AddHeight(10),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "\$5.99/month",
-                    textAlign: TextAlign.center,
-                    style:
-                    TextStyle(
-                      fontSize: 18,
-                      fontFamily: "Garamond",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
-                  ),
-                ),
-                AddWidth(10),
-                Expanded(
-                  child: Text(
-                    "\$49.99/year\n(Save 30%)",
-                    textAlign: TextAlign.center,
-                    style:
-                    TextStyle(
-                      fontSize: 18,
-                      fontFamily: "Garamond",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
-                  ),
-                ),
-              ],
-            ),
+                  );
+                }),
+              );
+            }),
+
+            // AddHeight(10),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: Text(
+            //         "\$5.99/month",
+            //         textAlign: TextAlign.center,
+            //         style:
+            //         TextStyle(
+            //           fontSize: 18,
+            //           fontFamily: "Garamond",
+            //           letterSpacing: 1.2,
+            //           fontWeight: FontWeight.w400,
+            //         ).copyWith(
+            //           color: Colors.white,
+            //         ), // Color must be set, but it will be masked
+            //       ),
+            //     ),
+            //     AddWidth(10),
+            //     Expanded(
+            //       child: Text(
+            //         "\$49.99/year\n(Save 30%)",
+            //         textAlign: TextAlign.center,
+            //         style:
+            //         TextStyle(
+            //           fontSize: 18,
+            //           fontFamily: "Garamond",
+            //           letterSpacing: 1.2,
+            //           fontWeight: FontWeight.w400,
+            //         ).copyWith(
+            //           color: Colors.white,
+            //         ), // Color must be set, but it will be masked
+            //       ),
+            //     ),
+            //   ],
+            // ),
             AddHeight(30),
             Divider(color: Colors.black,),
             AddHeight(20),

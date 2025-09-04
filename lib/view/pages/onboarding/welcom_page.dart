@@ -195,15 +195,6 @@ class _WelcomPageState extends State<WelcomPage> {
                     ),
                   ),
                 ),
-                // ElevatedButton(onPressed: () async {
-                //   final offerings = await RevenueCatService.getOfferings();
-                //   if (offerings == null || offerings.current == null) {
-                //     debugPrint("❌ Offerings are null – check if you set products correctly in RevenueCat dashboard.");
-                //   } else {
-                //     debugPrint("✅ Offerings loaded: ${offerings.current!.identifier}");
-                //   }
-                //
-                // }, child: Text('Test Subscription'))
               ],
             ),
           ),
@@ -211,4 +202,5 @@ class _WelcomPageState extends State<WelcomPage> {
       ),
     );
   }
+
 }

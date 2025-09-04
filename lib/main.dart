@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hakat/services/bindings.dart';
 import 'package:hakat/services/revenue_cat_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:hakat/view/pages/auth/login_page.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Hakat_App",
+      initialBinding: AppBinding(),
       themeMode: ThemeMode.light,
     //  theme: AppTheme.lightTheme,
       navigatorKey: navigatorKey,
