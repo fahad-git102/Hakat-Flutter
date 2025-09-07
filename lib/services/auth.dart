@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
+import 'package:hakat/models/user_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+import '../controllers/user_controller.dart';
 
 class Auth{
 
@@ -73,7 +76,11 @@ class Auth{
                   '${appleCredential.givenName ?? ''} ${appleCredential.familyName ?? ''}'.trim(),
               "createdAt": FieldValue.serverTimestamp(),
               "signInMethod": "apple",
+              "isSubscribed": false
             });
+            final userData = (await userDoc.get()).data()!;
+            final appUser = UsersModel.fromFirestore(userData);
+            Get.find<UserController>().setUser(appUser);
           }
         }
 

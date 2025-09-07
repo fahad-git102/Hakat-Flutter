@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/pages/subscription/monthly_subscription_page.dart';
 import '../../../constants/icons.dart';
 import '../../../controllers/subscriptions_controller.dart';
@@ -11,6 +12,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'annual_subscriber.dart';
 
+enum SubscriptionType {
+  monthly,
+  annual,
+  none,
+}
+
 class SubscriptionsPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SubscriptioPageState();
@@ -19,6 +26,7 @@ class SubscriptionsPage extends StatefulWidget{
 class _SubscriptioPageState extends State<SubscriptionsPage>{
 
   final SubscriptionsController controller = Get.find<SubscriptionsController>();
+  final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -331,18 +339,22 @@ class _SubscriptioPageState extends State<SubscriptionsPage>{
                               bool isPro = purchaserInfo.customerInfo.entitlements.all["pro"]?.isActive ?? false;
                               EasyLoading.dismiss();
                               if (isPro) {
+                                await userController.updateUserSubscription(
+                                  uid: userController.currentUser.value?.uid??'',
+                                  isSubscribed: true,
+                                  subscribedPlan: product.title.toLowerCase().contains('monthly')?SubscriptionType.monthly:SubscriptionType.annual,
+                                );
                                 Get.snackbar("Success", product.title.toLowerCase().contains('monthly')?'You are a monthly subscriber now.':'You are an annual subscriber now.');
                               } else {
                                 print("❌ Not subscribed");
                               }
                             } on PlatformException catch (e) {
                               EasyLoading.dismiss();
-                              if (e.code == PurchasesErrorCode.purchaseCancelledError.name) {
-                                // User cancelled → just ignore or show friendly message
-                                print("User cancelled the purchase");
+                              if (e.details["readable_error_code"] == "PURCHASE_CANCELLED") {
+                                print(e.message);
+                                Get.snackbar('Error', e.message??'');
                               } else {
-                                // Other real errors
-                                Get.snackbar("Error", e.message ?? "Something went wrong");
+                                print("Other error: ${e.details}");
                               }
                             }
                           },

@@ -64,3 +64,63 @@
 //     );
 //   }
 // }
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UsersModel {
+  String? uid, email, name, signInMethod;
+  bool? isSubscribed;
+  DateTime? createdAt;
+  String? subscribedPlan;
+
+  UsersModel({
+    this.uid,
+    this.email,
+    this.name,
+    this.createdAt,
+    this.signInMethod,
+    this.isSubscribed,
+    this.subscribedPlan,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': this.uid,
+      'email': this.email,
+      'name': this.name,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'signInMethod': this.signInMethod,
+      'isSubscribed': this.isSubscribed,
+      'subscribedPlan': this.subscribedPlan,
+    };
+  }
+
+  factory UsersModel.fromFirestore(Map<String, dynamic> map) {
+    return UsersModel(
+      uid: map.containsKey('uid') && map['uid'] != null
+          ? map['uid'] as String
+          : null,
+      email: map.containsKey('email') && map['email'] != null
+          ? map['email'] as String
+          : null,
+      name: map.containsKey('name') && map['name'] != null
+          ? map['name'] as String
+          : null,
+      createdAt: map['createdAt'] != null
+          ? (map['createdAt'] as Timestamp).toDate()
+          : null,
+      signInMethod:
+          map.containsKey('signInMethod') && map['signInMethod'] != null
+          ? map['signInMethod'] as String
+          : null,
+      isSubscribed:
+          map.containsKey('isSubscribed') && map['isSubscribed'] != null
+          ? map['isSubscribed'] as bool
+          : false,
+      subscribedPlan:
+          map.containsKey('subscribedPlan') && map['subscribedPlan'] != null
+          ? map['subscribedPlan'] as String
+          : null,
+    );
+  }
+}

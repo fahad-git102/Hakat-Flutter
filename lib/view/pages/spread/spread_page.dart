@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/circle_of_self.dart';
 import 'package:hakat/view/pages/spread/portal_path_page.dart';
 import 'package:hakat/view/pages/spread/spiral_of_becoming.dart';
 import 'package:hakat/view/pages/spread/spread_card.dart';
+import 'package:hakat/view/pages/subscription/subscription_page.dart';
 import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +29,7 @@ class _SpreadPageState extends State<SpreadPage> {
   bool showSecond = false;
   bool showThird = false;
   RootController _rootcontroller = Get.find<RootController>();
+  final CardsController cardsController = Get.find<CardsController>();
 
   @override
   void initState() {
@@ -46,6 +50,8 @@ class _SpreadPageState extends State<SpreadPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => showThird = true);
   }
+
+  final controller = Get.find<UserController>();
 
   final List<Color> _itemColors = [
     Colors.blue,
@@ -119,15 +125,15 @@ class _SpreadPageState extends State<SpreadPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
-                        onTap:(){
-                          Get.to(()=>FadeInScreen(child: TheWhisperPage()));
+                        onTap: () {
+                          Get.to(() => FadeInScreen(child: TheWhisperPage()));
                         },
                         child: SizedBox(
                           width: 160,
                           height: 200,
                           child: Center(
                             child: Transform.scale(
-                              scale:  1,
+                              scale: 1,
                               child: Container(
                                 width: 200,
                                 decoration: BoxDecoration(
@@ -146,14 +152,13 @@ class _SpreadPageState extends State<SpreadPage> {
                                     Text(
                                       "THE\nWHISPER",
                                       textAlign: TextAlign.center,
-                                      style:
-                                          TextStyle(
-                                            fontSize: 17,
-                                            fontFamily: "Sanford",
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 0.55,
-                                            color: Color(0xFFEBCD8C),
-                                          ), // Color must be set, but it will be masked
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontFamily: "Sanford",
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: 0.55,
+                                        color: Color(0xFFEBCD8C),
+                                      ), // Color must be set, but it will be masked
                                     ),
                                     Image.asset(
                                       "assets/images/onboarding/card_one_icon.png",
@@ -167,188 +172,193 @@ class _SpreadPageState extends State<SpreadPage> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap:(){
-                          Get.to(()=>FadeInScreen(child: ThePortalPathPage()));
-                        },
-                        child: SizedBox(
-                          width: 160,
-                          height: 200,
-                          child: Center(
-                            child: Transform.scale(
-                              scale:  1,
-                              // Scale active container larger
-                              child: Container(
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      "assets/images/spread_card.png",
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      //   top: 18,
-                                      //   bottom: 10,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          "THE\nPORTAL PATH",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                          TextStyle(
-                                            fontSize: 17,
-                                            fontFamily: "Sanford",
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 0.55,
-                                            color: Color(0xFFEBCD8C),
-                                          ), // Color must be set, but it will be masked
+                      controller.currentUser.value?.isSubscribed == true
+                          ? GestureDetector(
+                              onTap: () {
+                                Get.to(
+                                  () =>
+                                      FadeInScreen(child: ThePortalPathPage()),
+                                );
+                              },
+                              child: SizedBox(
+                                width: 160,
+                                height: 200,
+                                child: Center(
+                                  child: Transform.scale(
+                                    scale: 1,
+                                    // Scale active container larger
+                                    child: Container(
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                            "assets/images/spread_card.png",
+                                          ),
                                         ),
-                                        Image.asset(
-                                          "assets/images/spread_card_two.png",
-                                          width: 120,
-                                          height: 80,
+                                      ),
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            //   top: 18,
+                                            //   bottom: 10,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                "THE\nPORTAL PATH",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontFamily: "Sanford",
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.55,
+                                                  color: Color(0xFFEBCD8C),
+                                                ), // Color must be set, but it will be masked
+                                              ),
+                                              Image.asset(
+                                                "assets/images/spread_card_two.png",
+                                                width: 120,
+                                                height: 80,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ],
                   ),
                   AddHeight(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap:(){
-                          Get.to(()=>SpiralOfBecomingPage());
-                        },
-                        child: SizedBox(
-                          width: 160,
-                          height: 200,
-                          child: Center(
-                            child: Transform.scale(
-                              scale:  1,
-                              // Scale active container larger
-                              child: Container(
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      "assets/images/spread_card.png",
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      //   top: 18,
-                                      //   bottom: 10,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          "THE SPIRAL\nOF BECOMING",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                          TextStyle(
-                                            fontSize: 17,
-                                            fontFamily: "Sanford",
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 0.55,
-                                            color: Color(0xFFEBCD8C),
-                                          ), // Color must be set, but it will be masked
+                  controller.currentUser.value?.isSubscribed == true &&
+                          controller.currentUser.value?.subscribedPlan == SubscriptionType.annual.name
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => SpiralOfBecomingPage());
+                              },
+                              child: SizedBox(
+                                width: 160,
+                                height: 200,
+                                child: Center(
+                                  child: Transform.scale(
+                                    scale: 1,
+                                    // Scale active container larger
+                                    child: Container(
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                            "assets/images/spread_card.png",
+                                          ),
                                         ),
-                                        Image.asset(
-                                          "assets/images/spread_card_three.png",
-                                          width: 120,
-                                          height: 100,
+                                      ),
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            //   top: 18,
+                                            //   bottom: 10,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                "THE SPIRAL\nOF BECOMING",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontFamily: "Sanford",
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.55,
+                                                  color: Color(0xFFEBCD8C),
+                                                ), // Color must be set, but it will be masked
+                                              ),
+                                              Image.asset(
+                                                "assets/images/spread_card_three.png",
+                                                width: 120,
+                                                height: 100,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          Get.to(()=>CircleOfSelfPage());
-                        },
-                        child: SizedBox(
-                          width: 160,
-                          height: 200,
-                          child: Center(
-                            child: Transform.scale(
-                              scale:  1,
-                              // Scale active container larger
-                              child: Container(
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      "assets/images/spread_card.png",
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      //   top: 18,
-                                      //   bottom: 10,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          "THE CIRCLE\nOF SELF",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                          TextStyle(
-                                            fontSize: 17,
-                                            fontFamily: "Sanford",
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 0.55,
-                                            color: Color(0xFFEBCD8C),
-                                          ), // Color must be set, but it will be masked
-                                        ),
-                                        Image.asset(
-                                          "assets/images/spread_card_four.png",
-                                          width: 110,
-                                          height:115,
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => CircleOfSelfPage());
+                              },
+                              child: SizedBox(
+                                width: 160,
+                                height: 200,
+                                child: Center(
+                                  child: Transform.scale(
+                                    scale: 1,
+                                    // Scale active container larger
+                                    child: Container(
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                            "assets/images/spread_card.png",
+                                          ),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            //   top: 18,
+                                            //   bottom: 10,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                "THE CIRCLE\nOF SELF",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontFamily: "Sanford",
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.55,
+                                                  color: Color(0xFFEBCD8C),
+                                                ), // Color must be set, but it will be masked
+                                              ),
+                                              Image.asset(
+                                                "assets/images/spread_card_four.png",
+                                                width: 110,
+                                                height: 115,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
             ),

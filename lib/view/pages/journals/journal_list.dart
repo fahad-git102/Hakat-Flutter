@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/whispers_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import '../../../controllers/root_controller.dart';
+import '../../../controllers/user_controller.dart';
 import '../../global/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -27,6 +29,8 @@ class _JournalListPageState extends State<JournalListPage> {
   bool showSecond = false;
 
   bool showThird = false;
+  final whispersController = Get.find<WhispersController>();
+  final UserController usersController = Get.find<UserController>();
 
   @override
   void initState() {
@@ -37,6 +41,10 @@ class _JournalListPageState extends State<JournalListPage> {
         _currentPage = _pageController.page?.round() ?? 0;
       });
     });
+    final uid = usersController.currentUser.value?.uid;
+    if (uid != null) {
+      whispersController.getWhispers(uid);
+    }
   }
 
   void animateWidgets() async {
@@ -132,21 +140,19 @@ class _JournalListPageState extends State<JournalListPage> {
                                     ), // Color must be set, but it will be masked
                                   ),
                                 ),
-                                JournalEntryItem(
-                                  date: '22/5/2025',
-                                  title: 'Journal Entry Title, Card Title,\nor Question',
-                                  iconType: IconType.single,
-                                ),
-                                JournalEntryItem(
-                                  date: '10/4/2025',
-                                  title: 'Card Title, Journal Entry Title,\nor Question',
-                                  iconType: IconType.multiple,
-                                ),
-                                JournalEntryItem(
-                                  date: '6/4/2025',
-                                  title: 'Journal Entry Title, Card Title,\nor Question',
-                                  iconType: IconType.single,
-                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                      itemCount: whispersController.myWhispers.length,
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemBuilder: (context, index){
+                                        return JournalEntryItem(
+                                          date: whispersController.myWhispers[index].date??'',
+                                          title: whispersController.myWhispers[index].title??'',
+                                          iconType: IconType.multiple,
+                                        );
+                                      }),
+                                )
                               ],
                             ),
                         ),

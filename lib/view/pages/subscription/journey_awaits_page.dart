@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hakat/view/pages/subscription/subscription_page.dart';
 
 import '../../../constants/icons.dart';
 import '../../global/custom_appbar.dart';
@@ -167,7 +168,9 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
           ),
           AddHeight(20),
           InkWell(
-            onTap: (){},
+            onTap: (){
+              Get.to(()=>SubscriptionsPage());
+            },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
               height: 60,

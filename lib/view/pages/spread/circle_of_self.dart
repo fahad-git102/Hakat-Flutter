@@ -2,11 +2,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/show_whisper.dart';
 import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
+import '../../../controllers/cards_controller.dart';
 import '../../global/spacing.dart';
 
 class CircleOfSelfPage extends StatefulWidget {
@@ -22,13 +24,15 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
   double imageHeight = 180;
   double overlapPercentage = 0.65;
   bool showText = true;
+  final cardsController = Get.find<CardsController>();
 
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late ScrollController _horizontalScrollController;
 
   int selectedIndex = 10;
-  final int itemCount = 20;
+  List<OracleCard> selectedCards = [];
+  // final int itemCount = 20;
   List<int>? selectedCardsIndexes;
 
   @override
@@ -58,10 +62,10 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
 
   @override
   Widget build(BuildContext context) {
-    double centerIndex = (itemCount - 1) / 2;
+    double centerIndex = (cardsController.cards.length - 1) / 2;
     double curveStrength = 20;
     double totalWidth =
-        imageWidth * (1 + (itemCount - 1) * (1 - overlapPercentage));
+        imageWidth * (1 + (cardsController.cards.length - 1) * (1 - overlapPercentage));
 
     return Scaffold(
       body: Stack(
@@ -207,7 +211,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                         .round();
                                                 if (newIndex != selectedIndex &&
                                                     newIndex >= 0 &&
-                                                    newIndex < itemCount) {
+                                                    newIndex < cardsController.cards.length) {
                                                   setState(
                                                     () => selectedIndex =
                                                         newIndex,
@@ -225,7 +229,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                               child: SizedBox(
                                                 width: totalWidth + 100,
                                                 child: Stack(
-                                                  children: List.generate(itemCount, (
+                                                  children: List.generate(cardsController.cards.length, (
                                                     index,
                                                   ) {
                                                     final double xOffset =
@@ -291,14 +295,11 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                                 setState(() {
                                                                   selectedIndex =
                                                                       index;
-                                                                  // print("working");
-                                                                  // Future.delayed(Duration(seconds: 1), () {
-                                                                  //   Get.to(()=>ShowWhisperPage());
-                                                                  // });
                                                                   selectedCardsIndexes
                                                                       ?.add(
                                                                         index,
                                                                       );
+                                                                  selectedCards.add(cardsController.cards[index]);
                                                                   if (selectedCardsIndexes
                                                                           ?.length ==
                                                                       7) {
@@ -310,8 +311,7 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                                       () {
                                                                         Get.to(
                                                                           () => ShowWhisperPage(
-                                                                            cardsCount:
-                                                                                7,
+                                                                            cardsList: selectedCards,
                                                                           ),
                                                                         );
                                                                       },

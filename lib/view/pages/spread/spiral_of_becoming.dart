@@ -2,11 +2,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/controllers/cards_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/show_whisper.dart';
 import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
+import '../../../models/new_cards.dart';
 import '../../global/spacing.dart';
 
 class SpiralOfBecomingPage extends StatefulWidget {
@@ -28,7 +30,9 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
   late ScrollController _horizontalScrollController;
 
   int selectedIndex = 10;
-  final int itemCount = 20;
+  // final int itemCount = 20;
+  List<OracleCard> selectedCards = [];
+  final cardsController = Get.find<CardsController>();
   List<int>? selectedCardsIndexes;
 
   @override
@@ -58,10 +62,10 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
 
   @override
   Widget build(BuildContext context) {
-    double centerIndex = (itemCount - 1) / 2;
+    double centerIndex = (cardsController.cards.length - 1) / 2;
     double curveStrength = 20;
     double totalWidth =
-        imageWidth * (1 + (itemCount - 1) * (1 - overlapPercentage));
+        imageWidth * (1 + (cardsController.cards.length - 1) * (1 - overlapPercentage));
 
     return Scaffold(
       body: Stack(
@@ -166,7 +170,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                         int newIndex = (offset / cardSpacing).round();
                                         if (newIndex != selectedIndex &&
                                             newIndex >= 0 &&
-                                            newIndex < itemCount) {
+                                            newIndex < cardsController.cards.length) {
                                           setState(() => selectedIndex = newIndex);
                                         }
                                       }
@@ -179,7 +183,7 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                       child: SizedBox(
                                         width: totalWidth + 100,
                                         child: Stack(
-                                          children: List.generate(itemCount, (index) {
+                                          children: List.generate(cardsController.cards.length, (index) {
                                             final double xOffset =
                                                 50 +
                                                     index *
@@ -234,10 +238,11 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                                       //   Get.to(()=>ShowWhisperPage());
                                                       // });
                                                       selectedIndex = index;
+                                                      selectedCards.add(cardsController.cards[index]);
                                                       selectedCardsIndexes?.add(index);
                                                       if(selectedCardsIndexes?.length == 5){
                                                         Future.delayed(Duration(seconds: 1), () {
-                                                          Get.to(()=>ShowWhisperPage(cardsCount: 5,));
+                                                          Get.to(()=>ShowWhisperPage(cardsList: selectedCards,));
                                                         });
                                                       }
                                                     });

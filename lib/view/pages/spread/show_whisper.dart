@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/carousel_slider.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/whisper_back.dart';
@@ -12,9 +14,10 @@ import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowWhisperPage extends StatefulWidget {
-  const ShowWhisperPage({super.key, required this.cardsCount});
+  const ShowWhisperPage({super.key, required this.cardsList});
 
-  final int cardsCount;
+  // final int cardsCount;
+  final List<OracleCard> cardsList;
 
   @override
   State<ShowWhisperPage> createState() => _ShowWhisperPageState();
@@ -32,18 +35,21 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
   late ScrollController _horizontalScrollController;
 
   bool showDetails = false;
+  final CardsController cardsController = Get.find<CardsController>();
 
   int selectedIndex = 10;
   final int itemCount = 20;
-  final List<String> cards = [];
+  int currentIndex = 0;
+
+  // final List<String> cards = [];
 
   @override
   void initState() {
     super.initState();
 
-    for (int i = 0; i < widget.cardsCount; i++) {
-      cards.add("assets/images/shadow.png");
-    }
+    // for (int i = 0; i < widget.cardsCount; i++) {
+    //   cards.add("assets/images/shadow.png");
+    // }
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
@@ -97,36 +103,16 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                           AddHeight(8),
                           CustomAppBar(text: "The\nWhisper"),
                           AddHeight(40),
-                          SliderWidget(height: 290, images: cards,  isFlipped: flipAll,),
-
-                          AddHeight(20),
-                          ShaderMask(
-                            shaderCallback: (bounds) =>
-                                const LinearGradient(
-                                  colors: [
-                                    Color(0xFFEBCD8C),
-                                    Color(0xFFA47E4D),
-                                  ],
-                                ).createShader(
-                                  Rect.fromLTWH(
-                                    0,
-                                    0,
-                                    bounds.width,
-                                    bounds.height,
-                                  ),
-                                ),
-                            child: const Text(
-                              "Flash, the Shadow",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontFamily: "Garamond",
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                                height: 1,
-                                color: Colors.white,
-                              ),
-                            ),
+                          SliderWidget(
+                            height: 290,
+                            cards: widget.cardsList,
+                            isFlipped: flipAll,
+                            onIndexChanged: (index) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                              print("Current slider index: $currentIndex");
+                            },
                           ),
                           AddHeight(20),
 
@@ -151,7 +137,9 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0,
+                                    ),
                                     child: SingleChildScrollView(
                                       padding: const EdgeInsets.all(16),
                                       child: Column(
@@ -159,15 +147,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '''I am Flash.
-I do not come when called. I come when you’re ready. You don’t find me—I find you.
-In the quiet hour, when the world is asleep and your guard is down, I emerge.
-
-To sit beside you. To purr truths you’ve long avoided. I know the places you won’t go during the day. I live there. I am not darkness—I am the guide through it.
-
-Where others turn away, I stay. Where others fear, I listen. I remind you that not everything needs to be fixed. Some things just need to be felt. I vanish in daylight not to hide, but to let you feel your own light.
-
-The Shadow archetype isn’t your enemy—it’s your most loyal mirror. Are you brave enough to meet it?''',
+                                            widget.cardsList[currentIndex].description??'',
                                             style: TextStyle(
                                               fontSize: 16,
                                               height: 1.5,
@@ -177,39 +157,59 @@ The Shadow archetype isn’t your enemy—it’s your most loyal mirror. Are you
                                           const SizedBox(height: 50),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
                                               GestureDetector(
-                                                onTap:(){
-                                                  Get.to(()=>WhisperBackPage());
+                                                onTap: () {
+                                                  Get.to(
+                                                    () => WhisperBackPage(),
+                                                  );
                                                 },
                                                 child: Column(
-                                                  crossAxisAlignment:CrossAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    SvgPicture.asset('assets/icons/whisper_back.svg',width: 44,height: 44,),
+                                                    SvgPicture.asset(
+                                                      'assets/icons/whisper_back.svg',
+                                                      width: 44,
+                                                      height: 44,
+                                                    ),
                                                     AddHeight(8),
-                                                    Text("Whisper Back",style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontFamily: "Literata",
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.white
-                                                    ),),
+                                                    Text(
+                                                      "Whisper Back",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily: "Literata",
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
                                               Column(
-                                                crossAxisAlignment:CrossAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  SvgPicture.asset('assets/icons/speel.svg',width: 44,height: 44,),
+                                                  SvgPicture.asset(
+                                                    'assets/icons/speel.svg',
+                                                    width: 44,
+                                                    height: 44,
+                                                  ),
                                                   AddHeight(8),
-                                                  Text("Share The Spell",style: TextStyle(
+                                                  Text(
+                                                    "Share The Spell",
+                                                    style: TextStyle(
                                                       fontSize: 18,
                                                       fontFamily: "Literata",
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.white
-                                                  ),),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
                                           AddHeight(30),
@@ -219,47 +219,79 @@ The Shadow archetype isn’t your enemy—it’s your most loyal mirror. Are you
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               GestureDetector(
-                                                onTap: (){
-                                                },
+                                                onTap: () {},
                                                 child: Container(
                                                   width: 280,
                                                   height: 38,
-                                                  decoration:  BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(5),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          5,
+                                                        ),
                                                   ),
                                                   child: Center(
                                                     child: Container(
                                                       width: 300,
                                                       height: 42,
                                                       decoration: BoxDecoration(
-                                                        border: BoxBorder.all(color: Color(0xFFC2BAD5)),
-                                                        borderRadius: BorderRadius.circular(5),
+                                                        border: BoxBorder.all(
+                                                          color: Color(
+                                                            0xFFC2BAD5,
+                                                          ),
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              5,
+                                                            ),
                                                         color: Colors.white,
-                                                        gradient: LinearGradient(colors: [
-                                                          Color(0xFF49415D),
-                                                          Color(0xFF786F8E),
-                                                        ],).withOpacity(0.1),
-
+                                                        gradient:
+                                                            LinearGradient(
+                                                              colors: [
+                                                                Color(
+                                                                  0xFF49415D,
+                                                                ),
+                                                                Color(
+                                                                  0xFF786F8E,
+                                                                ),
+                                                              ],
+                                                            ).withOpacity(0.1),
                                                       ),
-                                                      child:   Center(
+                                                      child: Center(
                                                         child: ShaderMask(
                                                           shaderCallback: (bounds) =>
                                                               LinearGradient(
-                                                                colors: [Color(0xFFC2BAD5), Color(0xFF786F8E)],
+                                                                colors: [
+                                                                  Color(
+                                                                    0xFFC2BAD5,
+                                                                  ),
+                                                                  Color(
+                                                                    0xFF786F8E,
+                                                                  ),
+                                                                ],
                                                               ).createShader(
-                                                                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                                                                Rect.fromLTWH(
+                                                                  0,
+                                                                  0,
+                                                                  bounds.width,
+                                                                  bounds.height,
+                                                                ),
                                                               ),
                                                           child: Text(
                                                             "END THE RITUAL",
                                                             style:
-                                                            TextStyle(
-                                                              fontSize: 12,
-                                                              fontFamily: "Literata",
-                                                              fontWeight: FontWeight.w400,
-                                                              letterSpacing: 1,
-                                                            ).copyWith(
-                                                              color: Colors.white,
-                                                            ), // Color must be set, but it will be masked
+                                                                TextStyle(
+                                                                  fontSize: 12,
+                                                                  fontFamily:
+                                                                      "Literata",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                ).copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ), // Color must be set, but it will be masked
                                                           ),
                                                         ),
                                                       ),

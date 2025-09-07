@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
@@ -22,13 +24,15 @@ class _TheWhisperPageState extends State<TheWhisperPage>
   double imageHeight = 180;
   double overlapPercentage = 0.65;
   bool showText = true;
+  List<OracleCard> selectedCards = [];
 
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late ScrollController _horizontalScrollController;
+  final cardsController = Get.find<CardsController>();
 
   int selectedIndex = 10;
-  final int itemCount = 20;
+  // final int itemCount = 20;
 
   @override
   void initState() {
@@ -57,19 +61,17 @@ class _TheWhisperPageState extends State<TheWhisperPage>
 
   @override
   Widget build(BuildContext context) {
-    double centerIndex = (itemCount - 1) / 2;
+    double centerIndex = (cardsController.cards.length - 1) / 2;
     double curveStrength = 20;
     double totalWidth =
-        imageWidth * (1 + (itemCount - 1) * (1 - overlapPercentage));
+        imageWidth * (1 + (cardsController.cards.length - 1) * (1 - overlapPercentage));
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background with Gradient Overlay
           Positioned.fill(
             child: Image.asset(AppIcon.swirl_bg, fit: BoxFit.fill),
           ),
-          // Main Content
           Positioned.fill(
             bottom: 10,
             child: SafeArea(
@@ -128,7 +130,7 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                           int newIndex = (offset / cardSpacing).round();
                                           if (newIndex != selectedIndex &&
                                               newIndex >= 0 &&
-                                              newIndex < itemCount) {
+                                              newIndex < cardsController.cards.length) {
                                             setState(() => selectedIndex = newIndex);
                                           }
                                         }
@@ -141,7 +143,7 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                         child: SizedBox(
                                           width: totalWidth + 100,
                                           child: Stack(
-                                            children: List.generate(itemCount, (index) {
+                                            children: List.generate(cardsController.cards.length, (index) {
                                               final double xOffset =
                                                   50 +
                                                       index *
@@ -191,13 +193,14 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                                         .then((_) {
                                                       setState(() {
                                                         selectedIndex = index;
+                                                        selectedCards.add(cardsController.cards[index]);
                                                         print("working");
                                                         Future.delayed(
                                                           Duration(seconds: 1),
                                                               () {
                                                             Get.to(
                                                                   () => ShowWhisperPage(
-                                                                cardsCount: 1,
+                                                                cardsList: selectedCards,
                                                               ),
                                                             );
                                                           },

@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
@@ -21,13 +23,15 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
   double imageWidth = 120;
   double imageHeight = 180;
   double overlapPercentage = 0.65;
+  List<OracleCard> selectedCards = [];
 
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late ScrollController _horizontalScrollController;
+  final cardsController = Get.find<CardsController>();
 
   int selectedIndex = 10;
-  final int itemCount = 20;
+  // final int itemCount = 20;
   bool showText = true;
 
   List<int>? selectedCardsIndexes;
@@ -65,10 +69,10 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
 
   @override
   Widget build(BuildContext context) {
-    double centerIndex = (itemCount - 1) / 2;
+    double centerIndex = (cardsController.cards.length - 1) / 2;
     double curveStrength = 20;
     double totalWidth =
-        imageWidth * (1 + (itemCount - 1) * (1 - overlapPercentage));
+        imageWidth * (1 + (cardsController.cards.length - 1) * (1 - overlapPercentage));
 
     return Scaffold(
       body: Stack(
@@ -142,7 +146,7 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                                                         .round();
                                                 if (newIndex != selectedIndex &&
                                                     newIndex >= 0 &&
-                                                    newIndex < itemCount) {
+                                                    newIndex < cardsController.cards.length) {
                                                   setState(
                                                     () => selectedIndex =
                                                         newIndex,
@@ -160,7 +164,7 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                                               child: SizedBox(
                                                 width: totalWidth + 100,
                                                 child: Stack(
-                                                  children: List.generate(itemCount, (
+                                                  children: List.generate(cardsController.cards.length, (
                                                     index,
                                                   ) {
                                                     final double xOffset =
@@ -234,6 +238,7 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                                                                       ?.add(
                                                                         index,
                                                                       );
+                                                                  selectedCards.add(cardsController.cards[index]);
                                                                   if (selectedCardsIndexes
                                                                           ?.length ==
                                                                       3) {
@@ -245,8 +250,7 @@ class _ThePortalPathPageState extends State<ThePortalPathPage>
                                                                       () {
                                                                         Get.to(
                                                                           () => ShowWhisperPage(
-                                                                            cardsCount:
-                                                                                3,
+                                                                            cardsList: selectedCards,
                                                                           ),
                                                                         );
                                                                       },

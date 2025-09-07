@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
+import 'package:hakat/controllers/user_controller.dart';
+import 'package:hakat/models/new_cards.dart';
+import 'package:hakat/view/pages/bulk_upload_screen.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/subscription/journey_awaits_page.dart';
@@ -16,7 +19,7 @@ class WelcomPage extends StatefulWidget {
 
 class _WelcomPageState extends State<WelcomPage> {
 
-
+  final controller = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,8 +154,12 @@ class _WelcomPageState extends State<WelcomPage> {
                 SizedBox(height: 30,),
                 GestureDetector(
                   onTap: () async {
-                    Get.to(()=>JourneyAwaitspage());
-                    // Get.to(()=>FirstStepPage());
+                    if(controller.currentUser.value?.isSubscribed==true){
+                      Get.to(()=>FirstStepPage());
+                    }else{
+                      Get.to(()=>JourneyAwaitspage());
+                    }
+                    // Get.to(()=> OracleCardsUploadScreen());
                   },
                   child: Container(
                     width: 242,
@@ -195,6 +202,10 @@ class _WelcomPageState extends State<WelcomPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 30,),
+                ElevatedButton(onPressed: (){
+                  controller.signOut();
+                }, child: Text('Log out'))
               ],
             ),
           ),

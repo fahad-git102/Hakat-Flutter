@@ -1,17 +1,21 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hakat/models/new_cards.dart';
+import 'package:hakat/view/global/spacing.dart';
 
 class SliderWidget extends StatefulWidget {
-  final List<String>? images;
+  final List<OracleCard>? cards;
   final double? height;
   final bool isFlipped;
+  final ValueChanged<int>? onIndexChanged;
 
   const SliderWidget({
     super.key,
-    this.images,
+    this.cards,
     this.height,
-    required this.isFlipped,
+    required this.isFlipped, this.onIndexChanged,
   });
 
   @override
@@ -38,9 +42,12 @@ class _SliderWidgetState extends State<SliderWidget> {
               setState(() {
                 _currentIndex = index;
               });
+              if (widget.onIndexChanged != null) {
+                widget.onIndexChanged!(index);
+              }
             },
           ),
-          items: widget.images?.map((image) {
+          items: widget.cards?.map((card) {
             return Builder(
               builder: (BuildContext context) {
                 return AnimatedSwitcher(
@@ -63,12 +70,41 @@ class _SliderWidgetState extends State<SliderWidget> {
                   },
                   layoutBuilder: (widget, list) => Stack(children: [widget!, ...list]),
                   child: widget.isFlipped
-                      ? _buildFrontCard(image)
+                      ? _buildFrontCard(card.image??'')
                       : _buildBackCard(),
                 );
               },
             );
           }).toList(),
+        ),
+        AddHeight(20),
+        ShaderMask(
+          shaderCallback: (bounds) =>
+              const LinearGradient(
+                colors: [
+                  Color(0xFFEBCD8C),
+                  Color(0xFFA47E4D),
+                ],
+              ).createShader(
+                Rect.fromLTWH(
+                  0,
+                  0,
+                  bounds.width,
+                  bounds.height,
+                ),
+              ),
+          child: Text(
+            widget.cards?[_currentIndex].title??'',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24,
+              fontFamily: "Garamond",
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1,
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
         ),
       ],
     );
@@ -91,12 +127,36 @@ class _SliderWidgetState extends State<SliderWidget> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.asset(
-          image,
+        // child: Image.asset(
+        //   image,
+        //   width: 160,
+        //   height: 280,
+        //   fit: BoxFit.cover,
+        // ),
+        child: CachedNetworkImage(
+          imageUrl: image,
+          fit: BoxFit.cover,
           width: 160,
           height: 280,
-          fit: BoxFit.cover,
-        ),
+          placeholder: (context, url) => Container(
+            width: 160,
+            height: 280,
+            color: Colors.transparent, // 👈 transparent background
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 30, // 👈 smaller loader size
+              height: 30,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+          errorWidget: (context, url, error) => Container(
+            width: 160,
+            height: 280,
+            color: Colors.transparent,
+            alignment: Alignment.center,
+            child: Icon(Icons.error, color: Colors.red),
+          ),
+        )
       ),
     );
   }
