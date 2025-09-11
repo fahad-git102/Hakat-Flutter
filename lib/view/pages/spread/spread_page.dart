@@ -125,6 +125,7 @@ class _SpreadPageState extends State<SpreadPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           Get.to(() => FadeInScreen(child: TheWhisperPage()));
                         },
@@ -173,6 +174,7 @@ class _SpreadPageState extends State<SpreadPage> {
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (controller.currentUser.value?.isSubscribed ==
                               true) {
@@ -254,6 +256,7 @@ class _SpreadPageState extends State<SpreadPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if(controller.currentUser.value?.isSubscribed == true &&
                               controller.currentUser.value?.subscribedPlan ==
@@ -328,6 +331,7 @@ class _SpreadPageState extends State<SpreadPage> {
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if(controller.currentUser.value?.isSubscribed == true){
                             Get.to(() => CircleOfSelfPage());

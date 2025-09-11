@@ -71,10 +71,51 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
               child: Column(
                 children: [
                   AddHeight(4),
-                  CustomAppBar(text: "WAITLIST"),
+                  // CustomAppBar(text: "WAITLIST"),
                   const SizedBox(height: 20),
-                  Container(
-                    height: Get.height / 1.3,
+                  ShaderMask(
+                    shaderCallback: (bounds) =>
+                        LinearGradient(
+                          colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                        ).createShader(
+                          Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                        ),
+                    child: Text(
+                      "Join the waitlist for",
+                      style:
+                      TextStyle(
+                        fontSize: 25,
+                        fontFamily: "Garamond_Italic",
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  ShaderMask(
+                    shaderCallback: (bounds) =>
+                        LinearGradient(
+                          colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                        ).createShader(
+                          Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                        ),
+                    child: Text(
+                      "THE PRINTED DECK",
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(
+                        fontSize: 28,
+                        fontFamily: "Sanford",
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1,
+                      ).copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Expanded(
                     child: Stack(
                       alignment: Alignment.center,
                       children: [

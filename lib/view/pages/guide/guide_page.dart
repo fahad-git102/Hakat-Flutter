@@ -12,6 +12,8 @@ import '../../global/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../spread/spread_card.dart';
+
 class GuidePage extends StatefulWidget {
   const GuidePage({super.key});
 
@@ -220,81 +222,91 @@ class _GuidePageState extends State<GuidePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        width: 142,
-                        height: 42,
-                        decoration:  BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage('assets/images/gold_effect.jpg'),
-                          ),
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 140,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF49415D),
-                                Color(0xFF786F8E),
-                              ],),
-
+                      InkWell(
+                        onTap: (){
+                          Get.to(()=> FadeInScreen(child: TheWhisperPage(showTextMain: false,)));
+                        },
+                        child: Container(
+                          width: 142,
+                          height: 42,
+                          decoration:  BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('assets/images/gold_effect.jpg'),
                             ),
-                            child:   Center(
-                              child: Text(
-                                "PULL A CARD",
-                                style:
-                                TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "Sanford",
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.w400,
-                                ).copyWith(
-                                  color: Colors.white,
-                                ), // Color must be set, but it will be masked
+                          ),
+                          child: Center(
+                            child: Container(
+                              width: 140,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFF49415D),
+                                  Color(0xFF786F8E),
+                                ],),
+
+                              ),
+                              child:   Center(
+                                child: Text(
+                                  "PULL A CARD",
+                                  style:
+                                  TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "Sanford",
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.w400,
+                                  ).copyWith(
+                                    color: Colors.white,
+                                  ), // Color must be set, but it will be masked
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        width: 187,
-                        height: 42,
-                        decoration:  BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage('assets/images/gold_effect.jpg'),
-                          ),
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 185,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF49415D),
-                                Color(0xFF786F8E),
-                              ],),
-
+                      InkWell(
+                        onTap: (){
+                          Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 2,)));
+                        },
+                        child: Container(
+                          width: 187,
+                          height: 42,
+                          decoration:  BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('assets/images/gold_effect.jpg'),
                             ),
-                            child:   Center(
-                              child: Text(
-                                "CHOOSE A SPREAD",
-                                style:
-                                TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: "Sanford",
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.w400,
-                                ).copyWith(
-                                  color: Colors.white,
-                                ), // Color must be set, but it will be masked
+                          ),
+                          child: Center(
+                            child: Container(
+                              width: 185,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFF49415D),
+                                  Color(0xFF786F8E),
+                                ],),
+                        
+                              ),
+                              child:   Center(
+                                child: Text(
+                                  "CHOOSE A SPREAD",
+                                  style:
+                                  TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: "Sanford",
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.w400,
+                                  ).copyWith(
+                                    color: Colors.white,
+                                  ), // Color must be set, but it will be masked
+                                ),
                               ),
                             ),
                           ),

@@ -3,17 +3,22 @@ import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
+import 'package:hakat/view/pages/journals/journal_list.dart';
 import 'package:hakat/view/pages/profile/contact_us.dart';
 import 'package:hakat/view/pages/profile/my_account_page.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/profile/widgets/Chaos_toggle.dart';
 import 'package:hakat/view/pages/profile/widgets/oracle_buttons.dart';
 import 'package:hakat/view/pages/profile/widgets/settings_container.dart';
+import 'package:hakat/view/pages/root_page.dart';
 import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -27,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
-  RootController _rootcontroller = Get.put(RootController()) ;
+  final controller = Get.find<UserController>();
 
   @override
   void initState() {
@@ -98,7 +103,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             GestureDetector(
                               onTap:(){
-                                Get.to(()=>ContactUsPage());
+                                // Get.to(()=>ContactUsPage());
+                                Get.to(()=> FadeInScreen(child: JournalListPage()));
                               },
                               child: Container(
                                 width: 142,
@@ -199,27 +205,48 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("TEMRS & CONDITIONS",
-                              style: TextStyle(
-                              fontFamily: "Inter",
-                              fontSize: 11,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),),
-                            Text("Privacy Policy",
-                              style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 11,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),),
-                            Text("Logout",
-                              style: TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 11,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),)
+                            InkWell(
+                              onTap:(){
+                                _launchURL('https://docs.google.com/document/d/1JvWlSIc-7NFgQxYEpxcVhiVG3eVN2uze/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Text("TEMRS & CONDITIONS",
+                                  style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w400,
+                                ),),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: (){
+                                _launchURL('https://docs.google.com/document/d/1sNcHvoOI7LYSL8-xx2G5eTT_O3B7OgkU/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
+                              },
+                              child: Text("Privacy Policy",
+                                style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 11,
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),),
+                            ),
+                            InkWell(
+                              onTap: (){
+                                controller.signOut();
+                              },
+                              child: Text("Logout",
+                                style: TextStyle(
+                                  fontFamily: "Inter",
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w400,
+                                ),),
+                            )
                           ],),
 
                       ],
@@ -232,6 +259,13 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   @override

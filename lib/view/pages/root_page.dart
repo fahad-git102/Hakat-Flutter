@@ -52,16 +52,28 @@ class _FadeInScreenState extends State<FadeInScreen>
 }
 
 class BottomNavScreen extends StatefulWidget {
-  const BottomNavScreen({super.key});
+  final int? initialIndex;
+  const BottomNavScreen({super.key, this.initialIndex});
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  final PersistentTabController _controller = PersistentTabController(
-    initialIndex: 0,
-  );
+  late PersistentTabController _controller;
+  late final RootController rootController;
+  // final PersistentTabController _controller = PersistentTabController(
+  //   initialIndex: 0,
+  // );
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PersistentTabController(initialIndex: widget.initialIndex??0);
+    rootController = Get.put(RootController());
+    rootController.updateIndex(widget.initialIndex ?? 0);
+    rootController.updateColor(widget.initialIndex ?? 0);
+  }
 
   // List of tab configs (screens + nav items)
    List<PersistentTabConfig> _tabs (int index) {
@@ -124,11 +136,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
      @override
      Widget build(BuildContext context) {
        return GetBuilder(
-         init: Get.put(RootController()),
+         init: rootController,
          builder: (RootController controller) {
            return Scaffold(
              body: PersistentTabView(
                tabs: _tabs(controller.index),
+               controller: _controller,
                onTabChanged: (int i){
                  controller.updateIndex(i);
                  controller.updateColor(i);

@@ -92,7 +92,9 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AddHeight(8),
-                        CustomAppBar(text: "THE\nWHISPER"),
+                        CustomAppBar(text: "THE\nWHISPER", onBackTap: (){
+                          Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 0,)));
+                        },),
                         AddHeight(40),
                         Expanded(
                           child:

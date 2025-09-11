@@ -1,8 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/spread/circle_of_self.dart';
+import 'package:hakat/view/pages/spread/portal_path_page.dart';
+import 'package:hakat/view/pages/spread/spiral_of_becoming.dart';
+import 'package:hakat/view/pages/spread/spread_page.dart';
+import 'package:hakat/view/pages/spread/the_whisper.dart';
 import '../../global/spacing.dart';
 
 class FirstStepPage extends StatefulWidget {
@@ -16,6 +24,7 @@ class _FirstStepPageState extends State<FirstStepPage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
+  final userController = Get.find<UserController>();
 
   @override
   void initState() {
@@ -72,11 +81,39 @@ class _FirstStepPageState extends State<FirstStepPage> {
                   ),
                 ),
                 AddHeight(40),
-                _buildCard("PULL\n A CARD","assets/images/onboarding/card_one_icon.png","assets/images/onboarding/card_one.png", (){},showFirst),
+                InkWell(
+                  onTap: (){
+                    Get.to(()=> FadeInScreen(child: TheWhisperPage()));
+                  },
+                  child: _buildCard("PULL\n A CARD","assets/images/onboarding/card_one_icon.png","assets/images/onboarding/card_one.png", (){},showFirst),
+                ),
                 AddHeight(20),
-                _buildCard("CHOOSE\n A SPREAD","assets/images/onboarding/card_two_icon.png","assets/images/onboarding/card_two.png", (){},showSecond),
+                InkWell(
+                    onTap: (){
+                      Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 2,)));
+                    },
+                    child: _buildCard("CHOOSE\n A SPREAD","assets/images/onboarding/card_two_icon.png","assets/images/onboarding/card_two.png", (){},showSecond),
+                ),
                 AddHeight(20),
-                _buildCard("LET\nINTUITION\nCHOOSE","assets/images/onboarding/card_three_icon.png","assets/images/onboarding/card_three.png", (){},showThird),
+                InkWell(
+                  onTap: (){
+                    print(userController.currentUser.value?.isSubscribed==true);
+                    if(userController.currentUser.value?.isSubscribed==true){
+                      final screens = [
+                        TheWhisperPage(),
+                        ThePortalPathPage(),
+                        SpiralOfBecomingPage(),
+                        CircleOfSelfPage(),
+                      ];
+                      final randomIndex = Random().nextInt(screens.length);
+                      Get.to(() => FadeInScreen(child: screens[randomIndex]));
+                    }else{
+                      Get.to(()=> FadeInScreen(child: TheWhisperPage()));
+                    }
+                  },
+                  child: _buildCard("LET\nINTUITION\nCHOOSE","assets/images/onboarding/card_three_icon.png","assets/images/onboarding/card_three.png", (){},showThird),
+                ),
+
                 AddHeight(45),
                 Text(
                   "Not sure where to start?",
@@ -92,7 +129,7 @@ class _FirstStepPageState extends State<FirstStepPage> {
                 AddHeight(10),
                 GestureDetector(
                   onTap: (){
-                    Get.to(()=>BottomNavScreen());
+                    Get.offAll(()=>BottomNavScreen(initialIndex: 4,));
                   },
                   child: Container(
                     width: 280,
@@ -162,33 +199,28 @@ class _FirstStepPageState extends State<FirstStepPage> {
               image: AssetImage(image),
             ),
           ),
-          child: GestureDetector(
-            onTap: () => onPressed,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(icon,width: 110,height: 80,),
-                    Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(
-                        fontSize: 20,
-                        fontFamily: "Sanford",
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1.2,
-                      ).copyWith(
-                        color: Colors.white,
-                      ), // Color must be set, but it will be masked
-                    ),
-
-
-                  ],
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.asset(icon,width: 110,height: 80,),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style:
+                  TextStyle(
+                    fontSize: 20,
+                    fontFamily: "Sanford",
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 1.2,
+                  ).copyWith(
+                    color: Colors.white,
+                  ), // Color must be set, but it will be masked
                 ),
-              ),
+
+
+              ],
             ),
           )
       ),

@@ -8,6 +8,7 @@ import 'package:hakat/view/global/carousel_slider.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/whisper_back.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
+import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/widgets/reveal_icon.dart';
 import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
 import '../../global/spacing.dart';
@@ -188,27 +189,32 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                   ],
                                                 ),
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/icons/speel.svg',
-                                                    width: 44,
-                                                    height: 44,
-                                                  ),
-                                                  AddHeight(8),
-                                                  Text(
-                                                    "Share The Spell",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontFamily: "Literata",
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.white,
+                                              InkWell(
+                                                onTap: (){
+
+                                                },
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/icons/speel.svg',
+                                                      width: 44,
+                                                      height: 44,
                                                     ),
-                                                  ),
-                                                ],
+                                                    AddHeight(8),
+                                                    Text(
+                                                      "Share The Spell",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily: "Literata",
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -219,7 +225,9 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               GestureDetector(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Get.offAll(()=> FadeInScreen(child: BottomNavScreen()));
+                                                },
                                                 child: Container(
                                                   width: 280,
                                                   height: 38,

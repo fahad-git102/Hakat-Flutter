@@ -103,76 +103,83 @@ class _WelcomPageState extends State<WelcomPage> {
                     Text(
                       "by",
                       style:
-                      TextStyle(
-                        fontSize: 18,
-                        fontFamily: "Garamond_Italic",
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1,
-                      ).copyWith(
-                        color: Colors.white,
-                      ), // Color must be set, but it will be masked
+                          TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Garamond_Italic",
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1,
+                          ).copyWith(
+                            color: Colors.white,
+                          ), // Color must be set, but it will be masked
                     ),
-                    SizedBox(width: 8,),
+                    SizedBox(width: 8),
                     Image.asset(
                       "assets/images/onboarding/hakat_text2.png",
                       height: 28,
                       width: 80,
                     ),
-
                   ],
                 ),
-                SizedBox(height: 50,),
+                SizedBox(height: 50),
                 Text(
                   "This is not just a deck",
                   style:
-                  TextStyle(
-                    fontSize: 22,
-                    fontFamily: "Garamond",
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w400,
-                  ).copyWith(
-                    color: Colors.black,
-                  ), // Color must be set, but it will be masked
+                      TextStyle(
+                        fontSize: 22,
+                        fontFamily: "Garamond",
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w400,
+                      ).copyWith(
+                        color: Colors.black,
+                      ), // Color must be set, but it will be masked
                 ),
                 Text(
                   "It's a potral,",
                   style:
-                  TextStyle(
-                    fontSize: 22,
-                    fontFamily: "Garamond",
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w600,
-                  ).copyWith(
-                    color: Colors.black,
-                  ), // Color must be set, but it will be masked
+                      TextStyle(
+                        fontSize: 22,
+                        fontFamily: "Garamond",
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
+                      ).copyWith(
+                        color: Colors.black,
+                      ), // Color must be set, but it will be masked
                 ),
                 Text(
                   "The unseen is whispering—\nAre you ready to listen?",
                   textAlign: TextAlign.center,
                   style:
-                  TextStyle(
-                    fontSize: 22,
-                    fontFamily: "Garamond_italic",
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w400,
-                  ).copyWith(
-                    color: Colors.black,
-                  ), // Color must be set, but it will be masked
+                      TextStyle(
+                        fontSize: 22,
+                        fontFamily: "Garamond_italic",
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w400,
+                      ).copyWith(
+                        color: Colors.black,
+                      ), // Color must be set, but it will be masked
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 30),
                 GestureDetector(
                   onTap: () async {
-                    if(controller.currentUser.value?.isSubscribed==true){
-                      Get.to(()=>FirstStepPage());
-                    }else{
-                      Get.to(()=>JourneyAwaitspage());
-                    }
+                    // if(controller.currentUser.value?.isSubscribed==true){
+                    //   Get.to(()=>FirstStepPage());
+                    // }else{
+                    //   Get.to(()=>JourneyAwaitspage());
+                    // }
                     // Get.to(()=> OracleCardsUploadScreen());
+                    if (_isFirstTime &&
+                        (controller.currentUser.value?.isSubscribed != null &&
+                            controller.currentUser.value?.isSubscribed ==
+                                false)) {
+                      _completeOnboarding(context);
+                    } else {
+                      Get.to(() => BottomNavScreen());
+                    }
                   },
                   child: Container(
                     width: 242,
                     height: 42,
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       image: DecorationImage(
                         fit: BoxFit.fill,
@@ -186,34 +193,35 @@ class _WelcomPageState extends State<WelcomPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
-                          gradient: LinearGradient(colors: [
-                            Color(0xFF49415D),
-                            Color(0xFF786F8E),
-                          ],),
-
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF49415D), Color(0xFF786F8E)],
+                          ),
                         ),
-                        child:   Center(
+                        child: Center(
                           child: Text(
                             "ENTER THE PORTAL",
                             style:
-                            TextStyle(
-                              fontSize: 18,
-                              fontFamily: "Sanford",
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.w400,
-                            ).copyWith(
-                              color: Colors.white,
-                            ), // Color must be set, but it will be masked
+                                TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Sanford",
+                                  letterSpacing: 1.2,
+                                  fontWeight: FontWeight.w400,
+                                ).copyWith(
+                                  color: Colors.white,
+                                ), // Color must be set, but it will be masked
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30,),
-                ElevatedButton(onPressed: (){
-                  controller.signOut();
-                }, child: Text('Log out'))
+                // SizedBox(height: 30),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     controller.signOut();
+                //   },
+                //   child: Text('Log out'),
+                // ),
               ],
             ),
           ),
@@ -239,7 +247,6 @@ class _WelcomPageState extends State<WelcomPage> {
   Future<void> _completeOnboarding(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("seenOnboarding", true);
-    Get.to(()=>JourneyAwaitspage());
+    Get.to(() => JourneyAwaitspage());
   }
-
 }

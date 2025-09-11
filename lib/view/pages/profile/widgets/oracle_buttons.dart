@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hakat/view/pages/profile/contact_us.dart';
+import 'package:hakat/view/pages/root_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HakatOracleButton extends StatelessWidget {
   final String text;
@@ -19,7 +23,6 @@ class HakatOracleButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 320,
         height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -65,6 +68,7 @@ class HakatOracleButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: Get.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(colors: [Color(0xFF201C27).withOpacity(0.8),Color(0xFF282433).withOpacity(0.7)]),// Dark background
@@ -84,7 +88,8 @@ class HakatOracleButtons extends StatelessWidget {
             isFirst: true,
             isLast:false,
             onTap: () {
-              print('About The Hakat Oracle tapped');
+              print('launching url;');
+              _launchURL('https://hakatcoaching.com/about/');
               // Handle navigation to about page
             },
           ),
@@ -93,7 +98,7 @@ class HakatOracleButtons extends StatelessWidget {
             isFirst: false,
             isLast: true,
             onTap: () {
-              print('About The Hakat Oracle tapped');
+              Get.to(()=> FadeInScreen(child: ContactUsPage()));
               // Handle navigation to about page
             },
           ),
@@ -101,6 +106,13 @@ class HakatOracleButtons extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
 

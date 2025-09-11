@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/subscription/subscription_page.dart';
 
 import '../../../constants/icons.dart';
 import '../../global/custom_appbar.dart';
 import '../../global/spacing.dart';
 import '../onboarding/first_step_page.dart';
+import '../spread/spread_card.dart';
+import '../spread/spread_page.dart';
 
 class JourneyAwaitspage extends StatefulWidget {
   const JourneyAwaitspage({super.key});
@@ -104,7 +107,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               "Your Journey Awaits",
               style:
               TextStyle(
-                fontSize: 26,
+                fontSize: 27,
                 fontFamily: "Garamond_Italic",
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1,
@@ -113,7 +116,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               ),
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 8),
           ShaderMask(
             shaderCallback: (bounds) =>
                 LinearGradient(
@@ -126,7 +129,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               textAlign: TextAlign.center,
               style:
               TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontFamily: "Literata",
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1,
@@ -135,7 +138,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               ), // Color must be set, but it will be masked
             ),
           ),
-          AddHeight(30),
+          AddHeight(36),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),
             child: Text(
@@ -143,7 +146,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               textAlign: TextAlign.center,
               style:
               TextStyle(
-                fontSize: 18,
+                fontSize: 19,
                 fontFamily: "Garamond",
                 letterSpacing: 1.2,
                 fontWeight: FontWeight.w400,
@@ -152,7 +155,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               ), // Color must be set, but it will be masked
             ),
           ),
-          AddHeight(20),
+          AddHeight(25),
           Text(
             "Your 1-card pull\nremains free forever.",
             textAlign: TextAlign.center,
@@ -166,7 +169,7 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               color: Colors.white,
             ), // Color must be set, but it will be masked
           ),
-          AddHeight(20),
+          AddHeight(28),
           InkWell(
             onTap: (){
               Get.to(()=>SubscriptionsPage());
@@ -211,13 +214,13 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               ),
             ),
           ),
-          AddHeight(15),
+          AddHeight(20),
           InkWell(
             onTap: (){
               Get.to(()=>FirstStepPage());
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 22, vertical: 14),
               decoration: BoxDecoration(
                 color: Colors.black.withAlpha(80),
                 borderRadius: BorderRadius.circular(5)
@@ -236,31 +239,36 @@ class _JorneyAwaitsState extends State<JourneyAwaitspage> {
               ),
             ),
           ),
-          AddHeight(15),
+          AddHeight(25),
           Divider(color: Colors.black,),
           AddHeight(20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Image.asset('assets/gift_subscription.png',width: 55,height: 40,),
-              ),
-              AddWidth(10),
-              Text(
-                "PULL A CARD",
-                style:
-                TextStyle(
-                  fontSize: 21,
-                  fontFamily: "Garamond",
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w500,
-                ).copyWith(
-                  color: Colors.white,
-                ), // Color must be set, but it will be masked
-              ),
-            ],
+          InkWell(
+            onTap: (){
+              Get.to(() => FadeInScreen(child: TheWhisperPage(showTextMain: false,)));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Image.asset('assets/gift_subscription.png',width: 55,height: 40,),
+                ),
+                AddWidth(10),
+                Text(
+                  "PULL A CARD",
+                  style:
+                  TextStyle(
+                    fontSize: 21,
+                    fontFamily: "Garamond",
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w500,
+                  ).copyWith(
+                    color: Colors.white,
+                  ), // Color must be set, but it will be masked
+                ),
+              ],
+            ),
           ),
           AddHeight(30)
         ],

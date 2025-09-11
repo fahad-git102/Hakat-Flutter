@@ -8,12 +8,14 @@ import 'package:hakat/controllers/whispers_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
+import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/spread/spread_card.dart';
+import 'package:hakat/view/pages/spread/spread_page.dart';
 import '../../../controllers/root_controller.dart';
 import '../../../controllers/user_controller.dart';
 import '../../global/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class JournalListPage extends StatefulWidget {
   const JournalListPage({super.key});
@@ -23,7 +25,6 @@ class JournalListPage extends StatefulWidget {
 }
 
 class _JournalListPageState extends State<JournalListPage> {
-
   bool showFirst = false;
 
   bool showSecond = false;
@@ -104,57 +105,100 @@ class _JournalListPageState extends State<JournalListPage> {
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(colors: [Color(0xFF0d0d10),Color(0xFFD4D4D4),Color(0xFFD4D4D4)],begin: Alignment.topLeft,end:  Alignment.bottomRight),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF0d0d10),
+                              Color(0xFFD4D4D4),
+                              Color(0xFFD4D4D4),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                           border: Border.all(
                             color: Colors.white.withOpacity(0.2),
                             width: 1,
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 20),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 20,
+                          ),
                           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    _buildJournalButton("+ NEW READING", (){}),
-                                    _buildJournalButton("+ NEW SPREAD", (){}),
-                                  ],
-                                ),
-                                AddHeight(20),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child: Text(
-                                    "Date - Latest First",
-                                    textAlign: TextAlign.start,
-                                    style:
-                                    TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "Garamond",
-                                      fontWeight: FontWeight.w500,
-                                      height: 1,
-                                      letterSpacing: 1,
-                                    ).copyWith(
-                                      color: Colors.white,
-                                    ), // Color must be set, but it will be masked
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.offAll(
+                                        () => FadeInScreen(
+                                          child: BottomNavScreen(
+                                            initialIndex: 2,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: _buildJournalButton("+ NEW READING"),
                                   ),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                        () =>
+                                            TheWhisperPage(showTextMain: false),
+                                        transition: Transition.fadeIn,
+                                        duration: Duration(milliseconds: 400),
+                                      );
+                                    },
+                                    child: _buildJournalButton("+ NEW SPREAD"),
+                                  ),
+                                ],
+                              ),
+                              AddHeight(20),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  "Date - Latest First",
+                                  textAlign: TextAlign.start,
+                                  style:
+                                      TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "Garamond",
+                                        fontWeight: FontWeight.w500,
+                                        height: 1,
+                                        letterSpacing: 1,
+                                      ).copyWith(
+                                        color: Colors.white,
+                                      ), // Color must be set, but it will be masked
                                 ),
-                                Expanded(
-                                  child: ListView.builder(
-                                      itemCount: whispersController.myWhispers.length,
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (context, index){
-                                        return JournalEntryItem(
-                                          date: whispersController.myWhispers[index].date??'',
-                                          title: whispersController.myWhispers[index].title??'',
-                                          iconType: IconType.multiple,
-                                        );
-                                      }),
-                                )
-                              ],
-                            ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount:
+                                      whispersController.myWhispers.length,
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return JournalEntryItem(
+                                      date:
+                                          whispersController
+                                              .myWhispers[index]
+                                              .date ??
+                                          '',
+                                      title:
+                                          whispersController
+                                              .myWhispers[index]
+                                              .title ??
+                                          '',
+                                      iconType: IconType.multiple,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -170,45 +214,46 @@ class _JournalListPageState extends State<JournalListPage> {
     );
   }
 
-  _buildJournalButton(String title, VoidCallback action){
-    return GestureDetector(
-      onTap: action,
-      child: Container(
-        decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage('assets/images/gold_effect.jpg'),
-          ),
+  _buildJournalButton(String title) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage('assets/images/gold_effect.jpg'),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-                gradient: LinearGradient(colors: [
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+              gradient: LinearGradient(
+                colors: [
                   Color(0xFF5F7A83).withOpacity(0.6),
                   Color(0xFF5F7A83).withOpacity(0.6),
-                ],),
-
+                ],
               ),
-              child:   Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10),
-                  child: Text(
-                    title,
-                    style:
-                    TextStyle(
-                      fontSize: 12,
-                      fontFamily: "Literata",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
-                  ),
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 10,
+                ),
+                child: Text(
+                  title,
+                  style:
+                      TextStyle(
+                        fontSize: 12,
+                        fontFamily: "Literata",
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w400,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
                 ),
               ),
             ),
@@ -243,12 +288,7 @@ class JournalEntryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFF3A5A6B),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFF3A5A6B), width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -396,12 +436,7 @@ class JournalEntryItemWithSVG extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFF3A5A6B),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFF3A5A6B), width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -497,4 +532,3 @@ class JournalEntryItemWithSVG extends StatelessWidget {
     }
   }
 }
-

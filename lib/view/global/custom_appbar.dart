@@ -8,7 +8,8 @@ import 'package:flutter_svg/svg.dart';
 class CustomAppBar extends StatelessWidget {
    final String text ;
    final bool? backbutton ;
-   CustomAppBar({Key? key,required this.text,this.backbutton}) : super(key: key);
+   final VoidCallback? onBackTap;
+   CustomAppBar({Key? key,required this.text,this.backbutton, this.onBackTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: (){
+              onTap: onBackTap ?? (){
                 Get.back();
               },
               child: Container(

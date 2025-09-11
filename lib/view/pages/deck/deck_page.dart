@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/deck/deck_info.dart';
+import 'package:hakat/view/pages/deck/join_deck.dart';
 import 'package:hakat/view/pages/guide/guide_section.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
@@ -26,7 +27,7 @@ class _DeckPageState extends State<DeckPage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
-  RootController _rootcontroller = Get.put(RootController()) ;
+  final RootController _rootcontroller = Get.find<RootController>() ;
 
   @override
   void initState() {
@@ -119,9 +120,7 @@ class _DeckPageState extends State<DeckPage> {
                       _buildDeckButton("ETERNAL PRESENCE", (){}),
                     ],
                   ),
-
-                  GridViewPage(),
-
+                  Expanded(child: GridViewPage()),
                 ],
               ),
             ),
@@ -250,7 +249,6 @@ class _DeckPageState extends State<DeckPage> {
 
 
 class GridViewPage extends StatelessWidget {
-  // Sample data for grid items
   final List<GridItem> items = [
     GridItem('Abou, The\nUniverse', 'assets/deck/universe.png'),
     GridItem('Amba, The\nAries', 'assets/deck/AmbatheAries.png'),
@@ -265,20 +263,140 @@ class GridViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // 3 items per row
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-            childAspectRatio: 0.4, // Adjust height ratio
-          ),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return GridItemWidget(item: items[index]);
-          },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 3 items per row
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.4, // Adjust height ratio
+              ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return GridItemWidget(item: items[index]);
+              },
+            ),
+            AddHeight(15),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF2C6A78).withAlpha(80),
+                    Color(0xFF0F2E3D).withAlpha(80),
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    offset: Offset(0, 6),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ShaderMask(
+                    shaderCallback: (bounds) =>
+                        LinearGradient(
+                          colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                        ).createShader(
+                          Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                        ),
+                    child: Text(
+                      'Bring The Archetypes Home',
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(
+                        fontSize: 24,
+                        fontFamily: "Sanford",
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1,
+                        height: 1,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
+                    ),
+                  ),
+                  AddHeight(10),
+                  Text(
+                    "Join the waitlist for the printed deck.",
+                    textAlign: TextAlign.center,
+                    style:
+                    TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Garamond_Italic",
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1,
+                    ).copyWith(
+                      color: Colors.white,
+                    ), // Color must be set, but it will be masked
+                  ),
+                  AddHeight(20),
+                  InkWell(
+                    onTap: (){
+                      Get.to(()=> FadeInScreen(child: DeckWaitlistPage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      decoration:  BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/images/gold_effect.jpg'),
+                        ),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF8ec5d1).withOpacity(0.7),
+                                Color(0xFF8ec5d1),
+                              ],),
+
+                            ),
+                            child:   Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10),
+                                child: Text(
+                                  'JOIN THE WAITLIST',
+                                  style:
+                                  TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Literata",
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.w400,
+                                  ).copyWith(
+                                    color: Colors.white,
+                                  ), // Color must be set, but it will be masked
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            AddHeight(30)
+          ],
         ),
       ),
     );
