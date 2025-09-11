@@ -7,7 +7,7 @@ import 'package:hakat/view/pages/bulk_upload_screen.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/subscription/journey_awaits_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/revenue_cat_service.dart';
 
 class WelcomPage extends StatefulWidget {
@@ -18,8 +18,16 @@ class WelcomPage extends StatefulWidget {
 }
 
 class _WelcomPageState extends State<WelcomPage> {
-
+  bool _isFirstTime = true;
+  bool _loading = true;
   final controller = Get.find<UserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstTime();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,6 +220,26 @@ class _WelcomPageState extends State<WelcomPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _checkFirstTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? seen = prefs.getBool("seenOnboarding");
+
+    if (seen != null && seen == true) {
+      setState(() {
+        _isFirstTime = false;
+      });
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  Future<void> _completeOnboarding(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("seenOnboarding", true);
+    Get.to(()=>JourneyAwaitspage());
   }
 
 }

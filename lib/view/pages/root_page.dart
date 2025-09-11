@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
 import 'package:hakat/view/pages/guide/guide_page.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
+import 'package:hakat/view/pages/spread/spread_card.dart';
 import 'package:hakat/view/pages/spread/spread_page.dart' hide HomePage;
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../constants/icons.dart';
@@ -70,7 +71,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
          item: _navItem('assets/icons/home.svg', 'HOME',index == 0),
        ),
        PersistentTabConfig(
-         screen: FadeInScreen(child:HomePage()),
+         screen: FadeInScreen(child:TheWhisperPage(showTextMain: false,)),
          item: _navItem('assets/icons/draw.svg', 'DRAW',index == 1),
        ),
        PersistentTabConfig(
@@ -126,7 +127,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
          init: Get.put(RootController()),
          builder: (RootController controller) {
            return Scaffold(
-
              body: PersistentTabView(
                tabs: _tabs(controller.index),
                onTabChanged: (int i){

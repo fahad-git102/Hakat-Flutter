@@ -12,7 +12,9 @@ import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
 import '../../global/spacing.dart';
 
 class TheWhisperPage extends StatefulWidget {
-  const TheWhisperPage({super.key});
+  const TheWhisperPage({super.key, this.showTextMain});
+
+  final bool? showTextMain;
 
   @override
   State<TheWhisperPage> createState() => _TheWhisperPageState();
@@ -50,13 +52,19 @@ class _TheWhisperPageState extends State<TheWhisperPage>
     _horizontalScrollController = ScrollController();
 
     _animationController.forward();
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        setState(() {
-          showText = false;
-        });
-      }
-    });
+    if(widget.showTextMain==false){
+      setState(() {
+        showText = false;
+      });
+    }else{
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) {
+          setState(() {
+            showText = false;
+          });
+        }
+      });
+    }
   }
 
   @override
