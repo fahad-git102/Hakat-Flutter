@@ -131,9 +131,7 @@ class _LoginPageState extends State<LoginPage>{
                   ],
                 ),
                 SizedBox(height: 150,),
-
-                if (Platform.isIOS)
-                  Container(
+                  Platform.isIOS?Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(17),
                     ),
@@ -150,12 +148,13 @@ class _LoginPageState extends State<LoginPage>{
                               Get.to(()=>FadeInScreen(child: WelcomPage()));
                             }else{
                               print('login failed');
-                              // Get.showSnackbar(GetSnackBar(title: 'Login failed',));
                             }
                           }
                       ),
                     ),
-                  ),
+                  ):ElevatedButton(onPressed: (){
+                    Get.to(()=>FadeInScreen(child: WelcomPage()));
+                  }, child: Text('Login')),
               ],
             ),
           ),

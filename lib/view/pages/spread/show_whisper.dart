@@ -9,6 +9,7 @@ import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/whisper_back.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/spread/share_spell_page.dart';
 import 'package:hakat/view/pages/spread/widgets/reveal_icon.dart';
 import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
 import '../../global/spacing.dart';
@@ -85,7 +86,6 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
         },
         child: Stack(
           children: [
-            // Background
             Positioned.fill(
               child: Image.asset(AppIcon.swirl_bg, fit: BoxFit.fill),
             ),
@@ -102,7 +102,10 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           AddHeight(8),
-                          CustomAppBar(text: "The\nWhisper"),
+                          CustomAppBar(text: "The\nWhisper", onBackTap: (){
+                            widget.cardsList.clear();
+                            Get.back();
+                          },),
                           AddHeight(40),
                           SliderWidget(
                             height: 290,
@@ -191,7 +194,12 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               ),
                                               InkWell(
                                                 onTap: (){
-
+                                                  Get.to(
+                                                        () =>
+                                                        ShareSpellPage(cardModel: widget.cardsList[currentIndex]),
+                                                    transition: Transition.fadeIn,
+                                                    duration: Duration(milliseconds: 400),
+                                                  );
                                                 },
                                                 child: Column(
                                                   crossAxisAlignment:
