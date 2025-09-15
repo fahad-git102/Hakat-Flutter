@@ -6,6 +6,7 @@ import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/global/spacing.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../constants/icons.dart';
 
 class ShareSpellPage extends StatefulWidget {
@@ -204,7 +205,7 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
             icon: Icons.share,
             label: "Share",
             onTap: () {
-              print("Share tapped");
+              shareCard(widget.cardModel);
             },
           ),
           _BottomButton(
@@ -224,6 +225,23 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
         ],
       ),
     );
+  }
+
+  void shareCard(OracleCard card) {
+    final String content = '''
+✨ ${card.title ?? ''}
+
+${card.description ?? ''}
+
+Mantra: ${card.mantra ?? ''}
+Shadow Wisdom: ${card.shadowWisdom ?? ''}
+Call to Intuition: ${card.callToIntuition ?? ''}
+Sigil Activation: ${card.sigilActivation ?? ''}
+
+Keywords: ${card.keywords?.join(', ') ?? ''}
+  ''';
+
+    Share.share(content, subject: card.title ?? "Oracle Card");
   }
 }
 
