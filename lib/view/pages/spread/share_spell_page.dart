@@ -229,7 +229,8 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
 
   void shareCard(OracleCard card) {
     final String content = '''
-✨ ${card.title ?? ''}
+✨ Check out my oracle card reading
+from the Hakat Oracle App! \n-- ${card.title ?? ''}
 
 ${card.description ?? ''}
 

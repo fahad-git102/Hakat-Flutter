@@ -133,23 +133,24 @@ class _JournalListPageState extends State<JournalListPage> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      Get.offAll(
-                                        () => FadeInScreen(
-                                          child: BottomNavScreen(
-                                            initialIndex: 2,
-                                          ),
-                                        ),
+
+                                      Get.to(
+                                            () =>
+                                            TheWhisperPage(showTextMain: false),
+                                        transition: Transition.fadeIn,
+                                        duration: Duration(milliseconds: 400),
                                       );
                                     },
                                     child: _buildJournalButton("+ NEW READING"),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.to(
-                                        () =>
-                                            TheWhisperPage(showTextMain: false),
-                                        transition: Transition.fadeIn,
-                                        duration: Duration(milliseconds: 400),
+                                      Get.offAll(
+                                            () => FadeInScreen(
+                                          child: BottomNavScreen(
+                                            initialIndex: 2,
+                                          ),
+                                        ),
                                       );
                                     },
                                     child: _buildJournalButton("+ NEW SPREAD"),

@@ -7,6 +7,7 @@ import 'package:hakat/view/pages/spread/spread_card.dart';
 import 'package:hakat/view/pages/spread/spread_page.dart' hide HomePage;
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../constants/icons.dart';
+import 'deck/join_deck.dart';
 import 'home/home_page.dart';
 import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
@@ -84,7 +85,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
        ),
        PersistentTabConfig(
          screen: FadeInScreen(child:TheWhisperPage(showTextMain: false,)),
-         item: _navItem('assets/icons/draw.svg', 'DRAW',index == 1),
+         item: _navItem('assets/icons/draw.svg', 'PULL',index == 1),
        ),
        PersistentTabConfig(
          screen: const FadeInScreen(
@@ -93,7 +94,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
          item: _navItem('assets/icons/spread.svg', 'SPREAD',index == 2),
        ),
        PersistentTabConfig(
-         screen: FadeInScreen(child:DeckPage()),
+         screen: FadeInScreen(child:DeckWaitlistPage()),
 
          item: _navItem('assets/icons/deck.svg', 'DECK',index == 3),
        ),
@@ -146,6 +147,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                  controller.updateIndex(i);
                  controller.updateColor(i);
                },
+               hideNavigationBar: controller.index == 1,
                backgroundColor: controller.bgColor,
                navBarBuilder: (navBarConfig) => Style7BottomNavBar(
                  navBarConfig: navBarConfig,

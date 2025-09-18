@@ -78,7 +78,7 @@ class _SliderWidgetState extends State<SliderWidget> {
           }).toList(),
         ),
         AddHeight(20),
-        ShaderMask(
+        widget.isFlipped==true?ShaderMask(
           shaderCallback: (bounds) =>
               const LinearGradient(
                 colors: [
@@ -105,7 +105,7 @@ class _SliderWidgetState extends State<SliderWidget> {
               color: Colors.white,
             ),
           ),
-        ),
+        ):Container(),
       ],
     );
   }

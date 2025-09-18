@@ -23,10 +23,13 @@ class CustomAppBar extends StatelessWidget {
               onTap: onBackTap ?? (){
                 Get.back();
               },
-              child: Container(
-                  width: 24,
-                  height: 24,
-                  child: backbutton ?? true ? SvgPicture.asset("assets/icons/back.svg",width: 24,height: 24,) : Container()),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                    width: 24,
+                    height: 24,
+                    child: backbutton ?? true ? SvgPicture.asset("assets/icons/back.svg",width: 24,height: 24,) : Container()),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),

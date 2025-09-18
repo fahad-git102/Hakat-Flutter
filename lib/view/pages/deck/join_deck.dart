@@ -120,13 +120,13 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
                       alignment: Alignment.center,
                       children: [
                         Positioned(
-                          top: 165,
+                          top: 135,
                           left: 15,
                           right: 15,
                           child: WaitlistContainer()
                         ),
                         Positioned(
-                          top: 0,
+                          top: -40,
                           child: Image.asset(
                             "assets/deck/printed_deck.png",
                             width: 350,

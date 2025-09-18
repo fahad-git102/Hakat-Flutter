@@ -258,9 +258,7 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if(controller.currentUser.value?.isSubscribed == true &&
-                              controller.currentUser.value?.subscribedPlan ==
-                                  SubscriptionType.annual.name){
+                          if(controller.currentUser.value?.isSubscribed == true){
                             Get.to(() => SpiralOfBecomingPage());
                           }else{
                             showPremiumDialog(context);

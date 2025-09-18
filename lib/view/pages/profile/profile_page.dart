@@ -101,91 +101,94 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              onTap:(){
-                                // Get.to(()=>ContactUsPage());
-                                Get.to(()=> FadeInScreen(child: JournalListPage()));
-                              },
-                              child: Container(
-                                width: 142,
-                                height: 42,
-                                decoration:  BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage('assets/images/gold_effect.jpg'),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    width: 140,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      gradient: LinearGradient(colors: [
-                                        Color(0xFF49415D),
-                                        Color(0xFF786F8E),
-                                      ],),
-
+                            Expanded(
+                              child: GestureDetector(
+                                onTap:(){
+                                  // Get.to(()=>ContactUsPage());
+                                  Get.to(()=> FadeInScreen(child: JournalListPage()));
+                                },
+                                child: Container(
+                                  height: 42,
+                                  decoration:  BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage('assets/images/gold_effect.jpg'),
                                     ),
-                                    child:   Center(
-                                      child: Text(
-                                        "MY WHISPERS",
-                                        style:
-                                        TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: "Sanford",
-                                          letterSpacing: 1.2,
-                                          fontWeight: FontWeight.w400,
-                                        ).copyWith(
-                                          color: Colors.white,
-                                        ), // Color must be set, but it will be masked
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      height: 40,
+                                      margin: EdgeInsets.symmetric(horizontal: 1.3),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white,
+                                        gradient: LinearGradient(colors: [
+                                          Color(0xFF49415D),
+                                          Color(0xFF786F8E),
+                                        ],),
+
+                                      ),
+                                      child:   Center(
+                                        child: Text(
+                                          "MY WHISPERS",
+                                          style:
+                                          TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "Sanford",
+                                            letterSpacing: 1.2,
+                                            fontWeight: FontWeight.w400,
+                                          ).copyWith(
+                                            color: Colors.white,
+                                          ), // Color must be set, but it will be masked
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(()=>MyAccountPage());
-                              },
-                              child: Container(
-                                width: 187,
-                                height: 42,
-                                decoration:  BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage('assets/images/gold_effect.jpg'),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    width: 185,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
-                                      gradient: LinearGradient(colors: [
-                                        Color(0xFF49415D),
-                                        Color(0xFF786F8E),
-                                      ],),
-
+                            AddWidth(10),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(()=>MyAccountPage());
+                                },
+                                child: Container(
+                                  height: 42,
+                                  decoration:  BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage('assets/images/gold_effect.jpg'),
                                     ),
-                                    child:   Center(
-                                      child: Text(
-                                        "MY ACCOUNT",
-                                        style:
-                                        TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: "Sanford",
-                                          letterSpacing: 1.2,
-                                          fontWeight: FontWeight.w400,
-                                        ).copyWith(
-                                          color: Colors.white,
-                                        ), // Color must be set, but it will be masked
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 1.3),
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white,
+                                        gradient: LinearGradient(colors: [
+                                          Color(0xFF49415D),
+                                          Color(0xFF786F8E),
+                                        ],),
+
+                                      ),
+                                      child:   Center(
+                                        child: Text(
+                                          "MY ACCOUNT",
+                                          style:
+                                          TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: "Sanford",
+                                            letterSpacing: 1.2,
+                                            fontWeight: FontWeight.w400,
+                                          ).copyWith(
+                                            color: Colors.white,
+                                          ), // Color must be set, but it will be masked
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -207,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             InkWell(
                               onTap:(){
-                                _launchURL('https://docs.google.com/document/d/1JvWlSIc-7NFgQxYEpxcVhiVG3eVN2uze/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
+                                _launchURL('https://docs.google.com/document/d/1sNcHvoOI7LYSL8-xx2G5eTT_O3B7OgkU/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -223,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             InkWell(
                               onTap: (){
-                                _launchURL('https://docs.google.com/document/d/1sNcHvoOI7LYSL8-xx2G5eTT_O3B7OgkU/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
+                                _launchURL('https://docs.google.com/document/d/1JvWlSIc-7NFgQxYEpxcVhiVG3eVN2uze/edit?usp=drive_link&ouid=104642938585168375158&rtpof=true&sd=true');
                               },
                               child: Text("Privacy Policy",
                                 style: TextStyle(

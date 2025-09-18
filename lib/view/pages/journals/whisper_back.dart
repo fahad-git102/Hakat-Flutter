@@ -206,36 +206,51 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
 
                             // Submit button
                             Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  _buildSubmitButton('SAVE WHISPER',() async {
-                                    // Get.to(()=>JournalListPage());
-                                    EasyLoading.show();
-                                    bool success = await FirestoreFunctions().uploadWhisper(
-                                      _nameController.text, _messageController.text, today
-                                    );
-                                    EasyLoading.dismiss();
-                                    if(success){
-                                      Get.to(()=>JournalListPage());
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text("Failed to upload whisper ❌")),
-                                      );
-                                    }
-                                  }),
-                                  _buildSubmitButton('SAVE READING',(){
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const SubscriptionDialog();
-                                      },
-                                    );
-
-                                  }),
-                                ],
-                              ),
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              //   children: [
+                              //     _buildSubmitButton('SAVE WHISPER',() async {
+                              //       // Get.to(()=>JournalListPage());
+                              //       EasyLoading.show();
+                              //       bool success = await FirestoreFunctions().uploadWhisper(
+                              //         _nameController.text, _messageController.text, today
+                              //       );
+                              //       EasyLoading.dismiss();
+                              //       if(success){
+                              //         Get.to(()=>JournalListPage());
+                              //       }else{
+                              //         ScaffoldMessenger.of(context).showSnackBar(
+                              //           const SnackBar(content: Text("Failed to upload whisper ❌")),
+                              //         );
+                              //       }
+                              //     }),
+                              //     _buildSubmitButton('SAVE READING',(){
+                              //       showDialog(
+                              //         context: context,
+                              //         barrierDismissible: true,
+                              //         builder: (BuildContext context) {
+                              //           return const SubscriptionDialog();
+                              //         },
+                              //       );
+                              //
+                              //     }),
+                              //   ],
+                              // ),
+                              child: _buildSubmitButton('SAVE WHISPER',() async {
+                                // Get.to(()=>JournalListPage());
+                                EasyLoading.show();
+                                bool success = await FirestoreFunctions().uploadWhisper(
+                                    _nameController.text, _messageController.text, today
+                                );
+                                EasyLoading.dismiss();
+                                if(success){
+                                  Get.to(()=>JournalListPage());
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text("Failed to upload whisper ❌")),
+                                  );
+                                }
+                              }),
                             ),
 
                             SizedBox(height: 40),

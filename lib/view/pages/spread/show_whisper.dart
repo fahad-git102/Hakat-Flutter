@@ -12,6 +12,7 @@ import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/share_spell_page.dart';
 import 'package:hakat/view/pages/spread/widgets/reveal_icon.dart';
 import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -102,10 +103,13 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           AddHeight(8),
-                          CustomAppBar(text: "The\nWhisper", onBackTap: (){
-                            widget.cardsList.clear();
-                            Get.back();
-                          },),
+                          CustomAppBar(
+                            text: "The\nWhisper",
+                            onBackTap: () {
+                              widget.cardsList.clear();
+                              Get.back();
+                            },
+                          ),
                           AddHeight(40),
                           SliderWidget(
                             height: 290,
@@ -151,7 +155,10 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            widget.cardsList[currentIndex].description??'',
+                                            widget
+                                                    .cardsList[currentIndex]
+                                                    .description ??
+                                                '',
                                             style: TextStyle(
                                               fontSize: 16,
                                               height: 1.5,
@@ -193,12 +200,16 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                 ),
                                               ),
                                               InkWell(
-                                                onTap: (){
-                                                  Get.to(
-                                                        () =>
-                                                        ShareSpellPage(cardModel: widget.cardsList[currentIndex]),
-                                                    transition: Transition.fadeIn,
-                                                    duration: Duration(milliseconds: 400),
+                                                onTap: () {
+                                                  // Get.to(
+                                                  //       () =>
+                                                  //       ShareSpellPage(cardModel: widget.cardsList[currentIndex]),
+                                                  //   transition: Transition.fadeIn,
+                                                  //   duration: Duration(milliseconds: 400),
+                                                  // );
+                                                  shareCard(
+                                                    widget
+                                                        .cardsList[currentIndex],
                                                   );
                                                 },
                                                 child: Column(
@@ -234,7 +245,11 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.offAll(()=> FadeInScreen(child: BottomNavScreen()));
+                                                  Get.offAll(
+                                                    () => FadeInScreen(
+                                                      child: BottomNavScreen(),
+                                                    ),
+                                                  );
                                                 },
                                                 child: Container(
                                                   width: 280,
@@ -341,6 +356,25 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
         ),
       ),
     );
+  }
+
+  void shareCard(OracleCard card) {
+    final String content =
+        '''
+✨ Check out my oracle card reading
+from the Hakat Oracle App! -- ${card.title ?? ''}
+
+${card.description ?? ''}
+
+Mantra: ${card.mantra ?? ''}
+Shadow Wisdom: ${card.shadowWisdom ?? ''}
+Call to Intuition: ${card.callToIntuition ?? ''}
+Sigil Activation: ${card.sigilActivation ?? ''}
+
+Keywords: ${card.keywords?.join(', ') ?? ''}
+  ''';
+
+    Share.share(content, subject: card.title ?? "Oracle Card");
   }
 
   @override
