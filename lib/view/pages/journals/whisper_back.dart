@@ -232,7 +232,6 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                               //           return const SubscriptionDialog();
                               //         },
                               //       );
-                              //
                               //     }),
                               //   ],
                               // ),
