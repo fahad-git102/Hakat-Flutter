@@ -97,7 +97,6 @@ class _FirstStepPageState extends State<FirstStepPage> {
                 AddHeight(20),
                 InkWell(
                   onTap: (){
-                    print(userController.currentUser.value?.isSubscribed==true);
                     if(userController.currentUser.value?.isSubscribed==true){
                       final screens = [
                         TheWhisperPage(),

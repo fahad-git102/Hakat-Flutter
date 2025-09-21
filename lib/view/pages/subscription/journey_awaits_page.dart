@@ -192,8 +192,6 @@ class _JourneyAwaitsState extends State<JourneyAwaitspage> {
               ),
             ),
             SizedBox(height: height * 0.025),
-
-            /// 🔹 Guest Button
             InkWell(
               onTap: () => Get.to(() => const FirstStepPage()),
               child: Container(
@@ -202,8 +200,13 @@ class _JourneyAwaitsState extends State<JourneyAwaitspage> {
                   vertical: height * 0.018,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(80),
-                  borderRadius: BorderRadius.circular(5),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF2E3B50),
+                      Color(0xFF1A202E),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   "Continue as Guest",
@@ -220,8 +223,6 @@ class _JourneyAwaitsState extends State<JourneyAwaitspage> {
             SizedBox(height: height * 0.03),
             const Divider(color: Colors.white24),
             SizedBox(height: height * 0.025),
-
-            /// 🔹 Pull a Card
             InkWell(
               onTap: () => Get.to(
                     () => FadeInScreen(

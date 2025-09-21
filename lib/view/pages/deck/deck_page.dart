@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/deck/deck_info.dart';
 import 'package:hakat/view/pages/deck/join_deck.dart';
@@ -22,12 +25,10 @@ class DeckPage extends StatefulWidget {
 }
 
 class _DeckPageState extends State<DeckPage> {
-
-
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
-  final RootController _rootcontroller = Get.find<RootController>() ;
+  final RootController _rootcontroller = Get.find<RootController>();
 
   @override
   void initState() {
@@ -49,25 +50,25 @@ class _DeckPageState extends State<DeckPage> {
     setState(() => showThird = true);
   }
 
-  final List<Color> _itemColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-    Colors.purple,
-  ];
-
-  int _currentPage = 1 ;
-
+  int _currentPage = 1;
 
   final PageController _pageController = PageController(
     viewportFraction: 0.5,
     initialPage: 1,
   );
 
-  // Colors for the 4 items
+  final List<String> groups = [
+    "INNER CIRCLE",
+    "SELF AND IDENTITY",
+    "PATHS OF CHANGE",
+    "FORCES BEYOND THE SELF",
+    "NATURE’S POWERS",
+    "ETERNAL PRESENCE",
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<CardsController>();
     return Scaffold(
       body: Stack(
         children: [
@@ -87,39 +88,66 @@ class _DeckPageState extends State<DeckPage> {
               child: Column(
                 children: [
                   AddHeight(8),
-                  CustomAppBar(text: "MEET THE CATS",backbutton: false,),
+                  CustomAppBar(text: "MEET THE CATS", backbutton: false),
                   AddHeight(30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildDeckButton("INNER CIRCLE", (){}),
-                      AddWidth(10),
-                      _buildDeckButton("SELF AND IDENTITY", (){}),
-                    ],
-                  ),
-                  AddHeight(10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AddWidth(6),
-                      _buildDeckButton("PATHS OF CHANGE", (){}),
-                      AddWidth(4),
-                      _buildDeckButton("FORCES BEYOND THE SELF", (){}),
-                      AddWidth(6),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: groups.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3.8,
+                          ),
+                      itemBuilder: (context, index) {
+                        final title = groups[index];
+                        final isSelected = controller.selectedGroup.value == title;
 
-                    ],
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              controller.selectedGroup.value = title;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Color(0xFFD4A15D), // gold border
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: isSelected
+                                      ? Color(0xffbad3d5).withAlpha(163) // 64%
+                                      : Color(0xffbad3d5).withAlpha(61), // 24%
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    title,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: "Literata",
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  AddHeight(10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildDeckButton("NATURE’S POWERS", (){
-                        Get.to(()=>DeckInfo());
-                      }),
-                      AddWidth(10),
-                      _buildDeckButton("ETERNAL PRESENCE", (){}),
-                    ],
-                  ),
+                  AddHeight(5),
                   Expanded(child: GridViewPage()),
                 ],
               ),
@@ -134,64 +162,18 @@ class _DeckPageState extends State<DeckPage> {
               height: 10,
               decoration: BoxDecoration(
                 color: _rootcontroller.bgColor,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(24),topLeft: Radius.circular(24)),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                ),
               ),
-            )
+            ),
           ),
         ],
       ),
     );
   }
-
-
-  _buildDeckButton(String title, VoidCallback action){
-    return GestureDetector(
-      onTap: action,
-      child: Container(
-        decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage('assets/images/gold_effect.jpg'),
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-                gradient: LinearGradient(colors: [
-                  Color(0xFF8ec5d1).withOpacity(0.7),
-                  Color(0xFF8ec5d1),
-                ],),
-
-              ),
-              child:   Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10),
-                  child: Text(
-                    title,
-                    style:
-                    TextStyle(
-                      fontSize: 12,
-                      fontFamily: "Literata",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
+  
   @override
   void dispose() {
     _pageController.dispose();
@@ -247,62 +229,67 @@ class _DeckPageState extends State<DeckPage> {
   }
 }
 
-
 class GridViewPage extends StatelessWidget {
-  final List<GridItem> items = [
-    GridItem('Abou, The\nUniverse', 'assets/deck/universe.png'),
-    GridItem('Amba, The\nAries', 'assets/deck/AmbatheAries.png'),
-    GridItem('Ash, the\nfire', 'assets/deck/Ashthefire.png'),
-    GridItem('Anbar, the\nPisces', 'assets/deck/Anbar the Pisces.png'),
-    GridItem('Bernie, the\nMagician', 'assets/deck/BernietheMagician.png'),
-    GridItem('Bibi, the\nTrickster', 'assets/deck/BibitheTrickster.png'),
-    GridItem('Bobo, the\nChild', 'assets/deck/BobotheChild.png'),
-    GridItem('Coco, the\nDragon', 'assets/deck/CocotheDragon.png'),
-    GridItem('Cupcake, the\nPachamama', 'assets/deck/CupcakethePachamama.png'),
-  ];
+  final cardsController = Get.find<CardsController>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 items per row
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-                childAspectRatio: 0.4, // Adjust height ratio
-              ),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return GridItemWidget(item: items[index]);
-              },
-            ),
+            Obx((){
+              final filtered = cardsController.filteredCards;
+              return filtered.isNotEmpty==true?GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.4,
+                ),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: filtered.length,
+                itemBuilder: (context, index) {
+                  return GridItemWidget(item: filtered[index]);
+                },
+              ):Padding(
+                padding: const EdgeInsets.symmetric(vertical: 80.0),
+                child: Center(
+                  child: Text(
+                    'No cards in this group',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontFamily: "Literata",
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              );
+            }),
             AddHeight(15),
             Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Color(0xFF385475), width: 1),
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xFF385475),
+                      blurRadius: 5
+                  )
+                ],
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF2C6A78).withAlpha(80),
-                    Color(0xFF0F2E3D).withAlpha(80),
+                    Color(0xffE4F4F8).withAlpha(70),
+                    Color(0xff939498).withAlpha(17),
                   ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                    offset: Offset(0, 6),
-                    blurRadius: 12,
-                    spreadRadius: -2,
-                  ),
-                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -318,15 +305,15 @@ class GridViewPage extends StatelessWidget {
                       'Bring The Archetypes Home',
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(
-                        fontSize: 24,
-                        fontFamily: "Sanford",
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1,
-                        height: 1,
-                      ).copyWith(
-                        color: Colors.white,
-                      ), // Color must be set, but it will be masked
+                          TextStyle(
+                            fontSize: 24,
+                            fontFamily: "Sanford",
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1,
+                            height: 1,
+                          ).copyWith(
+                            color: Colors.white,
+                          ), // Color must be set, but it will be masked
                     ),
                   ),
                   AddHeight(10),
@@ -334,23 +321,23 @@ class GridViewPage extends StatelessWidget {
                     "Join the waitlist for the printed deck.",
                     textAlign: TextAlign.center,
                     style:
-                    TextStyle(
-                      fontSize: 20,
-                      fontFamily: "Garamond_Italic",
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
+                        TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Garamond_Italic",
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1,
+                        ).copyWith(
+                          color: Colors.white,
+                        ), // Color must be set, but it will be masked
                   ),
                   AddHeight(20),
                   InkWell(
-                    onTap: (){
-                      Get.to(()=> FadeInScreen(child: DeckWaitlistPage()));
+                    onTap: () {
+                      Get.to(() => FadeInScreen(child: DeckWaitlistPage()));
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 30),
-                      decoration:  BoxDecoration(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
                           fit: BoxFit.fill,
@@ -364,26 +351,30 @@ class GridViewPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: Colors.white,
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF8ec5d1).withOpacity(0.7),
-                                Color(0xFF8ec5d1),
-                              ],),
-
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFF8ec5d1).withOpacity(0.7),
+                                  Color(0xFF8ec5d1),
+                                ],
+                              ),
                             ),
-                            child:   Center(
+                            child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 10,
+                                ),
                                 child: Text(
                                   'JOIN THE WAITLIST',
                                   style:
-                                  TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "Literata",
-                                    letterSpacing: 1.2,
-                                    fontWeight: FontWeight.w400,
-                                  ).copyWith(
-                                    color: Colors.white,
-                                  ), // Color must be set, but it will be masked
+                                      TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "Literata",
+                                        letterSpacing: 1.2,
+                                        fontWeight: FontWeight.w400,
+                                      ).copyWith(
+                                        color: Colors.white,
+                                      ), // Color must be set, but it will be masked
                                 ),
                               ),
                             ),
@@ -391,11 +382,11 @@ class GridViewPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            AddHeight(30)
+            AddHeight(5),
           ],
         ),
       ),
@@ -404,25 +395,30 @@ class GridViewPage extends StatelessWidget {
 }
 
 class GridItemWidget extends StatelessWidget {
-  final GridItem item;
+  final OracleCard item;
 
   const GridItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-    onTap: (){
-    Get.to(()=>DeckInfo());
-    },
+      onTap: () {
+        Get.to(() => DeckInfo(card: item,));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-            child: Image.asset(
-              item.imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
+          SizedBox(
+            height: 200,
+            child: CachedNetworkImage(
+              imageUrl: item.image??'',
+              fit: BoxFit.fill,
+              placeholder: (context, str){
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              errorWidget: (context, error, stackTrace) {
                 return Container(
                   color: Colors.grey[300],
                   child: Icon(
@@ -445,17 +441,17 @@ class GridItemWidget extends StatelessWidget {
                       Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                     ),
                 child: Text(
-                  item.title,
+                  item.title??'',
                   textAlign: TextAlign.center,
                   style:
-                  TextStyle(
-                    fontSize: 18,
-                    fontFamily: "Garamond",
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1,
-                  ).copyWith(
-                    color: Colors.white,
-                  ), // Color must be set, but it will be masked
+                      TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Garamond",
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
                 ),
               ),
             ),

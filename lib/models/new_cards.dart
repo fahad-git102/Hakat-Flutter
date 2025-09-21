@@ -5,11 +5,13 @@ class OracleCard {
   final String? shadowWisdom;
   final String? mantra;
   final String? image;
+  final String? group;
   final String? callToIntuition;
   final String? sigilActivation;
 
   const OracleCard({
     this.title,
+    this.group,
     this.keywords,
     this.description,
     this.shadowWisdom,
@@ -22,6 +24,7 @@ class OracleCard {
   factory OracleCard.fromMap(Map<String, dynamic> map) {
     return OracleCard(
       title: map['title'] as String?,
+      group: map.containsKey('group')&& map['group']!=null?map['group'] as String?:null,
       keywords: (map['keywords'] as List<dynamic>?)
           ?.map((e) => e.toString())
           .toList(),
