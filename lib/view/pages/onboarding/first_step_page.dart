@@ -83,14 +83,14 @@ class _FirstStepPageState extends State<FirstStepPage> {
                 AddHeight(40),
                 InkWell(
                   onTap: (){
-                    Get.to(()=> FadeInScreen(child: TheWhisperPage()));
+                    Get.to(()=> TheWhisperPage());
                   },
                   child: _buildCard("PULL\n A CARD","assets/images/onboarding/card_one_icon.png","assets/images/onboarding/card_one.png", (){},showFirst),
                 ),
                 AddHeight(20),
                 InkWell(
                     onTap: (){
-                      Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 2,)));
+                      Get.offAll(()=> BottomNavScreen(initialIndex: 2,));
                     },
                     child: _buildCard("CHOOSE\n A SPREAD","assets/images/onboarding/card_two_icon.png","assets/images/onboarding/card_two.png", (){},showSecond),
                 ),
@@ -105,9 +105,9 @@ class _FirstStepPageState extends State<FirstStepPage> {
                         CircleOfSelfPage(),
                       ];
                       final randomIndex = Random().nextInt(screens.length);
-                      Get.to(() => FadeInScreen(child: screens[randomIndex]));
+                      Get.to(() => screens[randomIndex]);
                     }else{
-                      Get.to(()=> FadeInScreen(child: TheWhisperPage()));
+                      Get.to(()=> TheWhisperPage());
                     }
                   },
                   child: _buildCard("LET\nINTUITION\nCHOOSE","assets/images/onboarding/card_three_icon.png","assets/images/onboarding/card_three.png", (){},showThird),

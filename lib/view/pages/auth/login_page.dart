@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage>{
     print(user?.uid);
     if (user != null) {
       await RevenueCatService.logIn(user.uid);
-      Get.offAll(() => FadeInScreen(child: WelcomPage()));
+      Get.offAll(() => WelcomPage());
     }
   }
 
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage>{
                             if(status == true){
                               final prefs = await SharedPreferences.getInstance();
                               await prefs.setBool('isLoggedIn', true);
-                              Get.to(()=>FadeInScreen(child: WelcomPage()));
+                              Get.to(()=>WelcomPage());
                             }else{
                               print('login failed');
                             }
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage>{
                       ),
                     ),
                   ):ElevatedButton(onPressed: (){
-                    Get.to(()=>FadeInScreen(child: WelcomPage()));
+                    Get.to(()=>WelcomPage());
                   }, child: Text('Login')),
               ],
             ),

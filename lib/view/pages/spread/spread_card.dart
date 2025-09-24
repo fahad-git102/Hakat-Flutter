@@ -93,7 +93,7 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                       children: [
                         AddHeight(8),
                         CustomAppBar(text: "THE\nWHISPER", onBackTap: (){
-                          Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 0,)));
+                          Get.offAll(()=> BottomNavScreen(initialIndex: 0,));
                         },),
                         AddHeight(40),
                         Expanded(

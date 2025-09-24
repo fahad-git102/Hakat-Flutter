@@ -115,7 +115,7 @@ class _DeckInfoState extends State<DeckInfo> {
                                           onPressed: () => Navigator.of(context).pop(),
                                           icon: const Icon(
                                             Icons.close,
-                                            color: Color(0xFFD4AF37), // Golden color
+                                            color: Color(0xFFD4AF37),
                                             size: 24,
                                           ),
                                         ),

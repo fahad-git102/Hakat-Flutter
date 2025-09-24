@@ -98,7 +98,7 @@ class HakatOracleButtons extends StatelessWidget {
             isFirst: false,
             isLast: true,
             onTap: () {
-              Get.to(()=> FadeInScreen(child: ContactUsPage()));
+              Get.to(()=> ContactUsPage());
               // Handle navigation to about page
             },
           ),

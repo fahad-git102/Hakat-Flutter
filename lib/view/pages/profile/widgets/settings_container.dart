@@ -510,7 +510,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
           AddHeight(30),
           InkWell(
             onTap: (){
-              Get.to(()=> FadeInScreen(child: SubscriptionsPage()));
+              Get.to(()=> SubscriptionsPage());
             },
             child: Container(
               width: 187,

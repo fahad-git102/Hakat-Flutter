@@ -12,7 +12,6 @@ import 'home/home_page.dart';
 import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
 
-// Fade-in wrapper for screens
 class FadeInScreen extends StatefulWidget {
   final Widget child;
   final int? duration ;

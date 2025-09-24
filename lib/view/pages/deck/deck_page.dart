@@ -88,7 +88,7 @@ class _DeckPageState extends State<DeckPage> {
               child: Column(
                 children: [
                   AddHeight(8),
-                  CustomAppBar(text: "MEET THE CATS", backbutton: false),
+                  CustomAppBar(text: "MEET THE CATS"),
                   AddHeight(30),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -333,7 +333,7 @@ class GridViewPage extends StatelessWidget {
                   AddHeight(20),
                   InkWell(
                     onTap: () {
-                      Get.to(() => FadeInScreen(child: DeckWaitlistPage()));
+                      Get.to(() => DeckWaitlistPage(showBack: true,));
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 30),

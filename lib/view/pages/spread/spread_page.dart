@@ -111,14 +111,14 @@ class _SpreadPageState extends State<SpreadPage> {
                     "Choose a Guided Spread",
                     textAlign: TextAlign.center,
                     style:
-                    TextStyle(
-                      fontSize: 24,
-                      fontFamily: "Garamond_Italic",
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
+                        TextStyle(
+                          fontSize: 24,
+                          fontFamily: "Garamond_Italic",
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1,
+                        ).copyWith(
+                          color: Colors.white,
+                        ), // Color must be set, but it will be masked
                   ),
                   AddHeight(35),
                   Row(
@@ -127,7 +127,7 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          Get.to(() => FadeInScreen(child: TheWhisperPage()));
+                          Get.to(() => TheWhisperPage());
                         },
                         child: SizedBox(
                           width: 160,
@@ -148,7 +148,7 @@ class _SpreadPageState extends State<SpreadPage> {
                                 ),
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
                                       "THE\nWHISPER",
@@ -178,11 +178,8 @@ class _SpreadPageState extends State<SpreadPage> {
                         onTap: () {
                           if (controller.currentUser.value?.isSubscribed ==
                               true) {
-                            Get.to(
-                                  () =>
-                                  FadeInScreen(child: ThePortalPathPage()),
-                            );
-                          }else{
+                            Get.to(() => ThePortalPathPage());
+                          } else {
                             showPremiumDialog(context);
                           }
                         },
@@ -205,15 +202,15 @@ class _SpreadPageState extends State<SpreadPage> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                  ),
+                                  padding: const EdgeInsets.only(),
                                   child: Stack(
                                     children: [
                                       Center(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
                                               "THE\nPORTAL PATH",
@@ -234,13 +231,32 @@ class _SpreadPageState extends State<SpreadPage> {
                                           ],
                                         ),
                                       ),
-                                      controller.currentUser.value?.isSubscribed == false?Container(
-                                        width: 160,
-                                        height: 200,
-                                        color: AppColor.blackColor.withAlpha(140),
-                                      ):Container(),
-                                      controller.currentUser.value?.isSubscribed == false? Center(
-                                          child: Image.asset('assets/icons/lock.png', color: AppColor.goldText, height: 60, width: 60,)):Container()
+                                      controller
+                                                  .currentUser
+                                                  .value
+                                                  ?.isSubscribed ==
+                                              false
+                                          ? Container(
+                                              width: 160,
+                                              height: 200,
+                                              color: AppColor.blackColor
+                                                  .withAlpha(140),
+                                            )
+                                          : Container(),
+                                      controller
+                                                  .currentUser
+                                                  .value
+                                                  ?.isSubscribed ==
+                                              false
+                                          ? Center(
+                                              child: Image.asset(
+                                                'assets/icons/lock.png',
+                                                color: AppColor.goldText,
+                                                height: 60,
+                                                width: 60,
+                                              ),
+                                            )
+                                          : Container(),
                                     ],
                                   ),
                                 ),
@@ -248,7 +264,7 @@ class _SpreadPageState extends State<SpreadPage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   AddHeight(20),
@@ -258,9 +274,10 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if(controller.currentUser.value?.isSubscribed == true){
+                          if (controller.currentUser.value?.isSubscribed ==
+                              true) {
                             Get.to(() => SpiralOfBecomingPage());
-                          }else{
+                          } else {
                             showPremiumDialog(context);
                           }
                         },
@@ -292,7 +309,7 @@ class _SpreadPageState extends State<SpreadPage> {
                                         ),
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
                                               "THE SPIRAL\nOF BECOMING",
@@ -315,13 +332,27 @@ class _SpreadPageState extends State<SpreadPage> {
                                       ),
                                     ),
                                   ),
-                                  controller.currentUser.value?.isSubscribed == false?Container(
-                                    width: 160,
-                                    height: 200,
-                                    color: AppColor.blackColor.withAlpha(140),
-                                  ):Container(),
-                                  controller.currentUser.value?.isSubscribed == false? Center(
-                                      child: Image.asset('assets/icons/lock.png', color: AppColor.goldText, height: 60, width: 60,)):Container()
+                                  controller.currentUser.value?.isSubscribed ==
+                                          false
+                                      ? Container(
+                                          width: 160,
+                                          height: 200,
+                                          color: AppColor.blackColor.withAlpha(
+                                            140,
+                                          ),
+                                        )
+                                      : Container(),
+                                  controller.currentUser.value?.isSubscribed ==
+                                          false
+                                      ? Center(
+                                          child: Image.asset(
+                                            'assets/icons/lock.png',
+                                            color: AppColor.goldText,
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),
@@ -331,9 +362,10 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if(controller.currentUser.value?.isSubscribed == true){
+                          if (controller.currentUser.value?.isSubscribed ==
+                              true) {
                             Get.to(() => CircleOfSelfPage());
-                          }else{
+                          } else {
                             showPremiumDialog(context);
                           }
                         },
@@ -364,7 +396,7 @@ class _SpreadPageState extends State<SpreadPage> {
                                         ),
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
                                               "THE CIRCLE\nOF SELF",
@@ -387,13 +419,27 @@ class _SpreadPageState extends State<SpreadPage> {
                                       ),
                                     ),
                                   ),
-                                  controller.currentUser.value?.isSubscribed == false?Container(
-                                    width: 160,
-                                    height: 200,
-                                    color: AppColor.blackColor.withAlpha(140),
-                                  ):Container(),
-                                  controller.currentUser.value?.isSubscribed == false?Center(
-                                      child: Image.asset('assets/icons/lock.png', color: AppColor.goldText, height: 60, width: 60,)):Container()
+                                  controller.currentUser.value?.isSubscribed ==
+                                          false
+                                      ? Container(
+                                          width: 160,
+                                          height: 200,
+                                          color: AppColor.blackColor.withAlpha(
+                                            140,
+                                          ),
+                                        )
+                                      : Container(),
+                                  controller.currentUser.value?.isSubscribed ==
+                                          false
+                                      ? Center(
+                                          child: Image.asset(
+                                            'assets/icons/lock.png',
+                                            color: AppColor.goldText,
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),
@@ -433,11 +479,13 @@ class _SpreadPageState extends State<SpreadPage> {
     super.dispose();
   }
 
-  _buildCard(String text,
-      String icon,
-      String image,
-      VoidCallback onPressed,
-      bool show,) {
+  _buildCard(
+    String text,
+    String icon,
+    String image,
+    VoidCallback onPressed,
+    bool show,
+  ) {
     return AnimatedOpacity(
       opacity: show ? 1.0 : 0.0,
       duration: Duration(microseconds: 1000),
@@ -461,14 +509,14 @@ class _SpreadPageState extends State<SpreadPage> {
                     text,
                     textAlign: TextAlign.center,
                     style:
-                    TextStyle(
-                      fontSize: 20,
-                      fontFamily: "Sanford",
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1.2,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
+                        TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Sanford",
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1.2,
+                        ).copyWith(
+                          color: Colors.white,
+                        ), // Color must be set, but it will be masked
                   ),
                 ],
               ),
@@ -485,16 +533,15 @@ class _SpreadPageState extends State<SpreadPage> {
       barrierDismissible: true,
       builder: (_) => AlertDialog(
         title: const Text('Premium feature'),
-        content: const Text('Subscribe to the premium plan to unlock this feature.'),
+        content: const Text(
+          'Subscribe to the premium plan to unlock this feature.',
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Not now'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Not now')),
           ElevatedButton(
             onPressed: () {
               Get.back();
-              Get.to(()=>SubscriptionsPage());
+              Get.to(() => SubscriptionsPage());
             },
             child: const Text('View plans'),
           ),

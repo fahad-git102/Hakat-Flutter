@@ -225,9 +225,7 @@ class _JourneyAwaitsState extends State<JourneyAwaitspage> {
             SizedBox(height: height * 0.025),
             InkWell(
               onTap: () => Get.to(
-                    () => FadeInScreen(
-                  child: TheWhisperPage(showTextMain: false),
-                ),
+                    () => TheWhisperPage(showTextMain: false),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

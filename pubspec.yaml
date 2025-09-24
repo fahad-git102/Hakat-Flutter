@@ -80,6 +80,7 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/icons/
+    - assets/guide_icons/
 
   fonts:
     - family: Sanford

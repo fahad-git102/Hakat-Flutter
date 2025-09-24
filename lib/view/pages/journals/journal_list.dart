@@ -146,11 +146,9 @@ class _JournalListPageState extends State<JournalListPage> {
                                   InkWell(
                                     onTap: () {
                                       Get.offAll(
-                                            () => FadeInScreen(
-                                          child: BottomNavScreen(
-                                            initialIndex: 2,
-                                          ),
-                                        ),
+                                            () => BottomNavScreen(
+                                              initialIndex: 2,
+                                            ),
                                       );
                                     },
                                     child: _buildJournalButton("+ NEW SPREAD"),

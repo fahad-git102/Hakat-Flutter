@@ -246,9 +246,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               GestureDetector(
                                                 onTap: () {
                                                   Get.offAll(
-                                                    () => FadeInScreen(
-                                                      child: BottomNavScreen(),
-                                                    ),
+                                                    () => BottomNavScreen()
                                                   );
                                                 },
                                                 child: Container(

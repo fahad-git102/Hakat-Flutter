@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/models/guide_list.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/guide/guide_section.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
-import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../spread/spread_card.dart';
@@ -136,56 +133,56 @@ class _GuidePageState extends State<GuidePage> {
                     height: 230,
                     child: PageView.builder(
                       controller: _pageController,
-                      itemCount: 4,
+                      itemCount: guideList.length,
                       itemBuilder: (context, index) {
                         bool isActive = index == _currentPage;
-                        return SizedBox(
-                          width: 170,
-                          height: 210,
-                          child: Center(
-                            child: Transform.scale(
-                              scale: isActive ? 1.0 : 0.8,
-                              // Scale active container larger
-                              child: Container(
-                                  width: 170,
-                                  height: 210,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: AssetImage("assets/images/guide_card.png"),
-                                    ),
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Get.to(()=>FadeInScreen(child: GroundingRitualPage()));
-                                    },
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 30,bottom: 30),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "WHAT IS\nAN ORACLE\nCARD?",
-                                              textAlign: TextAlign.center,
-                                              style:
-                                              TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: "Sanford",
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: 1.2,
-                                                height: 1
-                                              ).copyWith(
-                                                color: Colors.white,
-                                              ), // Color must be set, but it will be masked
-                                            ),
-                                        Image.asset("assets/images/onboarding/card_one_icon.png",width: 100,height: 70,),
-                                          ],
-                                        ),
+                        return GestureDetector(
+                          onTap: (){
+                            Get.to(()=>GroundingRitualPage(
+                              guideModel: guideList[index],
+                            ));
+                          },
+                          child: SizedBox(
+                            width: 170,
+                            height: 210,
+                            child: Center(
+                              child: Transform.scale(
+                                scale: isActive ? 1.0 : 0.8,
+                                // Scale active container larger
+                                child: Container(
+                                    width: 170,
+                                    height: 210,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: AssetImage("assets/images/guide_card.png"),
                                       ),
                                     ),
-                                  )
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 14),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            guideList[index].title??'',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                            TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: "Sanford",
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1.1,
+                                              height: 1
+                                            ).copyWith(
+                                              color: Colors.white,
+                                            ), // Color must be set, but it will be masked
+                                          ),
+                                      Image.asset(guideList[index].icon??'', height: 100, width: 100,),
+                                        ],
+                                      ),
+                                    )
+                                ),
                               ),
                             ),
                           ),
@@ -224,7 +221,7 @@ class _GuidePageState extends State<GuidePage> {
                     children: [
                       InkWell(
                         onTap: (){
-                          Get.to(()=> FadeInScreen(child: TheWhisperPage(showTextMain: false,)));
+                          Get.to(()=> TheWhisperPage(showTextMain: false,));
                         },
                         child: Container(
                           width: 142,
@@ -269,7 +266,7 @@ class _GuidePageState extends State<GuidePage> {
                       ),
                       InkWell(
                         onTap: (){
-                          Get.offAll(()=> FadeInScreen(child: BottomNavScreen(initialIndex: 2,)));
+                          Get.offAll(()=> BottomNavScreen(initialIndex: 2,));
                         },
                         child: Container(
                           width: 187,

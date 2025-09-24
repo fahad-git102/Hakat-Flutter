@@ -193,12 +193,12 @@ class _HomePageState extends State<HomePage> {
                                 child: GestureDetector(
                                   onTap: () {
                                     if(index == 0){
-                                      Get.to(()=> FadeInScreen(child: DeckPage()));
+                                      Get.to(()=> DeckPage());
                                     }else if(index == 1){
-                                      Get.to(()=> FadeInScreen(child: TheWhisperPage(showTextMain: false,)));
+                                      Get.to(()=> TheWhisperPage(showTextMain: false,));
                                     }else if(index == 2){
                                       if(controller.currentUser.value?.isSubscribed == true){
-                                        Get.offAll((FadeInScreen(child: BottomNavScreen(initialIndex: 2,),)));
+                                        Get.offAll((BottomNavScreen(initialIndex: 2,)));
                                       }else{
                                         showSubscriptionDialog();
                                       }
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                                           CircleOfSelfPage(),
                                         ];
                                         final randomIndex = Random().nextInt(screens.length);
-                                        Get.to(() => FadeInScreen(child: screens[randomIndex]));
+                                        Get.to(() => screens[randomIndex]);
                                       }else{
                                         showSubscriptionDialog();
                                       }

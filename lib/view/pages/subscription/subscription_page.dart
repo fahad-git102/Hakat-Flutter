@@ -335,27 +335,53 @@ class _SubscriptioPageState extends State<SubscriptionsPage>{
                           onTap: () async {
                             try {
                               EasyLoading.show();
+
+                              print("🛒 Attempting to purchase package: ${package.identifier}");
                               PurchaseResult purchaserInfo = await Purchases.purchasePackage(package);
+
+                              print("✅ Purchase completed, checking entitlements...");
                               bool isPro = purchaserInfo.customerInfo.entitlements.all["pro"]?.isActive ?? false;
-                              EasyLoading.dismiss();
+
                               if (isPro) {
+                                print("✅ User is now Pro, updating subscription...");
                                 await userController.updateUserSubscription(
-                                  uid: userController.currentUser.value?.uid??'',
+                                  uid: userController.currentUser.value?.uid ?? '',
                                   isSubscribed: true,
-                                  subscribedPlan: product.title.toLowerCase().contains('monthly')?SubscriptionType.monthly:SubscriptionType.annual,
+                                  subscribedPlan: product.title.toLowerCase().contains('monthly')
+                                      ? SubscriptionType.monthly
+                                      : SubscriptionType.annual,
                                 );
-                                Get.snackbar("Success", product.title.toLowerCase().contains('monthly')?'You are a monthly subscriber now.':'You are an annual subscriber now.');
+                                print("✅ Subscription updated successfully");
+                                EasyLoading.dismiss();
+                                Get.snackbar("Success",
+                                    product.title.toLowerCase().contains('monthly')
+                                        ? 'You are a monthly subscriber now.'
+                                        : 'You are an annual subscriber now.');
                               } else {
-                                print("❌ Not subscribed");
+                                print("❌ User is not Pro after purchase");
+                                EasyLoading.dismiss();
+                                Get.snackbar('Error', 'Purchase completed but subscription not activated. Please contact support.');
                               }
+
                             } on PlatformException catch (e) {
                               EasyLoading.dismiss();
-                              if (e.details["readable_error_code"] == "PURCHASE_CANCELLED") {
-                                print(e.message);
-                                Get.snackbar('Error', e.message??'');
+
+                              String errorCode = e.details?["readable_error_code"] ?? "";
+
+                              if (errorCode == "PURCHASE_CANCELLED") {
+                                print("Purchase cancelled by user");
+                                Get.snackbar('Cancelled', 'Purchase was cancelled');
+                              } else if (errorCode == "PRODUCT_ALREADY_OWNED" || errorCode == "ITEM_ALREADY_OWNED") {
+                                print("User already owns this product");
+                                Get.snackbar('Already Subscribed', 'You are already subscribed to this plan');
                               } else {
-                                print("Other error: ${e.details}");
+                                print("Other PlatformException error: $errorCode");
+                                Get.snackbar('Error', e.message ?? 'An error occurred during purchase');
                               }
+
+                            } catch (e) {
+                              EasyLoading.dismiss();
+                              Get.snackbar('Error', 'An unexpected error occurred: ${e.toString()}');
                             }
                           },
                           child: Container(

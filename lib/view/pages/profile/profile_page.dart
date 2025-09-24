@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: GestureDetector(
                                 onTap:(){
                                   // Get.to(()=>ContactUsPage());
-                                  Get.to(()=> FadeInScreen(child: JournalListPage()));
+                                  Get.to(()=> JournalListPage());
                                 },
                                 child: Container(
                                   height: 42,
