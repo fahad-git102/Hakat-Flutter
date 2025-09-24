@@ -28,7 +28,7 @@ class _SpreadPageState extends State<SpreadPage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
-  RootController _rootcontroller = Get.find<RootController>();
+  final RootController _rootcontroller = Get.find<RootController>();
   final CardsController cardsController = Get.find<CardsController>();
 
   @override
@@ -176,12 +176,13 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if (controller.currentUser.value?.isSubscribed ==
-                              true) {
-                            Get.to(() => ThePortalPathPage());
-                          } else {
-                            showPremiumDialog(context);
-                          }
+                          // if (controller.currentUser.value?.isSubscribed ==
+                          //     true) {
+                          //   Get.to(() => ThePortalPathPage());
+                          // } else {
+                          //   showPremiumDialog(context);
+                          // }
+                          Get.to(() => ThePortalPathPage());
                         },
                         child: SizedBox(
                           width: 160,
@@ -231,32 +232,32 @@ class _SpreadPageState extends State<SpreadPage> {
                                           ],
                                         ),
                                       ),
-                                      controller
-                                                  .currentUser
-                                                  .value
-                                                  ?.isSubscribed ==
-                                              false
-                                          ? Container(
-                                              width: 160,
-                                              height: 200,
-                                              color: AppColor.blackColor
-                                                  .withAlpha(140),
-                                            )
-                                          : Container(),
-                                      controller
-                                                  .currentUser
-                                                  .value
-                                                  ?.isSubscribed ==
-                                              false
-                                          ? Center(
-                                              child: Image.asset(
-                                                'assets/icons/lock.png',
-                                                color: AppColor.goldText,
-                                                height: 60,
-                                                width: 60,
-                                              ),
-                                            )
-                                          : Container(),
+                                      // controller
+                                      //             .currentUser
+                                      //             .value
+                                      //             ?.isSubscribed ==
+                                      //         false
+                                      //     ? Container(
+                                      //         width: 160,
+                                      //         height: 200,
+                                      //         color: AppColor.blackColor
+                                      //             .withAlpha(140),
+                                      //       )
+                                      //     : Container(),
+                                      // controller
+                                      //             .currentUser
+                                      //             .value
+                                      //             ?.isSubscribed ==
+                                      //         false
+                                      //     ? Center(
+                                      //         child: Image.asset(
+                                      //           'assets/icons/lock.png',
+                                      //           color: AppColor.goldText,
+                                      //           height: 60,
+                                      //           width: 60,
+                                      //         ),
+                                      //       )
+                                      //     : Container(),
                                     ],
                                   ),
                                 ),
@@ -274,12 +275,13 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if (controller.currentUser.value?.isSubscribed ==
-                              true) {
-                            Get.to(() => SpiralOfBecomingPage());
-                          } else {
-                            showPremiumDialog(context);
-                          }
+                          // if (controller.currentUser.value?.isSubscribed ==
+                          //     true) {
+                          //   Get.to(() => SpiralOfBecomingPage());
+                          // } else {
+                          //   showPremiumDialog(context);
+                          // }
+                          Get.to(() => SpiralOfBecomingPage());
                         },
                         child: SizedBox(
                           width: 160,
@@ -332,27 +334,27 @@ class _SpreadPageState extends State<SpreadPage> {
                                       ),
                                     ),
                                   ),
-                                  controller.currentUser.value?.isSubscribed ==
-                                          false
-                                      ? Container(
-                                          width: 160,
-                                          height: 200,
-                                          color: AppColor.blackColor.withAlpha(
-                                            140,
-                                          ),
-                                        )
-                                      : Container(),
-                                  controller.currentUser.value?.isSubscribed ==
-                                          false
-                                      ? Center(
-                                          child: Image.asset(
-                                            'assets/icons/lock.png',
-                                            color: AppColor.goldText,
-                                            height: 60,
-                                            width: 60,
-                                          ),
-                                        )
-                                      : Container(),
+                                  // controller.currentUser.value?.isSubscribed ==
+                                  //         false
+                                  //     ? Container(
+                                  //         width: 160,
+                                  //         height: 200,
+                                  //         color: AppColor.blackColor.withAlpha(
+                                  //           140,
+                                  //         ),
+                                  //       )
+                                  //     : Container(),
+                                  // controller.currentUser.value?.isSubscribed ==
+                                  //         false
+                                  //     ? Center(
+                                  //         child: Image.asset(
+                                  //           'assets/icons/lock.png',
+                                  //           color: AppColor.goldText,
+                                  //           height: 60,
+                                  //           width: 60,
+                                  //         ),
+                                  //       )
+                                  //     : Container(),
                                 ],
                               ),
                             ),
@@ -362,12 +364,13 @@ class _SpreadPageState extends State<SpreadPage> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          if (controller.currentUser.value?.isSubscribed ==
-                              true) {
-                            Get.to(() => CircleOfSelfPage());
-                          } else {
-                            showPremiumDialog(context);
-                          }
+                          // if (controller.currentUser.value?.isSubscribed ==
+                          //     true) {
+                          //   Get.to(() => CircleOfSelfPage());
+                          // } else {
+                          //   showPremiumDialog(context);
+                          // }
+                          Get.to(() => CircleOfSelfPage());
                         },
                         child: SizedBox(
                           width: 160,
@@ -419,27 +422,27 @@ class _SpreadPageState extends State<SpreadPage> {
                                       ),
                                     ),
                                   ),
-                                  controller.currentUser.value?.isSubscribed ==
-                                          false
-                                      ? Container(
-                                          width: 160,
-                                          height: 200,
-                                          color: AppColor.blackColor.withAlpha(
-                                            140,
-                                          ),
-                                        )
-                                      : Container(),
-                                  controller.currentUser.value?.isSubscribed ==
-                                          false
-                                      ? Center(
-                                          child: Image.asset(
-                                            'assets/icons/lock.png',
-                                            color: AppColor.goldText,
-                                            height: 60,
-                                            width: 60,
-                                          ),
-                                        )
-                                      : Container(),
+                                  // controller.currentUser.value?.isSubscribed ==
+                                  //         false
+                                  //     ? Container(
+                                  //         width: 160,
+                                  //         height: 200,
+                                  //         color: AppColor.blackColor.withAlpha(
+                                  //           140,
+                                  //         ),
+                                  //       )
+                                  //     : Container(),
+                                  // controller.currentUser.value?.isSubscribed ==
+                                  //         false
+                                  //     ? Center(
+                                  //         child: Image.asset(
+                                  //           'assets/icons/lock.png',
+                                  //           color: AppColor.goldText,
+                                  //           height: 60,
+                                  //           width: 60,
+                                  //         ),
+                                  //       )
+                                  //     : Container(),
                                 ],
                               ),
                             ),

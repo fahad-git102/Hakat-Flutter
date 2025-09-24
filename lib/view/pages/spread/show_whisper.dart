@@ -7,11 +7,8 @@ import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/carousel_slider.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/whisper_back.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
-import 'package:hakat/view/pages/spread/share_spell_page.dart';
 import 'package:hakat/view/pages/spread/widgets/reveal_icon.dart';
-import 'package:hakat/view/pages/spread/widgets/scroll_icon.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +16,6 @@ import 'package:flutter_svg/svg.dart';
 class ShowWhisperPage extends StatefulWidget {
   const ShowWhisperPage({super.key, required this.cardsList});
 
-  // final int cardsCount;
   final List<OracleCard> cardsList;
 
   @override

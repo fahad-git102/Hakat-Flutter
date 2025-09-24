@@ -174,125 +174,134 @@ class _HomePageState extends State<HomePage> {
                         bool isActive = index == _currentPage;
                         return SizedBox(
                           width: Get.width * 0.85,
-                          height: 290,
+                          height: 300,
                           child: Center(
                             child: Transform.scale(
                               scale: isActive ? 1.0 : 0.8,
                               // Scale active container larger
-                              child: Container(
-                                width: Get.width * 0.85,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      "assets/images/home_card_one.png",
-                                    ),
-                                  ),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if(index == 0){
-                                      Get.to(()=> DeckPage());
-                                    }else if(index == 1){
-                                      Get.to(()=> TheWhisperPage(showTextMain: false,));
-                                    }else if(index == 2){
-                                      if(controller.currentUser.value?.isSubscribed == true){
-                                        Get.offAll((BottomNavScreen(initialIndex: 2,)));
-                                      }else{
-                                        showSubscriptionDialog();
-                                      }
-                                    }else if(index == 3){
-                                      if(controller.currentUser.value?.isSubscribed == true){
-                                        final screens = [
-                                          TheWhisperPage(),
-                                          ThePortalPathPage(),
-                                          SpiralOfBecomingPage(),
-                                          CircleOfSelfPage(),
-                                        ];
-                                        final randomIndex = Random().nextInt(screens.length);
-                                        Get.to(() => screens[randomIndex]);
-                                      }else{
-                                        showSubscriptionDialog();
-                                      }
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 15,
-                                      bottom: 10,
-                                      left: 10,
-                                      right: 10
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Text(
-                                          homeList[index].title??'',
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "Sanford",
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: 1.2,
-                                              ).copyWith(
-                                                color: Colors.white,
-                                              ), // Color must be set, but it will be masked
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: controller.currentUser.value?.isSubscribed==false?8:0),
+                                    width: Get.width * 0.85,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: AssetImage(
+                                          "assets/images/home_card_one.png",
                                         ),
-                                        Image.asset(
-                                          homeList[index].icon??'',
-                                          width: 120,
-                                          height: 120,
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if(index == 0){
+                                          Get.to(()=> DeckPage());
+                                        }else if(index == 1){
+                                          Get.to(()=> TheWhisperPage(showTextMain: false,));
+                                        }else if(index == 2){
+                                          if(controller.currentUser.value?.isSubscribed == true){
+                                            Get.offAll((BottomNavScreen(initialIndex: 2,)));
+                                          }else{
+                                            showSubscriptionDialog();
+                                          }
+                                        }else if(index == 3){
+                                          if(controller.currentUser.value?.isSubscribed == true){
+                                            final screens = [
+                                              TheWhisperPage(),
+                                              ThePortalPathPage(),
+                                              SpiralOfBecomingPage(),
+                                              CircleOfSelfPage(),
+                                            ];
+                                            final randomIndex = Random().nextInt(screens.length);
+                                            Get.to(() => screens[randomIndex]);
+                                          }else{
+                                            showSubscriptionDialog();
+                                          }
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 15,
+                                          bottom: 10,
+                                          left: 10,
+                                          right: 10
                                         ),
-                                        ShaderMask(
-                                          shaderCallback: (bounds) =>
-                                              LinearGradient(
-                                                colors: [
-                                                  Color(0xFFEBCD8C),
-                                                  Color(0xFFA47E4D),
-                                                ],
-                                              ).createShader(
-                                                Rect.fromLTWH(
-                                                  0,
-                                                  0,
-                                                  bounds.width,
-                                                  bounds.height,
-                                                ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              homeList[index].title??'',
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  TextStyle(
+                                                    fontSize: 20,
+                                                    fontFamily: "Sanford",
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: 1.2,
+                                                  ).copyWith(
+                                                    color: Colors.white,
+                                                  ), // Color must be set, but it will be masked
+                                            ),
+                                            Image.asset(
+                                              homeList[index].icon??'',
+                                              width: 120,
+                                              height: 120,
+                                            ),
+                                            ShaderMask(
+                                              shaderCallback: (bounds) =>
+                                                  LinearGradient(
+                                                    colors: [
+                                                      Color(0xFFEBCD8C),
+                                                      Color(0xFFA47E4D),
+                                                    ],
+                                                  ).createShader(
+                                                    Rect.fromLTWH(
+                                                      0,
+                                                      0,
+                                                      bounds.width,
+                                                      bounds.height,
+                                                    ),
+                                                  ),
+                                              child: Text(
+                                                homeList[index].text1??'',
+                                                style:
+                                                    TextStyle(
+                                                      fontSize: 20,
+                                                      fontFamily:
+                                                          "Garamond_Italic",
+                                                      fontWeight: FontWeight.w400,
+                                                      letterSpacing: 1,
+                                                    ).copyWith(
+                                                      color: Colors.white,
+                                                    ), // Color must be set, but it will be masked
                                               ),
-                                          child: Text(
-                                            homeList[index].text1??'',
-                                            style:
-                                                TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily:
-                                                      "Garamond_Italic",
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: 1,
-                                                ).copyWith(
-                                                  color: Colors.white,
-                                                ), // Color must be set, but it will be masked
-                                          ),
+                                            ),
+                                            Text(
+                                              homeList[index].text2??'',
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  TextStyle(
+                                                    fontSize: 11,
+                                                    fontFamily: "Literata",
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: 1,
+                                                  ).copyWith(
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                  ), // Color must be set, but it will be masked
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          homeList[index].text2??'',
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(
-                                                fontSize: 11,
-                                                fontFamily: "Literata",
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: 1,
-                                              ).copyWith(
-                                                color: Colors.white
-                                                    .withOpacity(0.5),
-                                              ), // Color must be set, but it will be masked
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  index > 1&&controller.currentUser.value?.isSubscribed==false?Positioned(
+                                      top: 0,
+                                      right: 15,
+                                      child: Image.asset('assets/icons/lock_vector.png', height: 30, width: 23,)):Container()
+                                ],
                               ),
                             ),
                           ),

@@ -62,9 +62,6 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   late PersistentTabController _controller;
   late final RootController rootController;
-  // final PersistentTabController _controller = PersistentTabController(
-  //   initialIndex: 0,
-  // );
 
   @override
   void initState() {
