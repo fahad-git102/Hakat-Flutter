@@ -10,4 +10,11 @@ class WhispersController extends GetxController{
   getWhispers(String uid){
     myWhispers.bindStream(_service.getWhispers(uid));
   }
+  Future<void> deleteWhisper(String whisperId) async {
+    try {
+      await _service.deleteWhisper(whisperId);
+    } catch (e) {
+      Get.snackbar("Error", "Failed to delete whisper: $e");
+    }
+  }
 }

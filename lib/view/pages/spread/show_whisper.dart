@@ -46,10 +46,6 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
   void initState() {
     super.initState();
 
-    // for (int i = 0; i < widget.cardsCount; i++) {
-    //   cards.add("assets/images/shadow.png");
-    // }
-
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -115,12 +111,10 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                               setState(() {
                                 currentIndex = index;
                               });
-                              print("Current slider index: $currentIndex");
                             },
                           ),
                           AddHeight(20),
 
-                          // Show scrollable content after swipe up
                           if (showDetails) ...[
                             Expanded(
                               child: Padding(
@@ -169,7 +163,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               GestureDetector(
                                                 onTap: () {
                                                   Get.to(
-                                                    () => WhisperBackPage(),
+                                                    () => WhisperBackPage(cardsList: widget.cardsList,),
                                                   );
                                                 },
                                                 child: Column(
@@ -183,7 +177,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                     ),
                                                     AddHeight(8),
                                                     Text(
-                                                      "Whisper Back",
+                                                      "Save & Journal",
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         fontFamily: "Literata",
@@ -197,12 +191,6 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               ),
                                               InkWell(
                                                 onTap: () {
-                                                  // Get.to(
-                                                  //       () =>
-                                                  //       ShareSpellPage(cardModel: widget.cardsList[currentIndex]),
-                                                  //   transition: Transition.fadeIn,
-                                                  //   duration: Duration(milliseconds: 400),
-                                                  // );
                                                   shareCard(
                                                     widget
                                                         .cardsList[currentIndex],

@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/services/firestore_db.dart';
-import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/journal_list.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
-import '../../../controllers/root_controller.dart';
+import '../../../models/new_cards.dart';
 import '../../global/spacing.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../global/subscribe_dialogue.dart';
 
 class WhisperBackPage extends StatefulWidget {
-  const WhisperBackPage({super.key});
+  const WhisperBackPage({super.key, this.cardsList});
+
+  final List<OracleCard>? cardsList;
 
   @override
   State<WhisperBackPage> createState() => _WhisperBackPageState();
 }
 
 class _WhisperBackPageState extends State<WhisperBackPage> {
-
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
+  final _formKey = GlobalKey<FormState>();
 
   final String today = DateFormat('d/MM/yyyy').format(DateTime.now());
 
@@ -62,7 +55,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
     'Technical Support',
     'Feedback',
     'Business Inquiry',
-    'Other'
+    'Other',
   ];
 
   final List<Color> _itemColors = [
@@ -104,11 +97,15 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.6),
                   borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(colors: [
-                    Color(0xFF0d0d10),
-                    Color(0xFFD4D4D4),
-                    Color(0xFFD4D4D4)
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF0d0d10),
+                      Color(0xFFD4D4D4),
+                      Color(0xFFD4D4D4),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   border: Border.all(
                     color: Colors.white.withOpacity(0.2),
                     width: 1,
@@ -127,25 +124,29 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                                 LinearGradient(
                                   colors: [
                                     Color(0xFFEBCD8C),
-                                    Color(0xFFA47E4D)
+                                    Color(0xFFA47E4D),
                                   ],
                                 ).createShader(
                                   Rect.fromLTWH(
-                                      0, 0, bounds.width, bounds.height),
+                                    0,
+                                    0,
+                                    bounds.width,
+                                    bounds.height,
+                                  ),
                                 ),
                             child: Text(
                               "Whisper Back",
                               textAlign: TextAlign.center,
                               style:
-                              TextStyle(
-                                fontSize: 28,
-                                fontFamily: "Garamond",
-                                fontWeight: FontWeight.w400,
-                                height: 1,
-                                letterSpacing: 1,
-                              ).copyWith(
-                                color: Colors.white,
-                              ), // Color must be set, but it will be masked
+                                  TextStyle(
+                                    fontSize: 28,
+                                    fontFamily: "Garamond",
+                                    fontWeight: FontWeight.w400,
+                                    height: 1,
+                                    letterSpacing: 1,
+                                  ).copyWith(
+                                    color: Colors.white,
+                                  ), // Color must be set, but it will be masked
                             ),
                           ),
                         ),
@@ -170,94 +171,118 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                         "The card has spoken. Now it’s your turn.",
                         textAlign: TextAlign.center,
                         style:
-                        TextStyle(
-                          fontSize: 18,
-                          fontFamily: "Garamond_Italic",
-                          fontWeight: FontWeight.w400,
-                          height: 1,
-                          letterSpacing: 1,
-                        ).copyWith(
-                          color: Colors.white,
-                        ), // Color must be set, but it will be masked
+                            TextStyle(
+                              fontSize: 18,
+                              fontFamily: "Garamond_Italic",
+                              fontWeight: FontWeight.w400,
+                              height: 1,
+                              letterSpacing: 1,
+                            ).copyWith(
+                              color: Colors.white,
+                            ), // Color must be set, but it will be masked
                       ),
                     ),
                     AddHeight(20),
 
-
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Name field
+                              _buildLabel(today, ''),
+                              SizedBox(height: 8),
+                              _buildTextField(
+                                _nameController,
+                                'Name your whisper',
+                                validator: true,
+                              ),
+                              // Message field
+                              AddHeight(30),
+                              _buildLabel('Write what rose inside you:', ''),
+                              SizedBox(height: 8),
+                              _buildMessageField(),
 
-                            // Name field
-                            _buildLabel(
-                                today,''),
-                            SizedBox(height: 8),
-                            _buildTextField(_nameController, 'Name your whisper'),
-                            // Message field
-                            AddHeight(30),
-                            _buildLabel(
-                                'Write what rose inside you:', ''),
-                            SizedBox(height: 8),
-                            _buildMessageField(),
+                              SizedBox(height: 40),
 
-                            SizedBox(height: 40),
+                              // Submit button
+                              Center(
+                                // child: Row(
+                                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                //   children: [
+                                //     _buildSubmitButton('SAVE WHISPER',() async {
+                                //       // Get.to(()=>JournalListPage());
+                                //       EasyLoading.show();
+                                //       bool success = await FirestoreFunctions().uploadWhisper(
+                                //         _nameController.text, _messageController.text, today
+                                //       );
+                                //       EasyLoading.dismiss();
+                                //       if(success){
+                                //         Get.to(()=>JournalListPage());
+                                //       }else{
+                                //         ScaffoldMessenger.of(context).showSnackBar(
+                                //           const SnackBar(content: Text("Failed to upload whisper ❌")),
+                                //         );
+                                //       }
+                                //     }),
+                                //     _buildSubmitButton('SAVE READING',(){
+                                //       showDialog(
+                                //         context: context,
+                                //         barrierDismissible: true,
+                                //         builder: (BuildContext context) {
+                                //           return const SubscriptionDialog();
+                                //         },
+                                //       );
+                                //     }),
+                                //   ],
+                                // ),
+                                child: _buildSubmitButton(
+                                  'SAVE WHISPER',
+                                  () async {
+                                    // Get.to(()=>JournalListPage());
+                                    if (_formKey.currentState!.validate()) {
+                                      EasyLoading.show();
+                                      List<String> cardIds =
+                                          widget.cardsList != null
+                                          ? widget.cardsList!
+                                                .where(
+                                                  (card) => card.id != null,
+                                                ).map((card) => card.id!)
+                                                .toList()
+                                          : [];
+                                      bool success = await FirestoreFunctions()
+                                          .uploadWhisper(
+                                            _nameController.text,
+                                            _messageController.text,
+                                            today, cardIds
+                                          );
+                                      EasyLoading.dismiss();
+                                      if (success) {
+                                        Get.off(() => JournalListPage());
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Failed to upload whisper ❌",
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ),
 
-                            // Submit button
-                            Center(
-                              // child: Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              //   children: [
-                              //     _buildSubmitButton('SAVE WHISPER',() async {
-                              //       // Get.to(()=>JournalListPage());
-                              //       EasyLoading.show();
-                              //       bool success = await FirestoreFunctions().uploadWhisper(
-                              //         _nameController.text, _messageController.text, today
-                              //       );
-                              //       EasyLoading.dismiss();
-                              //       if(success){
-                              //         Get.to(()=>JournalListPage());
-                              //       }else{
-                              //         ScaffoldMessenger.of(context).showSnackBar(
-                              //           const SnackBar(content: Text("Failed to upload whisper ❌")),
-                              //         );
-                              //       }
-                              //     }),
-                              //     _buildSubmitButton('SAVE READING',(){
-                              //       showDialog(
-                              //         context: context,
-                              //         barrierDismissible: true,
-                              //         builder: (BuildContext context) {
-                              //           return const SubscriptionDialog();
-                              //         },
-                              //       );
-                              //     }),
-                              //   ],
-                              // ),
-                              child: _buildSubmitButton('SAVE WHISPER',() async {
-                                // Get.to(()=>JournalListPage());
-                                EasyLoading.show();
-                                bool success = await FirestoreFunctions().uploadWhisper(
-                                    _nameController.text, _messageController.text, today
-                                );
-                                EasyLoading.dismiss();
-                                if(success){
-                                  Get.to(()=>JournalListPage());
-                                }else{
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Failed to upload whisper ❌")),
-                                  );
-                                }
-                              }),
-                            ),
-
-                            SizedBox(height: 40),
-                          ],
+                              SizedBox(height: 40),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -294,27 +319,28 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String hint, {
+    bool? validator,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Colors.white,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white, width: 1),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
+        validator: validator == true
+            ? (value) {
+                return validateNotEmpty(value);
+              }
+            : null,
+        style: TextStyle(color: Colors.black, fontSize: 16),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: TextStyle(
-            color: Colors.white.withOpacity(0.5),
-          ),
+          hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           border: InputBorder.none,
         ),
@@ -322,15 +348,19 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
     );
   }
 
+  String? validateNotEmpty(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "*Please provide a title";
+    }
+    return null; // valid
+  }
+
   Widget _buildDropdown() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Colors.white,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white, width: 1),
       ),
       child: DropdownButtonFormField<String>(
         value: _selectedTopic,
@@ -340,15 +370,9 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           border: InputBorder.none,
         ),
-        icon: Icon(
-          Icons.keyboard_arrow_down,
-          color: Color(0xFFD4AF37),
-        ),
+        icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFFD4AF37)),
         items: _topics.map((String topic) {
-          return DropdownMenuItem<String>(
-            value: topic,
-            child: Text(topic),
-          );
+          return DropdownMenuItem<String>(value: topic, child: Text(topic));
         }).toList(),
         onChanged: (String? newValue) {
           setState(() {
@@ -365,25 +389,17 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Colors.white,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white, width: 1),
       ),
       child: TextField(
         controller: _messageController,
         maxLines: null,
         expands: true,
         textAlignVertical: TextAlignVertical.top,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
+        style: TextStyle(color: Colors.black, fontSize: 16),
         decoration: InputDecoration(
           hintText: 'Type your message here...',
-          hintStyle: TextStyle(
-            color: Colors.white.withOpacity(0.5),
-          ),
+          hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
           contentPadding: EdgeInsets.all(16),
           border: InputBorder.none,
         ),
@@ -391,7 +407,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
     );
   }
 
-  Widget _buildSubmitButton(String title,VoidCallback onPressed) {
+  Widget _buildSubmitButton(String title, VoidCallback onPressed) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -399,10 +415,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -444,10 +457,7 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                'Close',
-                style: TextStyle(color: Color(0xFFD4AF37)),
-              ),
+              child: Text('Close', style: TextStyle(color: Color(0xFFD4AF37))),
             ),
           ],
         );

@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreFunctions{
-  Future<bool> uploadWhisper(String title, String description, String date) async {
+  Future<bool> uploadWhisper(String title, String description, String date, List<String> cardIds) async {
 
     try{
       await FirebaseFirestore.instance.collection("Whispers").add({
         'title': title,
         'description': description,
         'date': date,
-        'uid': FirebaseAuth.instance.currentUser?.uid
+        'uid': FirebaseAuth.instance.currentUser?.uid,
+        'cards': cardIds,
       });
       return true;
     }catch(e){

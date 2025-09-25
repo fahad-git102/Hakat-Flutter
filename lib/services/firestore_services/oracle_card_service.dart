@@ -7,7 +7,7 @@ class OracleCardService {
   Stream<List<OracleCard>> getCards() {
     return _db.collection('oracle_cards').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        return OracleCard.fromMap(doc.data());
+        return OracleCard.fromDoc(doc);
       }).toList();
     });
   }

@@ -81,6 +81,7 @@ flutter:
     - assets/images/onboarding/
     - assets/icons/
     - assets/guide_icons/
+    - assets/whisper_cards/
 
   fonts:
     - family: Sanford

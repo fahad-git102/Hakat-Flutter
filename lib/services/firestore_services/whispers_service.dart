@@ -10,8 +10,11 @@ class WhispersService {
         .where('uid', isEqualTo: uid)
         .snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        return WhispersModel.fromMap(doc.data());
+        return WhispersModel.fromDoc(doc);
       }).toList();
     });
+  }
+  Future<void> deleteWhisper(String whisperId) async {
+    await _db.collection("Whispers").doc(whisperId).delete();
   }
 }
