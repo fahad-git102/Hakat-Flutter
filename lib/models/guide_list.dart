@@ -16,77 +16,98 @@ List<GuideModel> guideList = [
     title: 'How to Use the Deck',
     description: RichText(
       text: TextSpan(
-        style: TextStyle(
-          fontSize: 14,
+        style: const TextStyle(
+          fontSize: 15,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
-          color: Colors.black,
+          color: Colors.black, // default (non-bold) text color
           height: 1.5,
         ),
-        children: [
-          const TextSpan(
+        children: const [
+          TextSpan(
             text: "Begin Here\n\nNew to the deck? Start simple.\n\n",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(text: "1. Choose a spread — 1, 3, 5, or 7 cards.\n"),
-          const TextSpan(text: "2. Focus on a question or feeling.\n"),
-          const TextSpan(text: "3. Draw your cards, notice what first catches your attention.\n"),
-          const TextSpan(text: "4. Read the card messages, trace the sigils, and save your reading with a note. That’s it—you’ve begun your conversation with the deck.\n\n"),
+          TextSpan(text: "1. Choose a spread — 1, 3, 5, or 7 cards.\n"),
+          TextSpan(text: "2. Focus on a question or feeling.\n"),
+          TextSpan(text: "3. Draw your cards, notice what first catches your attention.\n"),
+          TextSpan(text: "4. Read the card messages, trace the sigils, and save your reading with a note. That’s it—you’ve begun your conversation with the deck.\n\n"),
 
-          const TextSpan(
+          TextSpan(
             text:
             "Welcome. Whether this is your first time with oracle cards or you’ve traveled this path before, you are stepping into something alive. This deck is more than images and words—it is a ",
           ),
-          const TextSpan(
+          TextSpan(
             text: "living portal.",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             " Each card carries an archetype, a real-life story, and a sigil—threads of energy that speak directly to your inner world.\n\nBegin by choosing your spread. Each one opens a different kind of conversation with yourself:\n\n",
           ),
 
-          const TextSpan(
+          TextSpan(
             text: "The Whisper ",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             "— A single card for a single truth. A quick nudge from the unseen, perfect when you want clarity in the moment, guidance on a small decision, or simply a message to start your day.\n\n",
           ),
 
-          const TextSpan(
+          TextSpan(
             text: "The Portal Path to Reclamation ",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             "— Three cards that carry you from past to present to reclamation. Choose this when you want to see the story behind a situation—where you’ve been, where you stand, and the truth calling you forward.\n\n",
           ),
 
-          const TextSpan(
+          TextSpan(
             text: "The Spiral of Becoming ",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             "— Five cards moving in layers, revealing the forces shaping your transformation and the wisdom ready to emerge. This is for when you’re in the middle of change and need deeper insight into the patterns at play.\n\n",
           ),
 
-          const TextSpan(
+          TextSpan(
             text: "The Circle of Self ",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             "— Seven cards forming a full circle of allies, mirrors, and truths, reflecting your wholeness in this moment. Choose this for times of self-discovery, annual or seasonal check-ins, or when you want to see the larger map of your life.\n\n",
           ),
 
-          const TextSpan(
+          TextSpan(
             text: "Chaos Mode",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const TextSpan(
+          TextSpan(
             text:
             " — to invite the unexpected.\n\nBefore you draw, pause. Focus on your question and speak from the heart—clarity calls clarity. When you reveal the cards, let the images, words, and symbols breathe before seeking their written meanings.\n\nEvery card holds a sigil—a symbolic key to its archetype. Tracing it with your finger or resting your gaze upon it awakens its energy within you, working subtly through your subconscious.\n\nWhen your reading is complete, save it in the app and add a journal note. These saved readings are more than memories—they are mirrors across time, revealing how your story moves, how questions evolve, and how clarity deepens.",
           ),
@@ -100,7 +121,7 @@ List<GuideModel> guideList = [
     description: RichText(
       text: const TextSpan(
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 15,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
           color: Colors.black,
@@ -133,7 +154,7 @@ List<GuideModel> guideList = [
     description: Text(
       'If this is your first encounter with oracle cards, think of them not as fortune-tellers but as mirrors. They don’t predict your future—they help you see yourself more clearly, right now. An oracle card reflects your present being, offering clarity, insight, and meaning towhatever you’re holding—a situation, a challenge, a question, or a quiet wondering.They speak in symbols, archetypes, and story, mirroring what lives in your heart andmind. They don’t hand you answers. Instead, they open a conversation with yourself—aconversation where truth has been waiting all along.',
       style: TextStyle(
-        fontSize: 14,
+        fontSize: 15,
         fontFamily: "Inter",
         fontWeight: FontWeight.w500,
         color: Colors.black,
@@ -147,7 +168,7 @@ List<GuideModel> guideList = [
     description: RichText(
       text: const TextSpan(
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 15,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
           color: Colors.black,
@@ -156,7 +177,10 @@ List<GuideModel> guideList = [
         children: [
           TextSpan(
             text: "Chaos Mode",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           TextSpan(
             text:
@@ -164,7 +188,10 @@ List<GuideModel> guideList = [
           ),
           TextSpan(
             text: "45th unexpected card",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
           TextSpan(
             text:
@@ -173,14 +200,15 @@ List<GuideModel> guideList = [
         ],
       ),
     ),
-    icon: 'assets/guide_icons/Vector.png'
+
+      icon: 'assets/guide_icons/Vector.png'
   ),
   GuideModel(
     title: 'Card Pull Ritual Suggestions',
     description: RichText(
       text: TextSpan(
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 15,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
           color: Colors.black,

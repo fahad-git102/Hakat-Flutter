@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/chaos_controller.dart';
 import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
 import 'package:hakat/view/pages/journals/journal_list.dart';
-import 'package:hakat/view/pages/profile/contact_us.dart';
 import 'package:hakat/view/pages/profile/my_account_page.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/profile/widgets/Chaos_toggle.dart';
 import 'package:hakat/view/pages/profile/widgets/oracle_buttons.dart';
 import 'package:hakat/view/pages/profile/widgets/settings_container.dart';
-import 'package:hakat/view/pages/root_page.dart';
-import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
-import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -33,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool showSecond = false;
   bool showThird = false;
   final controller = Get.find<UserController>();
+  final chaosController = Get.find<ChaosController>();
 
   @override
   void initState() {
@@ -53,13 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => showThird = true);
   }
-
-  final List<Color> _itemColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-    Colors.purple,
-  ];
 
   int _currentPage = 1 ;
 
@@ -198,7 +185,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         AddHeight(25),
-                        ChaosModeToggle(),
+                        // ChaosModeToggle(),
+                        Obx(() => ChaosModeToggle(
+                          key: ValueKey(chaosController.chaosActive.value),
+                          initialValue: chaosController.chaosActive.value,
+                          onChanged: (value) {
+                            chaosController.setFlag(value);
+                          },
+                        )),
                         AddHeight(20),
                         SettingsContainer(),
                         AddHeight(20),
@@ -239,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             InkWell(
                               onTap: (){
-                                controller.signOut();
+                                showLogoutDialog();
                               },
                               child: Text("Logout",
                                 style: TextStyle(
@@ -263,6 +257,85 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  void showLogoutDialog() {
+    Get.dialog(
+      Dialog(
+        backgroundColor: const Color(0xFF1E1E1E),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.logout_rounded,
+                color: Colors.redAccent,
+                size: 48,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Logout?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Are you sure you want to log out of your account?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.white24),
+                        foregroundColor: Colors.white70,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () => Get.back(), // close dialog
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () {
+                        controller.signOut();
+                        Get.back();
+                      },
+                      child: const Text('Logout'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false, // force explicit cancel or logout
+    );
+  }
+
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);

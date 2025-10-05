@@ -70,7 +70,6 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
     return Scaffold(
       body: Stack(
         children: [
-          // Background with Gradient Overlay
           Positioned.fill(
             child: Image.asset(AppIcon.swirl_bg, fit: BoxFit.fill),
           ),
@@ -212,6 +211,9 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                               top: yOffset,
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  if(selectedCardsIndexes?.length==5){
+                                                    return;
+                                                  }
                                                   double targetOffset =
                                                       (index *
                                                           imageWidth *
@@ -232,17 +234,37 @@ class _SpiralOfBecomingPageState extends State<SpiralOfBecomingPage>
                                                   )
                                                       .then((_) {
                                                     setState(() {
-                                                      // selectedIndex = index;
-                                                      // print("working");
-                                                      // Future.delayed(Duration(seconds: 1), () {
-                                                      //   Get.to(()=>ShowWhisperPage());
-                                                      // });
+                                                      final selectedCard =
+                                                      cardsController
+                                                          .cards[index];
+                                                      final alreadySelected =
+                                                      selectedCards.any(
+                                                            (c) =>
+                                                        c.id ==
+                                                            selectedCard.id,
+                                                      );
+
+                                                      if (alreadySelected) {
+                                                        Get.snackbar(
+                                                          'Already Selected',
+                                                          'This card is already selected.',
+                                                          snackPosition:
+                                                          SnackPosition
+                                                              .BOTTOM,
+                                                          duration: const Duration(
+                                                            seconds:
+                                                            2,
+                                                          ),
+                                                        );
+                                                        return;
+                                                      }
                                                       selectedIndex = index;
                                                       selectedCards.add(cardsController.cards[index]);
                                                       selectedCardsIndexes?.add(index);
                                                       if(selectedCardsIndexes?.length == 5){
                                                         Future.delayed(Duration(seconds: 1), () {
-                                                          Get.to(()=>ShowWhisperPage(cardsList: selectedCards,));
+                                                          Get.off(()=>ShowWhisperPage(cardsList: selectedCards,
+                                                          title: 'THE SPIRAL OF BECOMING',));
                                                         });
                                                       }
                                                     });

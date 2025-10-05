@@ -268,6 +268,9 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                       top: yOffset,
                                                       child: GestureDetector(
                                                         onTap: () {
+                                                          if(selectedCardsIndexes?.length==7){
+                                                            return;
+                                                          }
                                                           double targetOffset =
                                                               (index *
                                                                   imageWidth *
@@ -292,6 +295,30 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                                     .easeInOut,
                                                               )
                                                               .then((_) {
+                                                            final selectedCard =
+                                                            cardsController
+                                                                .cards[index];
+                                                            final alreadySelected =
+                                                            selectedCards.any(
+                                                                  (c) =>
+                                                              c.id ==
+                                                                  selectedCard.id,
+                                                            );
+
+                                                            if (alreadySelected) {
+                                                              Get.snackbar(
+                                                                'Already Selected',
+                                                                'This card is already selected.',
+                                                                snackPosition:
+                                                                SnackPosition
+                                                                    .BOTTOM,
+                                                                duration: const Duration(
+                                                                  seconds:
+                                                                  2,
+                                                                ),
+                                                              );
+                                                              return;
+                                                            }
                                                                 setState(() {
                                                                   selectedIndex =
                                                                       index;
@@ -309,9 +336,10 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                                             1,
                                                                       ),
                                                                       () {
-                                                                        Get.to(
+                                                                        Get.off(
                                                                           () => ShowWhisperPage(
                                                                             cardsList: selectedCards,
+                                                                            title: 'THE CIRCLE OF SELF',
                                                                           ),
                                                                         );
                                                                       },

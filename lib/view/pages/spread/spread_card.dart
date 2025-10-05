@@ -204,13 +204,13 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                                       setState(() {
                                                         selectedIndex = index;
                                                         selectedCards.add(cardsController.cards[index]);
-                                                        print("working");
                                                         Future.delayed(
                                                           Duration(seconds: 1),
                                                               () {
-                                                            Get.to(
+                                                            Get.off(
                                                                   () => ShowWhisperPage(
                                                                 cardsList: selectedCards,
+                                                                    title: 'THE WHISPER',
                                                               ),
                                                             );
                                                           },

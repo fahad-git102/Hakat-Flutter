@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hakat/controllers/root_controller.dart';
 import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/circle_of_self.dart';
@@ -90,7 +91,7 @@ class _FirstStepPageState extends State<FirstStepPage> {
                 AddHeight(20),
                 InkWell(
                     onTap: (){
-                      Get.offAll(()=> BottomNavScreen(initialIndex: 2,));
+                      Get.to(()=> BottomNavScreen(initialIndex: 2,));
                     },
                     child: _buildCard("CHOOSE\n A SPREAD","assets/images/onboarding/card_two_icon.png","assets/images/onboarding/card_two.png", (){},showSecond),
                 ),

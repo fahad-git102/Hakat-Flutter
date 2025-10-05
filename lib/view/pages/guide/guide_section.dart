@@ -148,19 +148,7 @@ class _GroundingRitualPageState extends State<GroundingRitualPage> {
                                     AddHeight(30),
 
                                     widget.guideModel.description??Container(),
-                                    Container(
-                                      height: 100,
-                                      child: const Center(
-                                        child: Text(
-                                          'Continue scrolling for more steps...',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white54,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    AddHeight(30)
                                   ],
                                 ),
                               ),

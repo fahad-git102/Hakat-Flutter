@@ -179,54 +179,6 @@ class _DeckPageState extends State<DeckPage> {
     _pageController.dispose();
     super.dispose();
   }
-
-  _buildCard(
-    String text,
-    String icon,
-    String image,
-    VoidCallback onPressed,
-    bool show,
-  ) {
-    return AnimatedOpacity(
-      opacity: show ? 1.0 : 0.0,
-      duration: Duration(microseconds: 1000),
-      child: Container(
-        width: 280,
-        height: 130,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(fit: BoxFit.fill, image: AssetImage(image)),
-        ),
-        child: GestureDetector(
-          onTap: () => onPressed,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(icon, width: 110, height: 80),
-                  Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(
-                          fontSize: 20,
-                          fontFamily: "Sanford",
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                        ).copyWith(
-                          color: Colors.white,
-                        ), // Color must be set, but it will be masked
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class GridViewPage extends StatelessWidget {

@@ -1,17 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/models/new_cards.dart';
-import 'package:hakat/view/global/custom_appbar.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
-import '../../../controllers/root_controller.dart';
 import '../../global/spacing.dart';
-import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class DeckInfo extends StatefulWidget {
   OracleCard card;
@@ -208,7 +200,7 @@ class _DeckInfoState extends State<DeckInfo> {
                                     AddHeight(30),
                                     // Step 1
                                     Text(
-                                      widget.card.description??'',
+                                      widget.card.credits??'',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "Inter",
@@ -219,21 +211,6 @@ class _DeckInfoState extends State<DeckInfo> {
                                     ),
 
                                     const SizedBox(height: 32),
-
-                                    // Additional space for potential more content
-                                    Container(
-                                      height: 100,
-                                      child: const Center(
-                                        child: Text(
-                                          'Continue scrolling for more steps...',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white54,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),

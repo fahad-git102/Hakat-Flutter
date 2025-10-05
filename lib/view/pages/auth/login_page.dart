@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage>{
                 Image.asset("assets/logo.png", height: 150, width: 140),
                 SizedBox(height: 6),
 
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -121,13 +121,14 @@ class _LoginPageState extends State<LoginPage>{
                         color: Colors.white,
                       ), // Color must be set, but it will be masked
                     ),
-                    SizedBox(width: 8,),
-                    Image.asset(
-                      "assets/images/onboarding/hakat_text2.png",
-                      height: 28,
-                      width: 80,
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Image.asset(
+                        "assets/icons/the_hakat_oracle.png",
+                        height: 28,
+                      ),
                     ),
-
                   ],
                 ),
                 SizedBox(height: 150,),

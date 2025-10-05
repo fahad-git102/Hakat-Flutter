@@ -8,6 +8,7 @@ class OracleCard {
   final String? mantra;
   final String? image;
   final String? id;
+  final String? credits;
   final String? group;
   final String? callToIntuition;
   final String? sigilActivation;
@@ -15,6 +16,7 @@ class OracleCard {
   const OracleCard({
     this.title,
     this.group,
+    this.credits,
     this.id,
     this.keywords,
     this.description,
@@ -35,6 +37,7 @@ class OracleCard {
           ?.map((e) => e.toString())
           .toList(),
       description: map['description'] as String?,
+      credits: map['credits'] as String?,
       shadowWisdom: map['shadowWisdom'] as String?,
       mantra: map['mantra'] as String?,
       image: map['image'] as String?,
@@ -51,6 +54,7 @@ class OracleCard {
           ?.map((e) => e.toString())
           .toList(),
       description: map['description'] as String?,
+      credits: map['credits'] as String?,
       shadowWisdom: map['shadowWisdom'] as String?,
       mantra: map['mantra'] as String?,
       image: map['image'] as String?,

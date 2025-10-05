@@ -96,7 +96,7 @@ class _WelcomPageState extends State<WelcomPage> {
                 Image.asset("assets/logo.png", height: 150, width: 140),
                 SizedBox(height: 6),
 
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -112,11 +112,13 @@ class _WelcomPageState extends State<WelcomPage> {
                             color: Colors.white,
                           ), // Color must be set, but it will be masked
                     ),
-                    SizedBox(width: 8),
-                    Image.asset(
-                      "assets/images/onboarding/hakat_text2.png",
-                      height: 28,
-                      width: 80,
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Image.asset(
+                        "assets/icons/the_hakat_oracle.png",
+                        height: 28,
+                      ),
                     ),
                   ],
                 ),
@@ -173,7 +175,7 @@ class _WelcomPageState extends State<WelcomPage> {
                                 false)) {
                       _completeOnboarding(context);
                     } else {
-                      Get.to(() => BottomNavScreen());
+                      Get.offAll(() => BottomNavScreen());
                     }
                   },
                   child: Container(

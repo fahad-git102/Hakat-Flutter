@@ -25,7 +25,6 @@ class RootController extends GetxController {
     super.onInit();
   }
 
-
   setContent(int index){
     content.value = index ;
     print(content.value);

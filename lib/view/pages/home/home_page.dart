@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
+  bool firstTime = true;
   RootController _rootcontroller = Get.find<RootController>();
 
   List<HomeCardData> homeList = [
@@ -52,12 +53,14 @@ class _HomePageState extends State<HomePage> {
       icon: 'assets/logo.png',
       text1: 'Enter the Portal',
       text2: 'A GUIDED JOURNEY AWAITS',
+      background: 'assets/images/combined_rectangle_side.png'
     ),
     HomeCardData(
       title: 'LET INTUITION CHOOSE',
       icon: 'assets/icons/intuition.png',
       text1: 'Follow the Unseen',
       text2: 'THE DECK LEADS THE WAY',
+      background: 'assets/images/intuition_choose_back.png'
     ),
   ];
 
@@ -80,13 +83,6 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => showThird = true);
   }
-
-  final List<Color> _itemColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-    Colors.purple,
-  ];
 
   int _currentPage = 1;
 
@@ -189,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                                       image: DecorationImage(
                                         fit: BoxFit.fill,
                                         image: AssetImage(
-                                          "assets/images/home_card_one.png",
+                                          homeList[index].background??"assets/images/home_card_one.png",
                                         ),
                                       ),
                                     ),

@@ -14,9 +14,10 @@ import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowWhisperPage extends StatefulWidget {
-  const ShowWhisperPage({super.key, required this.cardsList});
+  const ShowWhisperPage({super.key, required this.cardsList, required this.title});
 
   final List<OracleCard> cardsList;
+  final String title;
 
   @override
   State<ShowWhisperPage> createState() => _ShowWhisperPageState();
@@ -96,13 +97,14 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                         children: [
                           AddHeight(8),
                           CustomAppBar(
-                            text: "The\nWhisper",
+                            text: widget.title,
+                            fontSize: 21,
                             onBackTap: () {
                               widget.cardsList.clear();
                               Get.back();
                             },
                           ),
-                          AddHeight(40),
+                          AddHeight(22),
                           SliderWidget(
                             height: 290,
                             cards: widget.cardsList,
@@ -126,7 +128,6 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                     borderRadius: BorderRadius.circular(20),
                                     gradient: LinearGradient(
                                       colors: [
-                                        Color(0xFF6F738E33).withOpacity(0.5),
                                         Color(0xFF7E8B97).withOpacity(0.5),
                                         Color(0xFF7E8B97).withOpacity(0.5),
                                       ],
@@ -142,33 +143,85 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                       padding: const EdgeInsets.all(16),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                         children: [
+                                          ShaderMask(
+                                            shaderCallback: (bounds) =>
+                                                const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFFEBCD8C),
+                                                    Color(0xFFA47E4D),
+                                                  ],
+                                                ).createShader(
+                                                  Rect.fromLTWH(
+                                                    0,
+                                                    0,
+                                                    bounds.width,
+                                                    bounds.height,
+                                                  ),
+                                                ),
+                                            child: Text(
+                                              widget
+                                                  .cardsList[currentIndex]
+                                                  .title ??
+                                                  '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 29,
+                                                fontFamily: "Garamond",
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 1,
+                                                height: 1,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          AddHeight(15),
                                           Text(
                                             widget
-                                                    .cardsList[currentIndex]
-                                                    .description ??
+                                                .cardsList[currentIndex]
+                                                .keywords != null ? widget
+                                                .cardsList[currentIndex]
+                                                .keywords?.join(', ')??'' : '',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: "Garamond",
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1,
+                                              height: 1,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          AddHeight(25),
+                                          Text(
+                                            widget
+                                                .cardsList[currentIndex]
+                                                .description ??
                                                 '',
                                             style: TextStyle(
                                               fontSize: 16,
                                               height: 1.5,
-                                              color: Colors.white,
+                                              color: Colors.black,
                                             ),
                                           ),
                                           const SizedBox(height: 50),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
                                                   Get.to(
-                                                    () => WhisperBackPage(cardsList: widget.cardsList,),
+                                                        () =>
+                                                        WhisperBackPage(
+                                                          cardsList: widget
+                                                              .cardsList,),
                                                   );
                                                 },
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.center,
                                                   children: [
                                                     SvgPicture.asset(
                                                       'assets/icons/whisper_back.svg',
@@ -182,7 +235,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                         fontSize: 18,
                                                         fontFamily: "Literata",
                                                         fontWeight:
-                                                            FontWeight.w400,
+                                                        FontWeight.w400,
                                                         color: Colors.white,
                                                       ),
                                                     ),
@@ -198,7 +251,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                 },
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.center,
                                                   children: [
                                                     SvgPicture.asset(
                                                       'assets/icons/speel.svg',
@@ -212,7 +265,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                         fontSize: 18,
                                                         fontFamily: "Literata",
                                                         fontWeight:
-                                                            FontWeight.w400,
+                                                        FontWeight.w400,
                                                         color: Colors.white,
                                                       ),
                                                     ),
@@ -225,12 +278,13 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                           // Simulate long content
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
                                                   Get.offAll(
-                                                    () => BottomNavScreen()
+                                                          () =>
+                                                          BottomNavScreen()
                                                   );
                                                 },
                                                 child: Container(
@@ -238,9 +292,9 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                   height: 38,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                          5,
-                                                        ),
+                                                    BorderRadius.circular(
+                                                      5,
+                                                    ),
                                                   ),
                                                   child: Center(
                                                     child: Container(
@@ -253,25 +307,26 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                           ),
                                                         ),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                              5,
-                                                            ),
+                                                        BorderRadius.circular(
+                                                          5,
+                                                        ),
                                                         color: Colors.white,
                                                         gradient:
-                                                            LinearGradient(
-                                                              colors: [
-                                                                Color(
-                                                                  0xFF49415D,
-                                                                ),
-                                                                Color(
-                                                                  0xFF786F8E,
-                                                                ),
-                                                              ],
-                                                            ).withOpacity(0.1),
+                                                        LinearGradient(
+                                                          colors: [
+                                                            Color(
+                                                              0xFF49415D,
+                                                            ),
+                                                            Color(
+                                                              0xFF786F8E,
+                                                            ),
+                                                          ],
+                                                        ).withOpacity(0.1),
                                                       ),
                                                       child: Center(
                                                         child: ShaderMask(
-                                                          shaderCallback: (bounds) =>
+                                                          shaderCallback: (
+                                                              bounds) =>
                                                               LinearGradient(
                                                                 colors: [
                                                                   Color(
@@ -292,19 +347,19 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                           child: Text(
                                                             "END THE RITUAL",
                                                             style:
-                                                                TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontFamily:
-                                                                      "Literata",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  letterSpacing:
-                                                                      1,
-                                                                ).copyWith(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ), // Color must be set, but it will be masked
+                                                            TextStyle(
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                              "Literata",
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              letterSpacing:
+                                                              1,
+                                                            ).copyWith(
+                                                              color: Colors
+                                                                  .white,
+                                                            ), // Color must be set, but it will be masked
                                                           ),
                                                         ),
                                                       ),
@@ -321,12 +376,13 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                 ),
                               ),
                             ),
-                          ] else ...[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 100.0),
-                              child: const SwipeUpAnimation(),
-                            ),
-                          ],
+                          ] else
+                            ...[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 100.0),
+                                child: const SwipeUpAnimation(),
+                              ),
+                            ],
                         ],
                       ),
                     );
@@ -342,7 +398,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
 
   void shareCard(OracleCard card) {
     final String content =
-        '''
+    '''
 ✨ Check out my oracle card reading
 from the Hakat Oracle App! -- ${card.title ?? ''}
 

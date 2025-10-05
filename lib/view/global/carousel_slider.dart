@@ -30,6 +30,61 @@ class _SliderWidgetState extends State<SliderWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        (widget.cards?.length??0)>1?Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: Text(
+            'Present Energy',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: "Garamond_Italic",
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1,
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
+        ):Container(),
+        (widget.cards?.length??0)>1?Padding(
+          padding: const EdgeInsets.only(bottom: 15.0),
+          child: Text(
+            'What is being revealed ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: "Garamond",
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1,
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
+        ):Container(),
+        (widget.cards?.length??0)>1?Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.arrow_back_ios_new, color: Colors.grey, size: 16,),
+              AddWidth(20),
+              Text(
+                'CARD ${_currentIndex+1}/${widget.cards?.length}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontFamily: "Garamond",
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                  height: 1,
+                  color: Colors.grey,
+                ),
+              ),
+              AddWidth(20),
+              Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16,),
+            ],
+          ),
+        ):Container(),
         CarouselSlider(
           carouselController: _controller,
           options: CarouselOptions(
@@ -77,35 +132,6 @@ class _SliderWidgetState extends State<SliderWidget> {
             );
           }).toList(),
         ),
-        AddHeight(20),
-        widget.isFlipped==true?ShaderMask(
-          shaderCallback: (bounds) =>
-              const LinearGradient(
-                colors: [
-                  Color(0xFFEBCD8C),
-                  Color(0xFFA47E4D),
-                ],
-              ).createShader(
-                Rect.fromLTWH(
-                  0,
-                  0,
-                  bounds.width,
-                  bounds.height,
-                ),
-              ),
-          child: Text(
-            widget.cards?[_currentIndex].title??'',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontFamily: "Garamond",
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
-              height: 1,
-              color: Colors.white,
-            ),
-          ),
-        ):Container(),
       ],
     );
   }
