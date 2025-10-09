@@ -62,4 +62,21 @@ class OracleCard {
       sigilActivation: map['sigilActivation'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'group': group,
+      'credits': credits,
+      'keywords': keywords,
+      'description': description,
+      'shadowWisdom': shadowWisdom,
+      'mantra': mantra,
+      'image': image,
+      'callToIntuition': callToIntuition,
+      'sigilActivation': sigilActivation,
+    };
+  }
+
 }

@@ -6,6 +6,7 @@ import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/controllers/cards_controller.dart';
 import 'package:hakat/controllers/chaos_controller.dart';
 import 'package:hakat/controllers/user_controller.dart';
+import 'package:hakat/services/firestore_services/oracle_card_service.dart';
 import 'package:hakat/view/pages/profile/profile_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
 import 'package:hakat/view/pages/spread/circle_of_self.dart';
@@ -98,7 +99,6 @@ class _SpreadPageState extends State<SpreadPage> {
                         AddWidth(25),
                         Get.key.currentState?.canPop() ?? false?GestureDetector(
                           onTap: () {
-                            print(Get.previousRoute);
                             Get.back();
                           },
                           child: SvgPicture.asset(
@@ -109,7 +109,8 @@ class _SpreadPageState extends State<SpreadPage> {
                         ):Container(),
                         Spacer(),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            OracleCardService().getCardsJson();
                             Get.to(() => ProfilePage());
                           },
                           child: Image.asset(

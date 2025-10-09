@@ -332,7 +332,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      barrierDismissible: false, // force explicit cancel or logout
+      barrierDismissible: false,
     );
   }
 

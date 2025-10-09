@@ -91,8 +91,6 @@ class _HomePageState extends State<HomePage> {
     initialPage: 1,
   );
 
-  // Colors for the 4 items
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<UserController>();
