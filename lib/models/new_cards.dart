@@ -10,6 +10,7 @@ class OracleCard {
   final String? id;
   final String? credits;
   final String? group;
+  final String? sigilUrl;
   final String? callToIntuition;
   final String? sigilActivation;
 
@@ -17,6 +18,7 @@ class OracleCard {
     this.title,
     this.group,
     this.credits,
+    this.sigilUrl,
     this.id,
     this.keywords,
     this.description,
@@ -32,11 +34,16 @@ class OracleCard {
     return OracleCard(
       id: doc.id,
       title: map['title'] as String?,
-      group: map.containsKey('group')&& map['group']!=null?map['group'] as String?:null,
+      group: map.containsKey('group') && map['group'] != null
+          ? map['group'] as String?
+          : null,
       keywords: (map['keywords'] as List<dynamic>?)
           ?.map((e) => e.toString())
           .toList(),
       description: map['description'] as String?,
+      sigilUrl: map.containsKey('sigil_url') && map['sigil_url'] != null
+          ? map['sigil_url'] as String?
+          : null,
       credits: map['credits'] as String?,
       shadowWisdom: map['shadowWisdom'] as String?,
       mantra: map['mantra'] as String?,
@@ -49,11 +56,16 @@ class OracleCard {
   factory OracleCard.fromMap(Map<String, dynamic> map) {
     return OracleCard(
       title: map['title'] as String?,
-      group: map.containsKey('group')&& map['group']!=null?map['group'] as String?:null,
+      group: map.containsKey('group') && map['group'] != null
+          ? map['group'] as String?
+          : null,
       keywords: (map['keywords'] as List<dynamic>?)
           ?.map((e) => e.toString())
           .toList(),
       description: map['description'] as String?,
+      sigilUrl: map.containsKey('sigil_url') && map['sigil_url'] != null
+          ? map['sigil_url'] as String?
+          : null,
       credits: map['credits'] as String?,
       shadowWisdom: map['shadowWisdom'] as String?,
       mantra: map['mantra'] as String?,
@@ -71,6 +83,7 @@ class OracleCard {
       'credits': credits,
       'keywords': keywords,
       'description': description,
+      'sigil_url': sigilUrl,
       'shadowWisdom': shadowWisdom,
       'mantra': mantra,
       'image': image,
@@ -78,5 +91,4 @@ class OracleCard {
       'sigilActivation': sigilActivation,
     };
   }
-
 }

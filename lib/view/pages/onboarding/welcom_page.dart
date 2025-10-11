@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
 import 'package:hakat/controllers/user_controller.dart';
 import 'package:hakat/models/new_cards.dart';
+import 'package:hakat/view/global/spacing.dart';
 import 'package:hakat/view/pages/bulk_upload_screen.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
 import 'package:hakat/view/pages/root_page.dart';
@@ -79,7 +80,7 @@ class _WelcomPageState extends State<WelcomPage> {
                         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                       ),
                   child: Text(
-                    "INTUITIVE CATS\nORACLE CARDS",
+                    "INTUITIVE CAT\nORACLE CARDS",
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(
@@ -89,7 +90,7 @@ class _WelcomPageState extends State<WelcomPage> {
                           letterSpacing: 1,
                         ).copyWith(
                           color: Colors.white,
-                        ), // Color must be set, but it will be masked
+                        ),
                   ),
                 ),
                 SizedBox(height: 70),
@@ -113,12 +114,21 @@ class _WelcomPageState extends State<WelcomPage> {
                           ), // Color must be set, but it will be masked
                     ),
                     SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Image.asset(
-                        "assets/icons/the_hakat_oracle.png",
-                        height: 28,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/icons/the_hakat_oracle.png",
+                          height: 28,
+                          width: 240,
+                        ),
+                        AddWidth(3),
+                        Image.asset(
+                          "assets/icons/tm_text.png",
+                          height: 8,
+                        ),
+                      ],
                     ),
                   ],
                 ),
