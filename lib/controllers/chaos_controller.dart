@@ -4,6 +4,7 @@ import '../view/global/session_manager.dart';
 
 class ChaosController extends GetxController {
   RxBool chaosActive = true.obs;
+
   @override
   void onInit() {
     super.onInit();
