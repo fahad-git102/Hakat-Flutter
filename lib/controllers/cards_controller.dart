@@ -11,6 +11,7 @@ class CardsController extends GetxController {
   RxString selectedGroup = "INNER CIRCLE".obs;
   RxList<OracleCard> allCards = <OracleCard>[].obs;
   RxList<OracleCard> cards = <OracleCard>[].obs;
+  Rx<OracleCard?> jokerCard = Rx<OracleCard?>(null);
 
   @override
   void onInit() {
@@ -20,13 +21,20 @@ class CardsController extends GetxController {
       _applyChaosFilter();
     });
   }
+
   void _applyChaosFilter() {
-    if (chaosController.chaosActive.value) {
-      cards.value = List.from(allCards);
-    } else {
-      cards.value = allCards.where((c) => c.id != 'IKhXMSAyFWfRmkdsetHh').toList();
-    }
+    // if (chaosController.chaosActive.value) {
+    //   cards.value = List.from(allCards);
+    // } else {
+    jokerCard.value = allCards.firstWhereOrNull(
+      (c) => c.id == 'IKhXMSAyFWfRmkdsetHh',
+    );
+    cards.value = allCards
+        .where((c) => c.id != 'IKhXMSAyFWfRmkdsetHh')
+        .toList();
+    // }
   }
+
   List<OracleCard> get filteredCards {
     if (selectedGroup.value.isEmpty) return cards;
     return cards.where((card) => card.group == selectedGroup.value).toList();

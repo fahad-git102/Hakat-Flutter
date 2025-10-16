@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/controllers/cards_controller.dart';
+import 'package:hakat/controllers/chaos_controller.dart';
 import 'package:hakat/models/new_cards.dart';
 import 'package:hakat/view/global/carousel_slider.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
@@ -38,6 +39,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
 
   bool showDetails = false;
   final CardsController cardsController = Get.find<CardsController>();
+  final ChaosController chaosController = Get.find<ChaosController>();
 
   int selectedIndex = 10;
   final int itemCount = 20;
@@ -57,6 +59,12 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
+
+    if(chaosController.chaosActive.value){
+      if(cardsController.jokerCard.value!=null){
+        widget.cardsList.add(cardsController.jokerCard.value!);
+      }
+    }
 
     _horizontalScrollController = ScrollController();
 
