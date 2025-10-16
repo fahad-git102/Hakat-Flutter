@@ -8,7 +8,9 @@ import 'package:flutter_svg/svg.dart';
 class CustomAppBar extends StatelessWidget {
    final String text ;
    final bool? backbutton ;
-   CustomAppBar({Key? key,required this.text,this.backbutton}) : super(key: key);
+   final VoidCallback? onBackTap;
+   final double? fontSize;
+   CustomAppBar({Key? key,required this.text,this.backbutton, this.onBackTap, this.fontSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,36 +21,41 @@ class CustomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: (){
+              onTap: onBackTap ?? (){
                 Get.back();
               },
-              child: Container(
-                  width: 24,
-                  height: 24,
-                  child: backbutton ?? true ? SvgPicture.asset("assets/icons/back.svg",width: 24,height: 24,) : Container()),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                    width: 24,
+                    height: 24,
+                    child: backbutton ?? true ? SvgPicture.asset("assets/icons/back.svg",width: 24,height: 24,) : Container()),
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: ShaderMask(
-                shaderCallback: (bounds) =>
-                    LinearGradient(
-                      colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
-                    ).createShader(
-                      Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                    ),
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style:
-                  TextStyle(
-                    fontSize: 24,
-                    fontFamily: "Sanford",
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1,
-                    height: 1,
-                  ).copyWith(
-                    color: Colors.white,
-                  ), // Color must be set, but it will be masked
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: ShaderMask(
+                  shaderCallback: (bounds) =>
+                      LinearGradient(
+                        colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                      ).createShader(
+                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                      ),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style:
+                    TextStyle(
+                      fontSize: fontSize??24,
+                      fontFamily: "Sanford",
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
+                      height: 1,
+                    ).copyWith(
+                      color: Colors.white,
+                    ), // Color must be set, but it will be masked
+                  ),
                 ),
               ),
             ),

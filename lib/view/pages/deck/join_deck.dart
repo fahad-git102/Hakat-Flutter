@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class DeckWaitlistPage extends StatefulWidget {
-  const DeckWaitlistPage({super.key});
+  DeckWaitlistPage({super.key, this.showBack});
+  bool? showBack = false;
 
   @override
   State<DeckWaitlistPage> createState() => _DeckWaitlistPageState();
@@ -48,58 +49,145 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
     initialPage: 1,
   );
 
-  // Colors for the 4 items
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              width: Get.width,
-              height: Get.height,
-              child: Image.asset(AppIcon.deck_bg, fit: BoxFit.fill),
-            ),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(AppIcon.deck_bg),
+              fit: BoxFit.fill
           ),
-          Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  AddHeight(4),
-                  CustomAppBar(text: "WAITLIST"),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: Get.height / 1.3,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Positioned(
-                          top: 165,
-                          left: 15,
-                          right: 15,
-                          child: WaitlistContainer()
-                        ),
-                        Positioned(
-                          top: 0,
-                          child: Image.asset(
-                            "assets/deck/printed_deck.png",
-                            width: 350,
-                            height: 350,
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(top: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 40,),
+                      AnimatedOpacity(
+                        opacity: showFirst ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 300),
+                        child: ShaderMask(
+                          shaderCallback: (bounds) =>
+                              LinearGradient(
+                                colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                              ).createShader(
+                                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: widget.showBack == true?Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        child: SvgPicture.asset("assets/icons/back.svg",width: 24,height: 24,)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Join the waitlist for",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontFamily: "Garamond_Italic",
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1,
+                                    ).copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: 29,),
+                              ],
+                            ):Text(
+                              "Join the waitlist for",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: "Garamond_Italic",
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 1,
+                              ).copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 6),
+                      AnimatedOpacity(
+                        opacity: showSecond ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 300),
+                        child: ShaderMask(
+                          shaderCallback: (bounds) =>
+                              LinearGradient(
+                                colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                              ).createShader(
+                                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                              ),
+                          child: Text(
+                            "THE PRINTED DECK",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: "Sanford",
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                            ).copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      AnimatedOpacity(
+                        opacity: showThird ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 300),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.83,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned(
+                                  top: 135,
+                                  left: 15,
+                                  right: 15,
+                                  child: WaitlistContainer()
+                              ),
+                              Positioned(
+                                top: -40,
+                                child: Image.asset(
+                                  "assets/deck/printed_deck.png",
+                                  width: 350,
+                                  height: 350,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 100),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -108,53 +196,5 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  _buildCard(
-    String text,
-    String icon,
-    String image,
-    VoidCallback onPressed,
-    bool show,
-  ) {
-    return AnimatedOpacity(
-      opacity: show ? 1.0 : 0.0,
-      duration: Duration(microseconds: 1000),
-      child: Container(
-        width: 280,
-        height: 130,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(fit: BoxFit.fill, image: AssetImage(image)),
-        ),
-        child: GestureDetector(
-          onTap: () => onPressed,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(icon, width: 110, height: 80),
-                  Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(
-                          fontSize: 20,
-                          fontFamily: "Sanford",
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                        ).copyWith(
-                          color: Colors.white,
-                        ), // Color must be set, but it will be masked
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

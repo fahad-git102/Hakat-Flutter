@@ -3,14 +3,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hakat/view/pages/deck/deck_page.dart';
 import 'package:hakat/view/pages/guide/guide_page.dart';
 import 'package:hakat/view/pages/onboarding/first_step_page.dart';
+import 'package:hakat/view/pages/spread/spread_card.dart';
 import 'package:hakat/view/pages/spread/spread_page.dart' hide HomePage;
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../constants/icons.dart';
+import 'deck/join_deck.dart';
 import 'home/home_page.dart';
 import 'package:get/get.dart';
 import 'package:hakat/controllers/root_controller.dart';
 
-// Fade-in wrapper for screens
 class FadeInScreen extends StatefulWidget {
   final Widget child;
   final int? duration ;
@@ -51,16 +52,25 @@ class _FadeInScreenState extends State<FadeInScreen>
 }
 
 class BottomNavScreen extends StatefulWidget {
-  const BottomNavScreen({super.key});
+  final int? initialIndex;
+  const BottomNavScreen({super.key, this.initialIndex});
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  final PersistentTabController _controller = PersistentTabController(
-    initialIndex: 0,
-  );
+  late PersistentTabController _controller;
+  late final RootController rootController;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PersistentTabController(initialIndex: widget.initialIndex??0);
+    rootController = Get.put(RootController());
+    rootController.updateIndex(widget.initialIndex ?? 0);
+    rootController.updateColor(widget.initialIndex ?? 0);
+  }
 
   // List of tab configs (screens + nav items)
    List<PersistentTabConfig> _tabs (int index) {
@@ -70,8 +80,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
          item: _navItem('assets/icons/home.svg', 'HOME',index == 0),
        ),
        PersistentTabConfig(
-         screen: FadeInScreen(child:HomePage()),
-         item: _navItem('assets/icons/draw.svg', 'DRAW',index == 1),
+         screen: FadeInScreen(child:TheWhisperPage(showTextMain: false,)),
+         item: _navItem('assets/icons/draw.svg', 'PULL',index == 1),
        ),
        PersistentTabConfig(
          screen: const FadeInScreen(
@@ -80,7 +90,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
          item: _navItem('assets/icons/spread.svg', 'SPREAD',index == 2),
        ),
        PersistentTabConfig(
-         screen: FadeInScreen(child:DeckPage()),
+         screen: FadeInScreen(child:DeckWaitlistPage()),
 
          item: _navItem('assets/icons/deck.svg', 'DECK',index == 3),
        ),
@@ -123,16 +133,17 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
      @override
      Widget build(BuildContext context) {
        return GetBuilder(
-         init: Get.put(RootController()),
+         init: rootController,
          builder: (RootController controller) {
            return Scaffold(
-
              body: PersistentTabView(
                tabs: _tabs(controller.index),
+               controller: _controller,
                onTabChanged: (int i){
                  controller.updateIndex(i);
                  controller.updateColor(i);
                },
+               hideNavigationBar: controller.index == 1,
                backgroundColor: controller.bgColor,
                navBarBuilder: (navBarConfig) => Style7BottomNavBar(
                  navBarConfig: navBarConfig,

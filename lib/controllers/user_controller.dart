@@ -145,3 +145,81 @@
 //
 //
 // }
+
+import 'dart:async';
+
+import 'package:get/get.dart';
+import 'package:hakat/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hakat/view/pages/auth/login_page.dart';
+
+import '../view/pages/subscription/subscription_page.dart';
+
+class UserController extends GetxController {
+  var currentUser = Rxn<UsersModel>();
+  StreamSubscription<DocumentSnapshot>? _userSub;
+
+  @override
+  void onInit() {
+    super.onInit();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        currentUser.value = null;
+        _userSub?.cancel();
+      } else {
+        _userSub = FirebaseFirestore.instance
+            .collection("users")
+            .doc(user.uid)
+            .snapshots()
+            .listen((snapshot) {
+          if (snapshot.exists) {
+            currentUser.value = UsersModel.fromFirestore(snapshot.data()!);
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    _userSub?.cancel();
+    super.onClose();
+  }
+
+  void setUser(UsersModel user) {
+    currentUser.value = user;
+  }
+
+  void clearUser() {
+    currentUser.value = null;
+  }
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      _userSub?.cancel();
+      currentUser.value = null;
+      Get.offAll(() => LoginPage());
+    } catch (e) {
+      print("Error during sign out: $e");
+      Get.snackbar("Error", "Failed to log out");
+    }
+  }
+
+  Future<void> updateUserSubscription({
+    required String uid,
+    required bool isSubscribed,
+    required SubscriptionType subscribedPlan,
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({
+        'isSubscribed': isSubscribed,
+        'subscribedPlan': subscribedPlan.name,
+      });
+      print("✅ User subscription updated successfully");
+    } catch (e) {
+      print("❌ Failed to update user subscription: $e");
+    }
+  }
+
+}

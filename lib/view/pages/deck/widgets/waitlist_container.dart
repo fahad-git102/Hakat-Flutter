@@ -19,11 +19,10 @@ class WaitlistContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 450,
       width: Get.width,
       padding: const EdgeInsets.only(top: 150,left: 20,right: 20),
       decoration: BoxDecoration(
-        color:  Colors.white.withOpacity(0.4),
+        color:  Colors.grey.withOpacity(0.4),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -36,15 +35,13 @@ class WaitlistContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           Text(
-              "To bring this deck into the world in physical form is a sacred act. We honor our planet by printing only when enough kindred souls join the circle — ensuring sustainable, intentional creation.",
-              textAlign: TextAlign.center,
+              "To bring this deck into the world in physical form is a sacred act. We honor our planet by printing only when enough kindred souls join the circle — ensuring sustainable, intentional creation.",
               style:
               TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontFamily: "Garamond",
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 letterSpacing: 1,
               ).copyWith(
                 color: Colors.white,
@@ -52,7 +49,27 @@ class WaitlistContainer extends StatelessWidget {
             ),
           AddHeight(30),
           _buildTextField(TextEditingController(), "Email"),
-
+          AddHeight(20),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            decoration: BoxDecoration(
+              color: AppColor.whiteColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              'JOIN THE CIRCLE',
+              style:
+              TextStyle(
+                fontSize: 16,
+                fontFamily: "Garamond",
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1,
+              ).copyWith(
+                color: Colors.black,
+              ), // Color must be set, but it will be masked
+            ),
+          ),
+          AddHeight(30),
           // Title
         ],
       ),
@@ -63,12 +80,9 @@ class WaitlistContainer extends StatelessWidget {
    Widget _buildTextField(TextEditingController controller, String hint) {
      return Container(
        decoration: BoxDecoration(
-         color: Colors.white,
+         color: Colors.black.withAlpha(70),
          borderRadius: BorderRadius.circular(8),
-         border: Border.all(
-           color: Colors.white,
-           width: 1,
-         ),
+
        ),
        child: TextField(
          controller: controller,

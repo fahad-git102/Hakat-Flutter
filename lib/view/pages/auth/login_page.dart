@@ -1,0 +1,167 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hakat/view/pages/onboarding/welcom_page.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../services/auth.dart';
+import '../../../services/revenue_cat_service.dart';
+import '../root_page.dart';
+
+class LoginPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _LoginPageState();
+
+}
+
+class _LoginPageState extends State<LoginPage>{
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLogin();
+  }
+
+  Future<void> _checkLogin() async {
+    await Future.delayed(Duration(seconds: 2));
+    User? user = FirebaseAuth.instance.currentUser;
+    print(user?.email);
+    print(user?.uid);
+    if (user != null) {
+      await RevenueCatService.logIn(user.uid);
+      Get.offAll(() => WelcomPage());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              width: Get.width,
+              height: Get.height,
+              child: Image.asset(
+                "assets/images/onboarding/onboarding_bg.jpg",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 90,
+            bottom: 90,
+            left: 36,
+            right: 36,
+            child: Column(
+              children: [
+                ShaderMask(
+                  shaderCallback: (bounds) =>
+                      LinearGradient(
+                        colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                      ).createShader(
+                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                      ),
+                  child: Text(
+                    "Welcome to the",
+                    style:
+                    TextStyle(
+                      fontSize: 24,
+                      fontFamily: "Garamond_Italic",
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1,
+                    ).copyWith(
+                      color: Colors.white,
+                    ), // Color must be set, but it will be masked
+                  ),
+                ),
+                SizedBox(height: 6),
+                ShaderMask(
+                  shaderCallback: (bounds) =>
+                      LinearGradient(
+                        colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                      ).createShader(
+                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                      ),
+                  child: Text(
+                    "INTUITIVE CATS\nORACLE CARDS",
+                    textAlign: TextAlign.center,
+                    style:
+                    TextStyle(
+                      fontSize: 24,
+                      fontFamily: "Sanford",
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1,
+                    ).copyWith(
+                      color: Colors.white,
+                    ), // Color must be set, but it will be masked
+                  ),
+                ),
+                SizedBox(height: 70),
+                Image.asset("assets/logo.png", height: 150, width: 140),
+                SizedBox(height: 6),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "by",
+                      style:
+                      TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Garamond_Italic",
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
+                    ),
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Image.asset(
+                        "assets/icons/the_hakat_oracle.png",
+                        height: 28,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 150,),
+                  Platform.isIOS?Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(17),
+                    ),
+                    width: 242,
+                    height: 42,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(17),
+                      child: SignInWithAppleButton(
+                          onPressed: () async {
+                            bool status = await Auth.signInWithApple(context);
+                            if(status == true){
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.setBool('isLoggedIn', true);
+                              Get.to(()=>WelcomPage());
+                            }else{
+                              print('login failed');
+                            }
+                          }
+                      ),
+                    ),
+                  ):ElevatedButton(onPressed: (){
+                    Get.to(()=>WelcomPage());
+                  }, child: Text('Login')),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+}

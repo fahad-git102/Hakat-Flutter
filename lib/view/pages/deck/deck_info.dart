@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
-import 'package:hakat/view/global/custom_appbar.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
-import '../../../controllers/root_controller.dart';
+import 'package:hakat/models/new_cards.dart';
 import '../../global/spacing.dart';
-import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class DeckInfo extends StatefulWidget {
-  const DeckInfo({super.key});
+  OracleCard card;
+  DeckInfo({super.key, required this.card});
 
   @override
   State<DeckInfo> createState() => _DeckInfoState();
@@ -81,10 +76,6 @@ class _DeckInfoState extends State<DeckInfo> {
             child: SafeArea(
               child: Column(
                 children: [
-                  // Top bar with close button
-
-
-                  // Main content
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -116,7 +107,7 @@ class _DeckInfoState extends State<DeckInfo> {
                                           onPressed: () => Navigator.of(context).pop(),
                                           icon: const Icon(
                                             Icons.close,
-                                            color: Color(0xFFD4AF37), // Golden color
+                                            color: Color(0xFFD4AF37),
                                             size: 24,
                                           ),
                                         ),
@@ -125,6 +116,8 @@ class _DeckInfoState extends State<DeckInfo> {
                                     Align(
                                       alignment: Alignment.center,
                                       child: Container(
+                                        height: 270,
+                                        width: 160,
                                         decoration: BoxDecoration(
                                           boxShadow: [
                                             BoxShadow(
@@ -137,10 +130,24 @@ class _DeckInfoState extends State<DeckInfo> {
                                         ),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(12),
-                                          child: Image.asset(
-                                            "assets/images/shadow.png",
-                                            width: 160,
-                                            height: 270,
+                                          child:  CachedNetworkImage(
+                                            imageUrl: widget.card.image??'',
+                                            fit: BoxFit.fill,
+                                            placeholder: (context, str){
+                                              return Center(
+                                                child: CircularProgressIndicator(),
+                                              );
+                                            },
+                                            errorWidget: (context, error, stackTrace) {
+                                              return Container(
+                                                color: Colors.grey[300],
+                                                child: Icon(
+                                                  Icons.image_not_supported,
+                                                  size: 40,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),
@@ -157,13 +164,13 @@ class _DeckInfoState extends State<DeckInfo> {
                                               Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                                             ),
                                         child: Text(
-                                          "Create a \n Grounding Ritual",
+                                          widget.card.title??'',
                                           textAlign: TextAlign.center,
                                           style:
                                           TextStyle(
                                             fontSize: 28,
                                             fontFamily: "Garamond",
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w600,
                                             height: 1,
                                             letterSpacing: 1,
                                           ).copyWith(
@@ -172,22 +179,28 @@ class _DeckInfoState extends State<DeckInfo> {
                                         ),
                                       ),
                                     ),
+                                    AddHeight(10),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        widget.card.keywords!=null?widget.card.keywords!.join(', '):'',
+                                        textAlign: TextAlign.center,
+                                        style:
+                                        TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "Garamond",
+                                          fontWeight: FontWeight.w600,
+                                          height: 1,
+                                          letterSpacing: 1,
+                                        ).copyWith(
+                                          color: Colors.white,
+                                        ), // Color must be set, but it will be masked
+                                      ),
+                                    ),
                                     AddHeight(30),
                                     // Step 1
-                                    const Text(
-                                      '1. Create a Sacred Space',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                        fontFamily: "Garamond_Italic",
-                                        // Golden color
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    const Text(
-                                      'Begin by creating a calm, quiet environment. Light a candle to represent the illumination of wisdom and understanding. Place the cards in front of you, on a clean cloth or altar space, ensuring they are undisturbed. Surround yourself with elements that resonate with you—crystals, stones, incense, or symbols of your ancestors. These items help activate the energy of your practice and bring your intentions to life.',
+                                    Text(
+                                      widget.card.credits??'',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "Inter",
@@ -198,54 +211,12 @@ class _DeckInfoState extends State<DeckInfo> {
                                     ),
 
                                     const SizedBox(height: 32),
-
-                                    // Step 2
-                                    const Text(
-                                      '2. Clear the Mind and Heart',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                        fontFamily: "Garamond_Italic",
-                                        // Golden color
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    const Text(
-                                      'Sit comfortably, close your eyes, and take a few deep breaths. With each inhale, draw in light, clarity, and strength. With each exhale, release any tension or distractions. Allow your body to relax and your mind to clear. As you breathe, focus on your connection to the earth beneath you. Visualize your roots extending deep into the ground, like the paws of the Cat moving silently through the earth. Feel the stability and grounding energy flowing upward through your body, anchoring you in the present moment.',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: "Inter",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      ),
-                                    ),
-
-                                    const SizedBox(height: 32),
-
-                                    // Additional space for potential more content
-                                    Container(
-                                      height: 100,
-                                      child: const Center(
-                                        child: Text(
-                                          'Continue scrolling for more steps...',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white54,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
 
-                          const SizedBox(height: 20),
 
                         ],
                       ),

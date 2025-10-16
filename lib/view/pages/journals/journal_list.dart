@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hakat/constants/theme/colors.dart';
+import 'package:hakat/controllers/whispers_controller.dart';
 import 'package:hakat/view/global/custom_appbar.dart';
-import 'package:hakat/view/pages/deck/deck_page.dart';
-import 'package:hakat/view/pages/profile/profile_page.dart';
-import '../../../controllers/root_controller.dart';
+import 'package:hakat/view/pages/journals/view_journal.dart';
+import 'package:hakat/view/pages/root_page.dart';
+import 'package:hakat/view/pages/spread/spread_card.dart';
+import '../../../controllers/user_controller.dart';
 import '../../global/spacing.dart';
-import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class JournalListPage extends StatefulWidget {
   const JournalListPage({super.key});
@@ -21,12 +19,13 @@ class JournalListPage extends StatefulWidget {
 }
 
 class _JournalListPageState extends State<JournalListPage> {
-
   bool showFirst = false;
 
   bool showSecond = false;
 
   bool showThird = false;
+  final whispersController = Get.find<WhispersController>();
+  final UserController usersController = Get.find<UserController>();
 
   @override
   void initState() {
@@ -37,6 +36,10 @@ class _JournalListPageState extends State<JournalListPage> {
         _currentPage = _pageController.page?.round() ?? 0;
       });
     });
+    final uid = usersController.currentUser.value?.uid;
+    if (uid != null) {
+      whispersController.getWhispers(uid);
+    }
   }
 
   void animateWidgets() async {
@@ -47,13 +50,6 @@ class _JournalListPageState extends State<JournalListPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => showThird = true);
   }
-
-  final List<Color> _itemColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-    Colors.purple,
-  ];
 
   int _currentPage = 1;
 
@@ -96,59 +92,154 @@ class _JournalListPageState extends State<JournalListPage> {
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(colors: [Color(0xFF0d0d10),Color(0xFFD4D4D4),Color(0xFFD4D4D4)],begin: Alignment.topLeft,end:  Alignment.bottomRight),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF0d0d10),
+                              Color(0xFFD4D4D4),
+                              Color(0xFFD4D4D4),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                           border: Border.all(
                             color: Colors.white.withOpacity(0.2),
                             width: 1,
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 20),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 20,
+                          ),
                           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    _buildJournalButton("+ NEW READING", (){}),
-                                    _buildJournalButton("+ NEW SPREAD", (){}),
-                                  ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                        () =>
+                                            TheWhisperPage(showTextMain: false),
+                                        transition: Transition.fadeIn,
+                                        duration: Duration(milliseconds: 400),
+                                      );
+                                    },
+                                    child: _buildJournalButton("+ NEW READING"),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.offAll(
+                                        () => BottomNavScreen(initialIndex: 2),
+                                      );
+                                    },
+                                    child: _buildJournalButton("+ NEW SPREAD"),
+                                  ),
+                                ],
+                              ),
+                              AddHeight(20),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  "Date - Latest First",
+                                  textAlign: TextAlign.start,
+                                  style:
+                                      TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: "Garamond",
+                                        fontWeight: FontWeight.w500,
+                                        height: 1,
+                                        letterSpacing: 1,
+                                      ).copyWith(
+                                        color: Colors.white,
+                                      ), // Color must be set, but it will be masked
                                 ),
-                                AddHeight(20),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child: Text(
-                                    "Date - Latest First",
-                                    textAlign: TextAlign.start,
+                              ),
+                              Expanded(
+                                child: Obx(() {
+                                  return whispersController.myWhispers.isEmpty?
+                                  Center(child: Text(
+                                    'No saved Whispers',
                                     style:
                                     TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "Garamond",
-                                      fontWeight: FontWeight.w500,
-                                      height: 1,
-                                      letterSpacing: 1,
+                                      fontSize: 13,
+                                      fontFamily: "Literata",
+                                      letterSpacing: 1.2,
+                                      fontWeight: FontWeight.w400,
                                     ).copyWith(
                                       color: Colors.white,
                                     ), // Color must be set, but it will be masked
-                                  ),
-                                ),
-                                JournalEntryItem(
-                                  date: '22/5/2025',
-                                  title: 'Journal Entry Title, Card Title,\nor Question',
-                                  iconType: IconType.single,
-                                ),
-                                JournalEntryItem(
-                                  date: '10/4/2025',
-                                  title: 'Card Title, Journal Entry Title,\nor Question',
-                                  iconType: IconType.multiple,
-                                ),
-                                JournalEntryItem(
-                                  date: '6/4/2025',
-                                  title: 'Journal Entry Title, Card Title,\nor Question',
-                                  iconType: IconType.single,
-                                ),
-                              ],
-                            ),
+                                  ))
+                                  : ListView.builder(
+                                    itemCount:
+                                        whispersController.myWhispers.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      int cardsCount =
+                                          whispersController
+                                                  .myWhispers[index]
+                                                  .cards !=
+                                              null
+                                          ? whispersController
+                                                .myWhispers[index]
+                                                .cards!
+                                                .length
+                                          : 0;
+                                      return InkWell(
+                                        onTap: (){
+                                          Get.to(()=> ViewJournalPage(
+                                            whispersModel: whispersController.myWhispers[index],
+                                          ));
+                                        },
+                                        child: JournalEntryItem(
+                                          date:
+                                              whispersController
+                                                  .myWhispers[index]
+                                                  .date ??
+                                              '',
+                                          title:
+                                              whispersController
+                                                  .myWhispers[index]
+                                                  .title ??
+                                              '',
+                                          iconType: cardsCount <= 1
+                                              ? IconType.single
+                                              : cardsCount == 3
+                                              ? IconType.three
+                                              : cardsCount == 5
+                                              ? IconType.five
+                                              : cardsCount == 7
+                                              ? IconType.seven
+                                              : IconType.single,
+                                          onDelete: () {
+                                            Get.defaultDialog(
+                                              title: "Delete Whisper",
+                                              middleText:
+                                                  "Are you sure you want to delete this Whisper?",
+                                              textCancel: "Cancel",
+                                              textConfirm: "Delete",
+                                              confirmTextColor: Colors.white,
+                                              onConfirm: () {
+                                                whispersController.deleteWhisper(
+                                                  whispersController
+                                                      .myWhispers[index]
+                                                      .id!,
+                                                );
+                                                Get.back(); // close dialog
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -164,45 +255,46 @@ class _JournalListPageState extends State<JournalListPage> {
     );
   }
 
-  _buildJournalButton(String title, VoidCallback action){
-    return GestureDetector(
-      onTap: action,
-      child: Container(
-        decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage('assets/images/gold_effect.jpg'),
-          ),
+  _buildJournalButton(String title) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage('assets/images/gold_effect.jpg'),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-                gradient: LinearGradient(colors: [
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+              gradient: LinearGradient(
+                colors: [
                   Color(0xFF5F7A83).withOpacity(0.6),
                   Color(0xFF5F7A83).withOpacity(0.6),
-                ],),
-
+                ],
               ),
-              child:   Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10),
-                  child: Text(
-                    title,
-                    style:
-                    TextStyle(
-                      fontSize: 12,
-                      fontFamily: "Literata",
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ).copyWith(
-                      color: Colors.white,
-                    ), // Color must be set, but it will be masked
-                  ),
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 10,
+                ),
+                child: Text(
+                  title,
+                  style:
+                      TextStyle(
+                        fontSize: 12,
+                        fontFamily: "Literata",
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w400,
+                      ).copyWith(
+                        color: Colors.white,
+                      ), // Color must be set, but it will be masked
                 ),
               ),
             ),
@@ -219,30 +311,27 @@ class _JournalListPageState extends State<JournalListPage> {
   }
 }
 
-enum IconType { single, multiple }
+enum IconType { single, three, five, seven }
 
 class JournalEntryItem extends StatelessWidget {
   final String date;
   final String title;
   final IconType iconType;
+  final VoidCallback? onDelete;
 
   const JournalEntryItem({
-    Key? key,
+    super.key,
     required this.date,
     required this.title,
     required this.iconType,
-  }) : super(key: key);
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFF3A5A6B),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFF3A5A6B), width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -253,7 +342,7 @@ class JournalEntryItem extends StatelessWidget {
               width: 48,
               height: 48,
               margin: const EdgeInsets.only(right: 16),
-              child: _buildIcon(),
+              child: _buildIcon(iconType),
             ),
             // Content
             Expanded(
@@ -263,7 +352,7 @@ class JournalEntryItem extends StatelessWidget {
                   Text(
                     date,
                     style: const TextStyle(
-                      color: Color(0xFF8B9CA8),
+                      color: Colors.black,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -282,15 +371,13 @@ class JournalEntryItem extends StatelessWidget {
               ),
             ),
             // Close/X button
-            Container(
+            SizedBox(
               width: 24,
               height: 24,
               child: IconButton(
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                onPressed: () {
-                  // Handle close action
-                },
+                onPressed: onDelete,
                 icon: const Icon(
                   Icons.close,
                   color: Color(0xFF8B9CA8),
@@ -304,76 +391,20 @@ class JournalEntryItem extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon() {
-    if (iconType == IconType.single) {
-      // Single card icon
-      return Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF4A6B7D),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: const Center(
-          child: Icon(
-            Icons.description_outlined,
-            color: Color(0xFF8B9CA8),
-            size: 24,
-          ),
-        ),
-      );
-    } else {
-      // Multiple cards icon
-      return Stack(
-        children: [
-          Positioned(
-            left: 8,
-            top: 8,
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: const Color(0xFF3A5A6B),
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 4,
-            top: 4,
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: const Color(0xFF4A6B7D),
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: const Color(0xFF5A7B8D),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.description_outlined,
-                  color: Color(0xFF8B9CA8),
-                  size: 16,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
+  Widget _buildIcon(IconType iconType) {
+    switch(iconType){
+      case IconType.single:
+        return Image.asset('assets/whisper_cards/one.png', height: 32, width: 32,);
+      case IconType.three:
+        return Image.asset('assets/whisper_cards/three.png', height: 32, width: 32,);
+      case IconType.five:
+        return Image.asset('assets/whisper_cards/five.png', height: 32, width: 32,);
+      case IconType.seven:
+        return Image.asset('assets/whisper_cards/seven.png', height: 32, width: 32,);
     }
   }
 }
 
-// Alternative implementation using SVG icons
 class JournalEntryItemWithSVG extends StatelessWidget {
   final String date;
   final String title;
@@ -390,12 +421,7 @@ class JournalEntryItemWithSVG extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFF3A5A6B),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFF3A5A6B), width: 1)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -491,4 +517,3 @@ class JournalEntryItemWithSVG extends StatelessWidget {
     }
   }
 }
-
