@@ -17,9 +17,9 @@ import '../../global/spacing.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowWhisperPage extends StatefulWidget {
-  const ShowWhisperPage({super.key, required this.cardsList, required this.title});
+  ShowWhisperPage({super.key, required this.cardsList, required this.title});
 
-  final List<OracleCard> cardsList;
+  List<OracleCard>? cardsList;
   final String title;
 
   @override
@@ -62,7 +62,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
 
     if(chaosController.chaosActive.value){
       if(cardsController.jokerCard.value!=null){
-        widget.cardsList.add(cardsController.jokerCard.value!);
+        widget.cardsList?.add(cardsController.jokerCard.value!);
       }
     }
 
@@ -110,20 +110,34 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                             text: widget.title,
                             fontSize: 21,
                             onBackTap: () {
-                              widget.cardsList.clear();
-                              Get.back();
+                              try{
+                                print(widget.cardsList?.length);
+                                widget.cardsList=null;
+                                Get.back();
+                              }catch(e){
+                                print(e);
+                              }
+
                             },
                           ),
                           AddHeight(22),
-                          SliderWidget(
-                            height: 290,
-                            cards: widget.cardsList,
-                            isFlipped: flipAll,
-                            onIndexChanged: (index) {
+                          InkWell(
+                            onTap: (){
                               setState(() {
-                                currentIndex = index;
+                                showDetails = true;
+                                flipAll = true;
                               });
                             },
+                            child: SliderWidget(
+                              height: 310,
+                              cards: widget.cardsList,
+                              isFlipped: flipAll,
+                              onIndexChanged: (index) {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              },
+                            ),
                           ),
                           AddHeight(20),
 
@@ -159,6 +173,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                             children: [
                                               AddHeight(16),
                                               ShaderMask(
+                                                blendMode: BlendMode.srcIn,
                                                 shaderCallback: (bounds) =>
                                                     const LinearGradient(
                                                       colors: [
@@ -175,7 +190,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                     ),
                                                 child: Text(
                                                   widget
-                                                      .cardsList[currentIndex]
+                                                      .cardsList?[currentIndex]
                                                       .title ??
                                                       '',
                                                   textAlign: TextAlign.center,
@@ -184,17 +199,16 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                     fontFamily: "Garamond",
                                                     fontWeight: FontWeight.w600,
                                                     letterSpacing: 1,
-                                                    height: 1,
-                                                    color: Colors.white,
+                                                    color: Color(0xFFA47E4D)
                                                   ),
                                                 ),
                                               ),
                                               AddHeight(15),
                                               Text(
                                                 widget
-                                                    .cardsList[currentIndex]
+                                                    .cardsList?[currentIndex]
                                                     .keywords != null ? widget
-                                                    .cardsList[currentIndex]
+                                                    .cardsList![currentIndex]
                                                     .keywords?.join(', ')??'' : '',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -202,14 +216,13 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                   fontFamily: "Garamond",
                                                   fontWeight: FontWeight.w600,
                                                   letterSpacing: 1,
-                                                  height: 1,
                                                   color: Colors.white,
                                                 ),
                                               ),
                                               AddHeight(25),
                                               Text(
                                                 widget
-                                                    .cardsList[currentIndex]
+                                                    .cardsList?[currentIndex]
                                                     .description ??
                                                     '',
                                                 style: TextStyle(
@@ -238,7 +251,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               AddHeight(10),
                                               Text(
                                                 widget
-                                                    .cardsList[currentIndex]
+                                                    .cardsList?[currentIndex]
                                                     .shadowWisdom ??
                                                     '',
                                                 style: TextStyle(
@@ -249,7 +262,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               ),
                                               AddHeight(30),
                                               widget
-                                                  .cardsList[currentIndex]
+                                                  .cardsList?[currentIndex]
                                                   .mantra?.isNotEmpty==true?Container(
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
@@ -285,7 +298,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                     AddHeight(7),
                                                     Text(
                                                       widget
-                                                          .cardsList[currentIndex]
+                                                          .cardsList?[currentIndex]
                                                           .mantra ??
                                                           '',
                                                       textAlign: TextAlign.center,
@@ -319,7 +332,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                               AddHeight(10),
                                               Text(
                                                 widget
-                                                    .cardsList[currentIndex]
+                                                    .cardsList?[currentIndex]
                                                     .callToIntuition ??
                                                     '',
                                                 style: TextStyle(
@@ -366,7 +379,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                       AddHeight(7),
                                                       Text(
                                                         widget
-                                                            .cardsList[currentIndex]
+                                                            .cardsList?[currentIndex]
                                                             .sigilActivation ??
                                                             '',
                                                         textAlign: TextAlign.center,
@@ -379,7 +392,7 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                                       AddHeight(10),
                                                       CachedNetworkImage(
                                                         height: 230,
-                                                        imageUrl: widget.cardsList[currentIndex].sigilUrl ?? '',
+                                                        imageUrl: widget.cardsList?[currentIndex].sigilUrl ?? '',
                                                         fit: BoxFit.fill,
                                                         placeholder: (context, str) {
                                                           return Center(
@@ -452,10 +465,12 @@ class _ShowWhisperPageState extends State<ShowWhisperPage>
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                shareCard(
-                                                  widget
-                                                      .cardsList[currentIndex],
-                                                );
+                                                if(widget.cardsList!=null&&widget.cardsList?.isNotEmpty==true){
+                                                  shareCard(
+                                                    widget
+                                                        .cardsList![currentIndex],
+                                                  );
+                                                }
                                               },
                                               child: Column(
                                                 crossAxisAlignment:

@@ -45,7 +45,7 @@ class SubscriptionDialog extends StatelessWidget {
                     letterSpacing: 0.7,
                     height: 1.1
                   ).copyWith(
-                    color: Colors.white,
+                      color: Colors.white
                   ), // Color must be set, but it will be masked
                 ),
               ),

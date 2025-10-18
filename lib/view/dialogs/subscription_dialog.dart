@@ -67,7 +67,7 @@ class SubscriptionDialog extends StatelessWidget{
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1,
                 ).copyWith(
-                  color: Colors.white,
+                    color: Colors.white
                 ), // Color must be set, but it will be masked
               ),
             ),
@@ -167,7 +167,7 @@ class SubscriptionDialog extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/gift_subscription.png',
+                    'assets/icons/draw_gold.png',
                     width: width * 0.15,
                     height: height * 0.05,
                   ),

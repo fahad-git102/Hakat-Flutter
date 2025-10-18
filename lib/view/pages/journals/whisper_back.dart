@@ -142,10 +142,9 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                                     fontSize: 28,
                                     fontFamily: "Garamond",
                                     fontWeight: FontWeight.w400,
-                                    height: 1,
                                     letterSpacing: 1,
                                   ).copyWith(
-                                    color: Colors.white,
+                                      color: Colors.white
                                   ), // Color must be set, but it will be masked
                             ),
                           ),
@@ -175,10 +174,9 @@ class _WhisperBackPageState extends State<WhisperBackPage> {
                               fontSize: 18,
                               fontFamily: "Garamond_Italic",
                               fontWeight: FontWeight.w400,
-                              height: 1,
                               letterSpacing: 1,
                             ).copyWith(
-                              color: Colors.white,
+                                color: Colors.white
                             ), // Color must be set, but it will be masked
                       ),
                     ),

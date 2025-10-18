@@ -57,7 +57,7 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage(AppIcon.deck_bg),
-              fit: BoxFit.fill
+              fit: BoxFit.cover
           ),
         ),
         child: Padding(
@@ -122,7 +122,7 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 1,
                               ).copyWith(
-                                color: Colors.white,
+                                color: AppColor.whiteColor,
                               ),
                             ),
                           ),
@@ -148,7 +148,7 @@ class _DeckWaitlistPageState extends State<DeckWaitlistPage> {
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1,
                             ).copyWith(
-                              color: Colors.white,
+                                color: AppColor.whiteColor
                             ),
                           ),
                         ),

@@ -116,82 +116,71 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: 400,
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 30,
-                                                  ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              _buildBlankRow(
+                                                "THE INNER\nPULSE",
+                                                0,
+                                                showHeight: true,
+                                              ),
+                                              _buildBlankRow(
+                                                "THE GATE\nKEEPER",
+                                                1,
+                                              ),
+                                              _buildBlankRow(
+                                                "THE\nCOMPANION",
+                                                2,
+                                              ),
+                                              _buildBlankRow(
+                                                showHeight: true,
+                                                "THE\nHORIZON",
+                                                3,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 30,
+                                                ),
 
-                                                  child: _buildBlankRow(
-                                                    "THE INNER\nPULSE",
-                                                    0,
-                                                  ),
+                                                child: _buildBlankRow(
+                                                  "THE OUTER\nSELF",
+                                                  4,
+                                                  showBottomHeight: true
                                                 ),
-                                                _buildBlankRow(
-                                                  "THE GATE\nKEEPER",
-                                                  1,
+                                              ),
+                                              _buildBlankRow(
+                                                "THE \nCALLER",
+                                                5,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 30,
                                                 ),
-                                                _buildBlankRow(
-                                                  "THE\nCOMPANION",
-                                                  2,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 30,
-                                                  ),
 
-                                                  child: _buildBlankRow(
-                                                    "THE\nHORIZON",
-                                                    3,
-                                                  ),
+                                                child: _buildBlankRow(
+                                                  "THE CORE\nTHREAD",
+                                                  6,
+                                                    showBottomHeight: true
                                                 ),
-                                              ],
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 30,
-                                                  ),
-
-                                                  child: _buildBlankRow(
-                                                    "THE OUTER\nSELF",
-                                                    4,
-                                                  ),
-                                                ),
-                                                _buildBlankRow(
-                                                  "THE \nCALLER",
-                                                  5,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 30,
-                                                  ),
-
-                                                  child: _buildBlankRow(
-                                                    "THE CORE\nTHREAD",
-                                                    6,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      AddHeight(50),
+                                      AddHeight(20),
                                       Center(
                                         child: SizedBox(
                                           height:
@@ -232,6 +221,16 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                   children: List.generate(cardsController.cards.length, (
                                                     index,
                                                   ) {
+                                                    final bool isCardSelected = selectedCards.any(
+                                                            (selectedCard) => selectedCard == cardsController.cards[index]
+                                                    );
+                                                    if (isCardSelected) {
+                                                      return Positioned(
+                                                        left: 0,
+                                                        top: 0,
+                                                        child: SizedBox.shrink(),
+                                                      );
+                                                    }
                                                     final double xOffset =
                                                         50 +
                                                         index *
@@ -350,94 +349,102 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
                                                         },
                                                         child: AnimatedContainer(
                                                           duration:
-                                                              const Duration(
-                                                                milliseconds:
-                                                                    300,
-                                                              ),
-                                                          width: imageWidth,
+                                                          const Duration(
+                                                            milliseconds:
+                                                            300,
+                                                          ),
+                                                          width: imageWidth-10,
                                                           height: imageHeight,
                                                           transform:
-                                                              Matrix4.identity()
-                                                                ..rotateY(
-                                                                  normalizedDistance *
-                                                                      0.15,
-                                                                ),
+                                                          Matrix4.identity()
+                                                            ..rotateY(
+                                                              normalizedDistance *
+                                                                  0.15,
+                                                            ),
                                                           decoration: BoxDecoration(
                                                             borderRadius:
-                                                                BorderRadius.circular(
-                                                                  16,
-                                                                ),
-                                                            image: const DecorationImage(
-                                                              image: AssetImage(
-                                                                "assets/images/card.png",
-                                                              ),
-                                                              fit: BoxFit.cover,
+                                                            BorderRadius.circular(
+                                                              10,
                                                             ),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color:
-                                                                    isSelected
-                                                                    ? Colors
-                                                                          .white
-                                                                          .withOpacity(
-                                                                            0.3,
-                                                                          )
-                                                                    : Colors
-                                                                          .black54,
-                                                                blurRadius:
-                                                                    isSelected
-                                                                    ? 20
-                                                                    : 12,
-                                                                offset: Offset(
-                                                                  0,
-                                                                  isSelected
-                                                                      ? 8
-                                                                      : 6,
-                                                                ),
-                                                                spreadRadius:
-                                                                    isSelected
-                                                                    ? 2
-                                                                    : 0,
-                                                              ),
-                                                            ],
                                                             border: isSelected
                                                                 ? Border.all(
-                                                                    color: Colors
-                                                                        .white
-                                                                        .withOpacity(
-                                                                          0.5,
-                                                                        ),
-                                                                    width: 2,
-                                                                  )
+                                                              color: Colors
+                                                                  .white
+                                                                  .withOpacity(
+                                                                0.5,
+                                                              ),
+                                                              width: 2,
+                                                            )
                                                                 : null,
                                                           ),
-                                                          child: Stack(
-                                                            children: [
-                                                              if (isSelected)
-                                                                Positioned.fill(
-                                                                  child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                            16,
-                                                                          ),
-                                                                      gradient: LinearGradient(
-                                                                        begin: Alignment
-                                                                            .topCenter,
-                                                                        end: Alignment
-                                                                            .bottomCenter,
-                                                                        colors: [
-                                                                          Colors
-                                                                              .transparent,
-                                                                          Colors.black.withOpacity(
-                                                                            0.6,
-                                                                          ),
-                                                                        ],
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                    10,
+                                                                  ),
+                                                              image: const DecorationImage(
+                                                                image: AssetImage(
+                                                                  "assets/images/card.png",
+                                                                ),
+                                                                fit: BoxFit.contain,
+                                                              ),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color:
+                                                                      isSelected
+                                                                      ? Colors
+                                                                            .white
+                                                                            .withOpacity(
+                                                                              0.3,
+                                                                            )
+                                                                      : Colors
+                                                                            .black54,
+                                                                  blurRadius:
+                                                                      isSelected
+                                                                      ? 20
+                                                                      : 12,
+                                                                  offset: Offset(
+                                                                    0,
+                                                                    isSelected
+                                                                        ? 8
+                                                                        : 6,
+                                                                  ),
+                                                                  spreadRadius:
+                                                                      isSelected
+                                                                      ? 2
+                                                                      : 0,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            child: Stack(
+                                                              children: [
+                                                                if (isSelected)
+                                                                  Positioned.fill(
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                              16,
+                                                                            ),
+                                                                        gradient: LinearGradient(
+                                                                          begin: Alignment
+                                                                              .topCenter,
+                                                                          end: Alignment
+                                                                              .bottomCenter,
+                                                                          colors: [
+                                                                            Colors
+                                                                                .transparent,
+                                                                            Colors.black.withOpacity(
+                                                                              0.6,
+                                                                            ),
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -466,9 +473,10 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
     );
   }
 
-  _buildBlankRow(String title, int index) {
+  _buildBlankRow(String title, int index, {bool? showHeight, bool? showBottomHeight}) {
     return Column(
       children: [
+        showHeight==true ? SizedBox(height: 30,):Container(),
         Text(
           title,
           textAlign: TextAlign.center,
@@ -486,9 +494,10 @@ class _CircleOfSelfPageState extends State<CircleOfSelfPage>
           selectedCardsIndexes!.length > index
               ? "assets/images/card.png"
               : "assets/images/spread_blank_card.png",
-          width: 60,
-          height: 120,
+          width: 80,
+          height: 125,
         ),
+        showBottomHeight==true ? SizedBox(height: 30,):Container(),
       ],
     );
   }

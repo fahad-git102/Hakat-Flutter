@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../services/auth.dart';
 import '../../../services/revenue_cat_service.dart';
+import '../../global/spacing.dart';
 import '../root_page.dart';
 
 class LoginPage extends StatefulWidget{
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage>{
               height: Get.height,
               child: Image.asset(
                 "assets/images/onboarding/onboarding_bg.jpg",
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage>{
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1,
                     ).copyWith(
-                      color: Colors.white,
+                        color: Colors.white
                     ), // Color must be set, but it will be masked
                   ),
                 ),
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage>{
                         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                       ),
                   child: Text(
-                    "INTUITIVE CATS\nORACLE CARDS",
+                    "INTUITIVE CAT\nORACLE CARDS",
                     textAlign: TextAlign.center,
                     style:
                     TextStyle(
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage>{
                       fontWeight: FontWeight.w400,
                       letterSpacing: 1,
                     ).copyWith(
-                      color: Colors.white,
+                        color: Colors.white
                     ), // Color must be set, but it will be masked
                   ),
                 ),
@@ -122,12 +123,21 @@ class _LoginPageState extends State<LoginPage>{
                       ), // Color must be set, but it will be masked
                     ),
                     SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Image.asset(
-                        "assets/icons/the_hakat_oracle.png",
-                        height: 28,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          "assets/icons/the_hakat_oracle.png",
+                          height: 28,
+                          width: 240,
+                        ),
+                        AddWidth(3),
+                        Image.asset(
+                          "assets/icons/tm_text.png",
+                          height: 8,
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -51,9 +51,8 @@ class CustomAppBar extends StatelessWidget {
                       fontFamily: "Sanford",
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1,
-                      height: 1,
                     ).copyWith(
-                      color: Colors.white,
+                        color: Colors.white
                     ), // Color must be set, but it will be masked
                   ),
                 ),
@@ -63,23 +62,12 @@ class CustomAppBar extends StatelessWidget {
               onTap: () {
                 Get.to(() => ProfilePage());
               },
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 8,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
+              child: Padding(
+                padding: EdgeInsets.all(3.0),
                 child: Image.asset(
                   "assets/icons/profile_icon.png",
-                  height: 27,
-                  width: 27,
+                  height: 29,
+                  width: 29,
                 ),
               ),
             ),],

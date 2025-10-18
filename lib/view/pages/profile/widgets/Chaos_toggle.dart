@@ -143,7 +143,7 @@ class _ChaosModeToggleState extends State<ChaosModeToggle>
                         opacity: isOn ? 1 : 1.0,
                         duration: const Duration(milliseconds: 200),
                         child: const Text(
-                          'OFF',
+                          'ON',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
@@ -164,7 +164,7 @@ class _ChaosModeToggleState extends State<ChaosModeToggle>
                         opacity: isOn ? 1.0 : 1,
                         duration: const Duration(milliseconds: 200),
                         child: const Text(
-                          'ON',
+                          'OFF',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
@@ -341,7 +341,7 @@ class _SettingToggleState extends State<SettingToggle>
                               opacity: isOn ? 1 : 1.0,
                               duration: const Duration(milliseconds: 200),
                               child: const Text(
-                                'OFF',
+                                'ON',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 9,
@@ -362,7 +362,7 @@ class _SettingToggleState extends State<SettingToggle>
                               opacity: isOn ? 1.0 : 1,
                               duration: const Duration(milliseconds: 200),
                               child: const Text(
-                                'ON',
+                                'OFF',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 9,

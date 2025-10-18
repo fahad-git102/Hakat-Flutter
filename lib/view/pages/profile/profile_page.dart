@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           "MY WHISPERS",
                                           style:
                                           TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 15,
                                             fontFamily: "Sanford",
                                             letterSpacing: 1.2,
                                             fontWeight: FontWeight.w400,
@@ -168,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           "MY ACCOUNT",
                                           style:
                                           TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 15,
                                             fontFamily: "Sanford",
                                             letterSpacing: 1.2,
                                             fontWeight: FontWeight.w400,

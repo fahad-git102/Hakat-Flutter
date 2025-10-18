@@ -65,10 +65,12 @@ class _JournalListPageState extends State<JournalListPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(
-              width: Get.width,
-              height: Get.height,
-              child: Image.asset(AppIcon.journal_bg, fit: BoxFit.fill),
+            child: Transform.scale(
+              scale: 2.6,
+              child: Image.asset(
+                AppIcon.journal_bg,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
@@ -94,9 +96,8 @@ class _JournalListPageState extends State<JournalListPage> {
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xFF0d0d10),
-                              Color(0xFFD4D4D4),
-                              Color(0xFFD4D4D4),
+                              Color(0xFF444864),
+                              Color(0xFF5F7A83).withAlpha(180),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -150,7 +151,6 @@ class _JournalListPageState extends State<JournalListPage> {
                                         fontSize: 16,
                                         fontFamily: "Garamond",
                                         fontWeight: FontWeight.w500,
-                                        height: 1,
                                         letterSpacing: 1,
                                       ).copyWith(
                                         color: Colors.white,
@@ -264,38 +264,30 @@ class _JournalListPageState extends State<JournalListPage> {
           image: AssetImage('assets/images/gold_effect.jpg'),
         ),
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF5F7A83).withOpacity(0.6),
-                  Color(0xFF5F7A83).withOpacity(0.6),
-                ],
+      child: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Color(0xFF5F7A83),
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 10,
               ),
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 10,
-                ),
-                child: Text(
-                  title,
-                  style:
-                      TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Literata",
-                        letterSpacing: 1.2,
-                        fontWeight: FontWeight.w400,
-                      ).copyWith(
-                        color: Colors.white,
-                      ), // Color must be set, but it will be masked
-                ),
+              child: Text(
+                title,
+                style:
+                    TextStyle(
+                      fontSize: 12,
+                      fontFamily: "Literata",
+                      letterSpacing: 1.2,
+                      fontWeight: FontWeight.w400,
+                    ).copyWith(
+                      color: Colors.white,
+                    ),
               ),
             ),
           ),

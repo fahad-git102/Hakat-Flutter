@@ -176,7 +176,7 @@ class _SpreadPageState extends State<SpreadPage> {
                                           fontWeight: FontWeight.w400,
                                           letterSpacing: 0.55,
                                           color: Color(0xFFEBCD8C),
-                                        ), // Color must be set, but it will be masked
+                                        ),
                                       ),
                                       Image.asset(
                                         "assets/images/onboarding/card_one_icon.png",

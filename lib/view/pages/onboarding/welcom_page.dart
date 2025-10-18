@@ -40,7 +40,7 @@ class _WelcomPageState extends State<WelcomPage> {
               height: Get.height,
               child: Image.asset(
                 "assets/images/onboarding/onboarding_bg.jpg",
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -67,7 +67,7 @@ class _WelcomPageState extends State<WelcomPage> {
                           fontWeight: FontWeight.w400,
                           letterSpacing: 1,
                         ).copyWith(
-                          color: Colors.white,
+                            color: Colors.white
                         ), // Color must be set, but it will be masked
                   ),
                 ),
@@ -89,7 +89,7 @@ class _WelcomPageState extends State<WelcomPage> {
                           fontWeight: FontWeight.w400,
                           letterSpacing: 1,
                         ).copyWith(
-                          color: Colors.white,
+                            color: Colors.white
                         ),
                   ),
                 ),

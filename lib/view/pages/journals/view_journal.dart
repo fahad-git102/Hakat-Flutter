@@ -69,10 +69,12 @@ class _ViewJournalPageState extends State<ViewJournalPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(
-              width: Get.width,
-              height: Get.height,
-              child: Image.asset(AppIcon.journal_bg, fit: BoxFit.fill),
+            child: Transform.scale(
+              scale: 2.6,
+              child: Image.asset(
+                AppIcon.journal_bg,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
@@ -101,9 +103,8 @@ class _ViewJournalPageState extends State<ViewJournalPage> {
                                 borderRadius: BorderRadius.circular(20),
                                 gradient: LinearGradient(
                                   colors: [
-                                    Color(0xFF0d0d10),
-                                    Color(0xFFD4D4D4),
-                                    Color(0xFFD4D4D4),
+                                    Color(0xFF444864),
+                                    Color(0xFF5F7A83),
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -253,7 +254,6 @@ class _ViewJournalPageState extends State<ViewJournalPage> {
                                             fontSize: 25,
                                             fontFamily: "Garamond",
                                             fontWeight: FontWeight.w600,
-                                            height: 1,
                                             letterSpacing: 1,
                                           ).copyWith(
                                             color: Colors.white,

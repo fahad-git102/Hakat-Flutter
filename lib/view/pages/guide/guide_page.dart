@@ -124,7 +124,7 @@ class _GuidePageState extends State<GuidePage> {
                 letterSpacing: 1,
               ).copyWith(
                 color: Colors.white,
-              ), // Color must be set, but it will be masked
+              ),
             ),
           ),
                   AddHeight(35),
@@ -147,7 +147,8 @@ class _GuidePageState extends State<GuidePage> {
                             height: 210,
                             child: Center(
                               child: Transform.scale(
-                                scale: isActive ? 1.0 : 0.8,
+                                scale: 1.0,
+                                // scale: isActive ? 1.0 : 0.8,
                                 // Scale active container larger
                                 child: Container(
                                     width: 170,

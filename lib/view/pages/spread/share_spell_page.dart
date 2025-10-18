@@ -89,7 +89,6 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
                               fontFamily: "Garamond",
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1,
-                              height: 1,
                               color: Colors.white,
                             ),
                           ),
@@ -143,7 +142,6 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
                                     fontFamily: "Garamond",
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 1,
-                                    height: 1,
                                     color: Colors.white,
                                   ),
                                 ),)
@@ -160,7 +158,6 @@ class _ShareSpellPageState extends State<ShareSpellPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 1,
-                                height: 1,
                                 color: Colors.white,
                               ),
                             ),

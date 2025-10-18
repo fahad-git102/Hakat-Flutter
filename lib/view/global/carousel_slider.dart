@@ -40,7 +40,6 @@ class _SliderWidgetState extends State<SliderWidget> {
               fontFamily: "Garamond_Italic",
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
-              height: 1,
               color: Colors.white,
             ),
           ),
@@ -55,7 +54,6 @@ class _SliderWidgetState extends State<SliderWidget> {
               fontFamily: "Garamond",
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
-              height: 1,
               color: Colors.white,
             ),
           ),
@@ -76,7 +74,6 @@ class _SliderWidgetState extends State<SliderWidget> {
                   fontFamily: "Garamond",
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,
-                  height: 1,
                   color: Colors.grey,
                 ),
               ),
@@ -88,7 +85,7 @@ class _SliderWidgetState extends State<SliderWidget> {
         CarouselSlider(
           carouselController: _controller,
           options: CarouselOptions(
-            height: widget.height ?? 300,
+            height: widget.height ?? 310,
             enlargeCenterPage: true,
             autoPlay: false,
             enableInfiniteScroll: false,
@@ -153,12 +150,6 @@ class _SliderWidgetState extends State<SliderWidget> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        // child: Image.asset(
-        //   image,
-        //   width: 160,
-        //   height: 280,
-        //   fit: BoxFit.cover,
-        // ),
         child: CachedNetworkImage(
           imageUrl: image,
           fit: BoxFit.cover,
@@ -167,7 +158,7 @@ class _SliderWidgetState extends State<SliderWidget> {
           placeholder: (context, url) => Container(
             width: 160,
             height: 280,
-            color: Colors.transparent, // 👈 transparent background
+            color: Colors.transparent,
             alignment: Alignment.center,
             child: SizedBox(
               width: 30, // 👈 smaller loader size
@@ -206,7 +197,6 @@ class _SliderWidgetState extends State<SliderWidget> {
         borderRadius: BorderRadius.circular(12),
         child: Image.asset(
           "assets/images/card.png",
-          width: 160,
           height: 280,
           fit: BoxFit.cover,
         ),

@@ -22,7 +22,7 @@ class TheWhisperPage extends StatefulWidget {
 
 class _TheWhisperPageState extends State<TheWhisperPage>
     with TickerProviderStateMixin {
-  double imageWidth = 120;
+  double imageWidth = 110;
   double imageHeight = 180;
   double overlapPercentage = 0.65;
   bool showText = true;
@@ -127,6 +127,8 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                   height: 270,
                                 ),
                                 Spacer(),
+
+                                //this is the bottom pile
                                 Center(
                                   child: SizedBox(
                                     height: imageHeight + curveStrength + 60,
@@ -154,6 +156,16 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                           width: totalWidth + 100,
                                           child: Stack(
                                             children: List.generate(cardsController.cards.length, (index) {
+                                              final bool isCardSelected = selectedCards.any(
+                                                      (selectedCard) => selectedCard == cardsController.cards[index]
+                                              );
+                                              if (isCardSelected) {
+                                                return Positioned(
+                                                  left: 0,
+                                                  top: 0,
+                                                  child: SizedBox.shrink(),
+                                                );
+                                              }
                                               final double xOffset =
                                                   50 +
                                                       index *
@@ -219,77 +231,92 @@ class _TheWhisperPageState extends State<TheWhisperPage>
                                                     });
                                                   },
                                                   child: AnimatedContainer(
-                                                    duration: const Duration(
-                                                      milliseconds: 300,
+                                                    duration:
+                                                    const Duration(
+                                                      milliseconds:
+                                                      300,
                                                     ),
                                                     width: imageWidth,
                                                     height: imageHeight,
-                                                    transform: Matrix4.identity()
+                                                    transform:
+                                                    Matrix4.identity()
                                                       ..rotateY(
-                                                        normalizedDistance * 0.15,
+                                                        normalizedDistance *
+                                                            0.15,
                                                       ),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(16),
-                                                      image: const DecorationImage(
-                                                        image: AssetImage(
-                                                          "assets/images/card.png",
-                                                        ),
-                                                        fit: BoxFit.cover,
+                                                      BorderRadius.circular(
+                                                        10,
                                                       ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: isSelected
-                                                              ? Colors.white
-                                                              .withOpacity(0.3)
-                                                              : Colors.black54,
-                                                          blurRadius: isSelected
-                                                              ? 20
-                                                              : 12,
-                                                          offset: Offset(
-                                                            0,
-                                                            isSelected ? 8 : 6,
-                                                          ),
-                                                          spreadRadius: isSelected
-                                                              ? 2
-                                                              : 0,
-                                                        ),
-                                                      ],
                                                       border: isSelected
                                                           ? Border.all(
-                                                        color: Colors.white
-                                                            .withOpacity(0.5),
+                                                        color: Colors
+                                                            .white
+                                                            .withOpacity(
+                                                          0.5,
+                                                        ),
                                                         width: 2,
                                                       )
                                                           : null,
                                                     ),
-                                                    child: Stack(
-                                                      children: [
-                                                        if (isSelected)
-                                                          Positioned.fill(
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                BorderRadius.circular(
-                                                                  16,
-                                                                ),
-                                                                gradient: LinearGradient(
-                                                                  begin: Alignment
-                                                                      .topCenter,
-                                                                  end: Alignment
-                                                                      .bottomCenter,
-                                                                  colors: [
-                                                                    Colors.transparent,
-                                                                    Colors.black
-                                                                        .withOpacity(
-                                                                      0.6,
-                                                                    ),
-                                                                  ],
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(10),
+                                                        image: const DecorationImage(
+                                                          image: AssetImage(
+                                                            "assets/images/card.png",
+                                                          ),
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: isSelected
+                                                                ? Colors.white
+                                                                .withOpacity(0.3)
+                                                                : Colors.black54,
+                                                            blurRadius: isSelected
+                                                                ? 20
+                                                                : 12,
+                                                            offset: Offset(
+                                                              0,
+                                                              isSelected ? 8 : 6,
+                                                            ),
+                                                            spreadRadius: isSelected
+                                                                ? 2
+                                                                : 0,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Stack(
+                                                        children: [
+                                                          if (isSelected)
+                                                            Positioned.fill(
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                    16,
+                                                                  ),
+                                                                  gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors.transparent,
+                                                                      Colors.black
+                                                                          .withOpacity(
+                                                                        0.6,
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

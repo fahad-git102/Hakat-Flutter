@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hakat/constants/icons.dart';
+import 'package:hakat/constants/theme/colors.dart';
 import 'package:hakat/models/new_cards.dart';
 import '../../global/spacing.dart';
 
 class DeckInfo extends StatefulWidget {
   OracleCard card;
+
   DeckInfo({super.key, required this.card});
 
   @override
@@ -14,8 +16,6 @@ class DeckInfo extends StatefulWidget {
 }
 
 class _DeckInfoState extends State<DeckInfo> {
-
-
   bool showFirst = false;
   bool showSecond = false;
   bool showThird = false;
@@ -62,10 +62,16 @@ class _DeckInfoState extends State<DeckInfo> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(
-              width: Get.width,
-              height: Get.height,
-              child: Image.asset(AppIcon.deck_bg, fit: BoxFit.fill),
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: Get.width / 1.3,
+                height: Get.height / 1.3,
+                child: Image.asset(
+                  AppIcon.deck_bg,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -81,37 +87,44 @@ class _DeckInfoState extends State<DeckInfo> {
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Column(
                         children: [
-
-
                           const SizedBox(height: 40),
-
-                          // Scrollable content container
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.6),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(colors: [Color(0xFF0d0d10),Color(0xFFD4D4D4),Color(0xFFD4D4D4)],begin: Alignment.topLeft,end:  Alignment.bottomRight),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFF0d0d10).withAlpha(130),
+                                    Color(0x0ff4f8e5),
+                                    Color(0xFFE4F4F8).withAlpha(130),
+                                    Color(0xFFE4F4F8),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
                                 border: Border.all(
                                   color: Colors.white.withOpacity(0.2),
                                   width: 1,
                                 ),
                               ),
                               child: SingleChildScrollView(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0,
+                                  vertical: 8,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-
                                     IconButton(
-                                          onPressed: () => Navigator.of(context).pop(),
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Color(0xFFD4AF37),
-                                            size: 24,
-                                          ),
-                                        ),
-
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      icon: const Icon(
+                                        Icons.close,
+                                        color: Color(0xFFD4AF37),
+                                        size: 24,
+                                      ),
+                                    ),
 
                                     Align(
                                       alignment: Alignment.center,
@@ -121,7 +134,7 @@ class _DeckInfoState extends State<DeckInfo> {
                                         decoration: BoxDecoration(
                                           boxShadow: [
                                             BoxShadow(
-                                              color: const Color(0xFFD6C9E9D4),
+                                              color: const Color(0xFFD6C9E9),
                                               blurRadius: 10,
                                               spreadRadius: 2,
                                               offset: Offset(0, 0),
@@ -129,25 +142,29 @@ class _DeckInfoState extends State<DeckInfo> {
                                           ],
                                         ),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(12),
-                                          child:  CachedNetworkImage(
-                                            imageUrl: widget.card.image??'',
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: widget.card.image ?? '',
                                             fit: BoxFit.fill,
-                                            placeholder: (context, str){
+                                            placeholder: (context, str) {
                                               return Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             },
-                                            errorWidget: (context, error, stackTrace) {
-                                              return Container(
-                                                color: Colors.grey[300],
-                                                child: Icon(
-                                                  Icons.image_not_supported,
-                                                  size: 40,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              );
-                                            },
+                                            errorWidget:
+                                                (context, error, stackTrace) {
+                                                  return Container(
+                                                    color: Colors.grey[300],
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 40,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  );
+                                                },
                                           ),
                                         ),
                                       ),
@@ -159,23 +176,30 @@ class _DeckInfoState extends State<DeckInfo> {
                                       child: ShaderMask(
                                         shaderCallback: (bounds) =>
                                             LinearGradient(
-                                              colors: [Color(0xFFEBCD8C), Color(0xFFA47E4D)],
+                                              colors: [
+                                                Color(0xFFEBCD8C),
+                                                Color(0xFFA47E4D),
+                                              ],
                                             ).createShader(
-                                              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                                              Rect.fromLTWH(
+                                                0,
+                                                0,
+                                                bounds.width,
+                                                bounds.height,
+                                              ),
                                             ),
                                         child: Text(
-                                          widget.card.title??'',
+                                          widget.card.title ?? '',
                                           textAlign: TextAlign.center,
                                           style:
-                                          TextStyle(
-                                            fontSize: 28,
-                                            fontFamily: "Garamond",
-                                            fontWeight: FontWeight.w600,
-                                            height: 1,
-                                            letterSpacing: 1,
-                                          ).copyWith(
-                                            color: Colors.white,
-                                          ), // Color must be set, but it will be masked
+                                              TextStyle(
+                                                fontSize: 28,
+                                                fontFamily: "Garamond",
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 1,
+                                              ).copyWith(
+                                                  color: AppColor.goldText
+                                              ), // Color must be set, but it will be masked
                                         ),
                                       ),
                                     ),
@@ -183,24 +207,25 @@ class _DeckInfoState extends State<DeckInfo> {
                                     Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        widget.card.keywords!=null?widget.card.keywords!.join(', '):'',
+                                        widget.card.keywords != null
+                                            ? widget.card.keywords!.join(', ')
+                                            : '',
                                         textAlign: TextAlign.center,
                                         style:
-                                        TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: "Garamond",
-                                          fontWeight: FontWeight.w600,
-                                          height: 1,
-                                          letterSpacing: 1,
-                                        ).copyWith(
-                                          color: Colors.white,
-                                        ), // Color must be set, but it will be masked
+                                            TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: "Garamond",
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 1,
+                                            ).copyWith(
+                                              color: Colors.white,
+                                            ), // Color must be set, but it will be masked
                                       ),
                                     ),
                                     AddHeight(30),
                                     // Step 1
                                     Text(
-                                      widget.card.credits??'',
+                                      widget.card.credits ?? '',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "Inter",
@@ -216,8 +241,6 @@ class _DeckInfoState extends State<DeckInfo> {
                               ),
                             ),
                           ),
-
-
                         ],
                       ),
                     ),

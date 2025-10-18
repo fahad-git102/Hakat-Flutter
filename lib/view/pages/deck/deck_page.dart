@@ -73,10 +73,10 @@ class _DeckPageState extends State<DeckPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(
+            child: SizedBox(
               width: Get.width,
               height: Get.height,
-              child: Image.asset(AppIcon.deck_bg, fit: BoxFit.fill),
+              child: Image.asset(AppIcon.deck_bg, fit: BoxFit.cover),
             ),
           ),
           Positioned(
@@ -262,9 +262,8 @@ class GridViewPage extends StatelessWidget {
                             fontFamily: "Sanford",
                             fontWeight: FontWeight.w500,
                             letterSpacing: 1,
-                            height: 1,
                           ).copyWith(
-                            color: Colors.white,
+                              color: Colors.white
                           ), // Color must be set, but it will be masked
                     ),
                   ),

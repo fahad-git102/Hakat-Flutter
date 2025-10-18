@@ -18,6 +18,7 @@ class AppColor {
 
   static const Color secondaryText = Color(0xFF74788D);
   static const Color goldText = Color(0xFFEBCD8C);
+  static const Color darkGoldText = Color(0xFFA47E4D);
 
 
   static const Color authButtonColor = Color(0xFF6056A0);

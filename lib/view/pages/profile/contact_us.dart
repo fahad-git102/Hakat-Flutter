@@ -124,10 +124,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                                 fontSize: 28,
                                 fontFamily: "Garamond",
                                 fontWeight: FontWeight.w400,
-                                height: 1,
                                 letterSpacing: 1,
                               ).copyWith(
-                                color: Colors.white,
+                                  color: Colors.white
                               ), // Color must be set, but it will be masked
                             ),
                           ),
